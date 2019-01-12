@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: fireworks
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: Yugendar
+Implementation-Vendor-Id: com.alphas
+Build-Jdk: 1.8.0_112
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/fireworks
+Created-By: Maven Integration for Eclipse
+
