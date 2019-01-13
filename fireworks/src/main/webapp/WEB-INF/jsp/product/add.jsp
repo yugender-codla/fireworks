@@ -24,8 +24,9 @@
 
 		<h4>${msg}</h4>
 		<h4>${error}</h4>
-		<spring:url value="/product/save" var="userActionUrl" />
-		<form:form method="post" modelAttribute="product" action="${userActionUrl}" enctype="multipart/form-data">
+		<spring:url value="/product/save" var="addUrl" />
+		<spring:url value="/product/list" var="listUrl" />
+		<form:form method="post" modelAttribute="product" action="${addUrl}" enctype="multipart/form-data">
 			<form:hidden path="id" />
 			Name : <form:input path="name" type="text" /><br><br>
 			<!-- bind to user.name-->
@@ -38,8 +39,16 @@
 			<br>
 			
 			<input type = "submit" value = "Submit"/>
+			
+			
 		</form:form>
-		
+		<c:choose>
+			<c:when test="${product['new']}">
+			</c:when>
+			<c:otherwise>
+				 <button onclick="location.href='${listUrl}'">Back to list</button>
+			</c:otherwise>
+		</c:choose>
 	</div>
 </body>
 </html>

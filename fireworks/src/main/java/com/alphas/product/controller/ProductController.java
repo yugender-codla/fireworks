@@ -2,12 +2,15 @@ package com.alphas.product.controller;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,40 +25,64 @@ import com.alphas.product.service.ProductService;
 @Controller
 @RequestMapping("/product")
 public class ProductController {
-
+	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private ProductService service;
 	
 	@GetMapping(value = "/add")
-	public String showAddUserForm(Model model) {
+	public String showAddProduct(Model model) {
 		Product product = new Product();
 		model.addAttribute("product", product);
 		return "product/add";
 	}
 
+	
+	@GetMapping(value = "/{id}/update")
+	public String showUpdateProduct(@PathVariable("id") Long id, Model model, final RedirectAttributes redirectAttributes) {
+		try {
+		Product product = service.findById(id);
+		model.addAttribute("product", product);
+		}catch(AException a) {
+			LOGGER.error(a.getMessage(), a);
+			redirectAttributes.addAttribute("error", "Unable to fetch the Product information. Please contact support.");
+		}
+		return "product/add";
+	}
+	
+	
 	@PostMapping(path = "/save")
 	public String save(@RequestParam("files") MultipartFile[] files, @ModelAttribute("product") Product product, BindingResult result, Model model,
 			final RedirectAttributes redirectAttributes) {
 		
 		try {
 			product.setImages();
-			service.add(product);
-			redirectAttributes.addFlashAttribute("msg", "The Product "+product.getName()+" added successfully!");
-			model.addAttribute("product",result);
 			
+			if(product.getId() == null) {
+				redirectAttributes.addFlashAttribute("msg", "The Product "+product.getName()+" added successfully!");
+			}else {
+				redirectAttributes.addFlashAttribute("msg", "The Product "+product.getName()+" updated successfully!");
+			}
+			
+			service.add(product);
+			
+			model.addAttribute("product",result);
 		}
 		
 		catch(IOException | NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+			LOGGER.error(e.getMessage(), e);
 			redirectAttributes.addFlashAttribute("error","Problem while saving the image");
 		}
 		catch (AException e) {
+			LOGGER.error(e.getMessage(), e);
 			redirectAttributes.addFlashAttribute("error",e.getMessage());
 		}
 		return "redirect:/product/add/";
 	}
 	
-	@GetMapping("/retrieveAll")
-	public String retrieveAll(Model model) {
+		
+	
+	@GetMapping("/list")
+	public String retrieve(Model model) {
 		try {
 			model.addAttribute("products",service.retrieveAll());
 		} catch (AException e) {

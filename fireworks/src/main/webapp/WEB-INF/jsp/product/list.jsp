@@ -23,30 +23,41 @@
 		    </div>
 		</c:if>
 
-		<h1>All Users</h1>
+		<h1>All Products</h1>
 
 		<table class="table table-striped">
 			<thead>
 				<tr>
 					<th>#ID</th>
 					<th>Name</th>
+					<th>Image 1</th>
+					<th>Image 2</th>
+					<th>Image 3</th>
+					<th>Image 4</th>
+					<th>Image 5</th>
 				</tr>
 			</thead>
 
-			<c:forEach var="products" items="${products}">
+			<c:forEach var="item" items="${products}">
 			    <tr>
 				<td>
-					${products.id}
+					${item.id}
 				</td>
-				<td>${products.name}</td>
-		
+				<td>${item.name}</td>
+				<td>${item.image1Name} </td>
+				<td>${item.image2Name} </td>
+				<td>${item.image3Name} </td>
+				<td>${item.image4Name} </td>
+				<td>${item.image5Name} </td>
+				
 				<td>
-				  <spring:url value="/users/${user.id}" var="userUrl" />
-				  <spring:url value="/users/${user.id}/delete" var="deleteUrl" /> 
-				  <spring:url value="/users/${user.id}/update" var="updateUrl" />
-
-				  <button class="btn btn-info" 
-                                          onclick="location.href='${userUrl}'">Query</button>
+				 
+				  
+				<spring:url value="/product/${item.id}/update" var="updateUrl" />
+ 				<spring:url value="/product/${item.id}/delete" var="deleteUrl" />
+ 				
+				 <!-- <button class="btn btn-info" 
+                                          onclick="location.href='${userUrl}'">Query</button>  -->
 				  <button class="btn btn-primary" 
                                           onclick="location.href='${updateUrl}'">Update</button>
 				  <button class="btn btn-danger" 

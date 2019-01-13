@@ -2,6 +2,9 @@ package com.alphas.product.service;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +17,9 @@ public class ProductServiceImpl implements ProductService{
 
 	@Autowired
 	private ProductDao dao;
+	
+	@Autowired
+	private EntityManagerFactory entityManagerFactory;
 	
 	@Override
 	public Product add(Product product) throws AException {
@@ -35,4 +41,14 @@ public class ProductServiceImpl implements ProductService{
 		return dao.findByName(name);
 	}
 	
+	@Override
+	public Product findProductByIdNoLazy(Long id) throws AException{
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		return dao.findProductByIdNoLazy(entityManager, id);
+	}
+	@Override
+	public List<Product> findAllNoLazy() throws AException{
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		return dao.findAllNoLazy(entityManager);
+	}
 }

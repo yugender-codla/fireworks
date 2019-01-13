@@ -12,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -27,6 +29,10 @@ import lombok.Setter;
 @Entity
 @Data
 @Table(name = "Product", uniqueConstraints={@UniqueConstraint(columnNames="name")})
+@NamedQueries({@NamedQuery(name = "findProductById", query = "from Product WHERE id=:id"),
+	@NamedQuery(name = "findProducts", query = "SELECT p.id, p.name,p.active,p.image1,p.image2,p.image3,p.image4, p.image5 from Product p")
+})
+
 public class Product implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
@@ -49,25 +55,45 @@ public class Product implements Serializable{
 	@Getter @Setter(AccessLevel.PUBLIC)
 	private MultipartFile[] files;
 	
-	@Lob @Basic(fetch = FetchType.LAZY)
+	@Lob @Basic(fetch = FetchType.EAGER)
 	@Getter @Setter(AccessLevel.PUBLIC)
 	private byte[] image1;
 	
-	@Lob @Basic(fetch = FetchType.LAZY)
+	 
+	@Getter @Setter(AccessLevel.PUBLIC)
+	private String image1Name;
+	
+	@Lob @Basic(fetch = FetchType.EAGER)
 	@Getter @Setter(AccessLevel.PUBLIC)
 	private byte[] image2;
 	
-	@Lob @Basic(fetch = FetchType.LAZY)
+	@Getter @Setter(AccessLevel.PUBLIC)
+	private String image2Name;
+	
+	
+	@Lob @Basic(fetch = FetchType.EAGER)
 	@Getter @Setter(AccessLevel.PUBLIC)
 	private byte[] image3;
 	
-	@Lob @Basic(fetch = FetchType.LAZY)
+	@Getter @Setter(AccessLevel.PUBLIC)
+	private String image3Name;
+	
+	
+	@Lob @Basic(fetch = FetchType.EAGER)
 	@Getter @Setter(AccessLevel.PUBLIC)
 	private byte[] image4;
 	
-	@Lob @Basic(fetch = FetchType.LAZY)
+	@Getter @Setter(AccessLevel.PUBLIC)
+	private String image4Name;
+	
+	
+	@Lob @Basic(fetch = FetchType.EAGER)
 	@Getter @Setter(AccessLevel.PUBLIC)
 	private byte[] image5;
+	
+	@Getter @Setter(AccessLevel.PUBLIC)
+	private String image5Name;
+	
 	
 
 	
@@ -77,7 +103,9 @@ public class Product implements Serializable{
 		for(int i = 0; i < this.files.length; i ++) {
 			if(this.files[i] != null) {
 			 Field img = c.getDeclaredField("image"+var);
+			 Field imgName = c.getDeclaredField("image"+var+"Name");
 			 img.set(this, this.files[i].getBytes());
+			 imgName.set(this, this.files[i].getOriginalFilename());
 			var ++;
 			}
 		}

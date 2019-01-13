@@ -13,4 +13,6 @@ public interface ProductService {
 	public List<Product> retrieveAll() throws AException;
 	public Product findById(Long id) throws AException;
 	public List<Product> findByName(String name) throws AException;
+	public Product findProductByIdNoLazy(Long id) throws AException;
+	public List<Product> findAllNoLazy() throws AException;
 }
