@@ -1,5 +1,7 @@
 package com.alphas.product.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alphas.common.exception.AException;
@@ -30,16 +34,22 @@ public class ProductController {
 	}
 
 	@PostMapping(path = "/save")
-	public String save(@ModelAttribute("product") Product product, BindingResult result, Model model, 
+	public String save(@RequestParam("files") MultipartFile[] files, @ModelAttribute("product") Product product, BindingResult result, Model model,
 			final RedirectAttributes redirectAttributes) {
 		
 		try {
+			product.setImages();
 			service.add(product);
-			redirectAttributes.addFlashAttribute("msg", "User added successfully!");
-			
+			redirectAttributes.addFlashAttribute("msg", "The Product "+product.getName()+" added successfully!");
 			model.addAttribute("product",result);
-		} catch (AException e) {
-
+			
+		}
+		
+		catch(IOException | NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+			redirectAttributes.addFlashAttribute("error","Problem while saving the image");
+		}
+		catch (AException e) {
+			redirectAttributes.addFlashAttribute("error",e.getMessage());
 		}
 		return "redirect:/product/add/";
 	}

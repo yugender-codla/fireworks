@@ -15,22 +15,31 @@
 	<div class="container">
 		<c:choose>
 			<c:when test="${product['new']}">
-				<h1>Add User</h1>
+				<h1>Add Product</h1>
 			</c:when>
 			<c:otherwise>
-				<h1>Update User</h1>
+				<h1>Update Product</h1>
 			</c:otherwise>
 		</c:choose>
 
+		<h4>${msg}</h4>
+		<h4>${error}</h4>
 		<spring:url value="/product/save" var="userActionUrl" />
-		<form:form method="post" modelAttribute="product" action="${userActionUrl}">
+		<form:form method="post" modelAttribute="product" action="${userActionUrl}" enctype="multipart/form-data">
 			<form:hidden path="id" />
-			<form:input path="name" type="text" />
+			Name : <form:input path="name" type="text" /><br><br>
 			<!-- bind to user.name-->
 			<form:errors path="name" />
-
-			<button type="submit" class="btn-lg btn-primary pull-right" value="Submit" ></button>
+			Image 1: <input type="file" name="files"><br>
+			Image 2: <input type="file" name="files"><br>
+			Image 3: <input type="file" name="files"><br>
+			Image 4: <input type="file" name="files"><br>
+			Image 5: <input type="file" name="files"><br>
+			<br>
+			
+			<input type = "submit" value = "Submit"/>
 		</form:form>
+		
 	</div>
 </body>
 </html>
