@@ -1,17 +1,20 @@
 package com.alphas.inventory.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alphas.common.exception.AException;
-import com.alphas.inventory.dao.InventoryDao;
+import com.alphas.inventory.dao.InvoiceDao;
 import com.alphas.inventory.dto.Invoice;
+import com.alphas.inventory.dto.InvoiceSearchForm;
 
 @Service
-public class InventoryServiceImpl implements InventoryService{
+public class InvoiceServiceImpl implements InvoiceService{
 
 	@Autowired
-	private InventoryDao dao;
+	private InvoiceDao dao;
 	
 	@Override
 	public Invoice addInvoice(Invoice invoice) throws AException {
@@ -19,9 +22,13 @@ public class InventoryServiceImpl implements InventoryService{
 	}
 
 	@Override
-	public Invoice retrieveInvoice(Invoice invoice) throws AException {
+	public  List<Invoice> retrieveInvoice(InvoiceSearchForm invoice) throws AException {
 		// TODO Auto-generated method stub
-		return null;
+		return dao.retrieveInvoice(invoice);
 	}
 
+	@Override
+	public Invoice findById(Long id) {
+		return dao.findById(id);
+	}
 }

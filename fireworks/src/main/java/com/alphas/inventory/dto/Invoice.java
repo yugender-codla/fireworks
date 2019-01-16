@@ -1,13 +1,13 @@
 package com.alphas.inventory.dto;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +16,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
 
@@ -28,8 +30,7 @@ public class Invoice implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "INVOICE_SEQ")
 	@SequenceGenerator(name = "INVOICE_SEQ", sequenceName = "invoice_id_seq", allocationSize = 1)
-	@Column(name = "invoiceid")
-	private Long inid;
+	private Long invoiceid;
 	
 	@Column(name="billDate")
 	@DateTimeFormat(pattern="yyyy-MM-dd")
@@ -38,8 +39,15 @@ public class Invoice implements Serializable{
 	@Column(name="billNo")
 	private String billNo;
 	
-	@OneToMany(fetch = FetchType.EAGER,mappedBy="invoice",cascade = CascadeType.ALL)
+	@Column(name="totalPrice")
+	private BigDecimal totalPrice;
+	
+	@Column(name="buyPrice")
+	private BigDecimal buyPrice;
+	
+	@OneToMany(mappedBy="invoice",cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
 	private List<InvoiceLineItem> invoiceLineItems;
+	
 	
 	
 	

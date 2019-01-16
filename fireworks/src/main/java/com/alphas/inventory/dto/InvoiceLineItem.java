@@ -3,7 +3,6 @@ package com.alphas.inventory.dto;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,11 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.Data;
 
 @Entity
@@ -27,9 +21,8 @@ public class InvoiceLineItem implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "invoice_line_item_generator")
-	@SequenceGenerator(name="invoice_line_item_generator", sequenceName = "invoice_line_item_seq", allocationSize=1)
-	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "INVOICE_LINE_ITEM_SEQ_GEN")
+	@SequenceGenerator(name = "INVOICE_LINE_ITEM_SEQ_GEN", sequenceName = "invoice_line_item_seq", allocationSize = 1)
 	private Long id;
 	
 	@Column(name="productId")
@@ -41,9 +34,8 @@ public class InvoiceLineItem implements Serializable{
 	@Column(name="price")
 	private BigDecimal price;
 	
-	
-	@ManyToOne(cascade= CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "invoiceid", referencedColumnName="invoiceid")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn
     private Invoice invoice;
-
+	
 }

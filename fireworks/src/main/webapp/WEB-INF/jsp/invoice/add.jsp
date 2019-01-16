@@ -7,6 +7,9 @@
 <head>
 <meta charset="utf-8">
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
 <title>jQuery Add / Remove Table Rows</title>
 <style type="text/css">
     table{
@@ -26,7 +29,9 @@
 <script type="text/javascript">
 
     $(document).ready(function(){
-    	var lineItemsCount = -1;
+    	
+    	//if the records in the table is empty then the lineItemsCount = -1. already there is one <tr> in this table.  To balance it even with Edit functionality (-2 i set up). 
+    	var lineItemsCount = $('#listInvoicesTable tr').length - 2;
         $(".add-row").click(function(){
         	lineItemsCount ++;
             var productId = $("#productName").val();
@@ -38,6 +43,7 @@
             "<td>" + productName + "</td><td>" + quantity + "</td><td>"+price+"</td> </tr>";
             
             $("table tbody").append(markup);
+            calculateColumn(3);
         });
         
         // Find and remove selected table rows
@@ -47,18 +53,32 @@
                     $(this).parents("tr").remove();
                 }
             });
+            calculateColumn(3);
         });
+        
     });   
     
-    
+    function calculateColumn(index)
+    {
+    var total = 0;
+    $('table tr').each(function()
+    {
+    var value = parseFloat($('td', this).eq(index).text());
+    if (!isNaN(value))
+    {
+    total += value;
+    }
+    }); 
+    $('#totalPrice').val(total);
+    }
 </script>
 </head>
 <body>
 <div class="container">
-<h1>Add Inventory</h1>
+<h1>Add Invoice</h1>
 		<h4>${msg}</h4>
 		<h4>${error}</h4>
-		<spring:url value="/inventory/save" var="saveUrl" />
+		<spring:url value="/invoice/save" var="saveUrl" />
 		
     <form:form method="post" action="${saveUrl}" modelAttribute="invoice">
     	<label for="bill date">Bill Date : </label><input name = "billDate"  type="date" value="2019-01-01">
@@ -84,7 +104,7 @@
         <input type="button" class="add-row" value="Add Row"> 
                 
     
-    <table width="100">
+    <table width="100" id ="listInvoicesTable">
         <thead>
             <tr>
                 <th>Select</th>
@@ -97,8 +117,13 @@
             
         </tbody>
     </table>
+    <label for="Total">Total : </label> <input type="text" name = "totalPrice" readonly="readonly" id="totalPrice">
+    <label for="ActualPrice">Buying Price: </label> <input type="text" name = "buyPrice">
+    <br>
+    <br>
     
-    <button type="button" class="delete-row">Delete Row</button> <input type = "submit" value = "Submit"/>
+      
+    <button type="button" class="delete-row">Delete Row</button> <input type = "submit" value = "Generate Invoice"/>
     </form:form>
     </div>
 </body> 
