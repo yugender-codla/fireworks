@@ -45,10 +45,12 @@ public class InvoiceController {
 		try {
 			model.addAttribute("invoice", invoice);
 			model.addAttribute("productList", productService.retrieveAll());
+			model.addAttribute("pageView","invoice/add");
 		} catch (AException e) {
 			LOGGER.error(e.getMessage(), e);
 		}
-		return "invoice/add";
+	//	return "invoice/add";
+		return "common/template";
 	}
 
 	@PostMapping(value = "/save")
@@ -63,18 +65,20 @@ public class InvoiceController {
 
 			model.addAttribute("invoice", invoice);
 			model.addAttribute("productList", productService.retrieveAll());
-
+			model.addAttribute("pageView","invoice/add");
 			redirectAttributes.addFlashAttribute("msg",
 					"Invoice " + returnResult.getBillNo() + " created successfully!");
 		} catch (AException e) {
 			LOGGER.error(e.getMessage(), e);
 		}
-		return "invoice/add";
+		return "common/template";
 	}
 
 	@GetMapping("/search/display")
-	public String showSearch() {
-		return "invoice/list";
+	public String showSearch(Model model) {
+		
+		model.addAttribute("pageView","invoice/list");
+		return "common/template";
 	}
 
 	@GetMapping(value = "/search/find")
@@ -88,10 +92,11 @@ public class InvoiceController {
 			form.setFromDate(fromDate);
 			form.setToDate(toDate);
 			model.addAttribute("invoices", inventoryService.retrieveInvoice(form));
+			model.addAttribute("pageView","invoice/list");
 		} catch (AException e) {
 			LOGGER.error(e.getMessage(), e);
 		}
-		return "invoice/list";
+		return "common/template";
 	}
 
 	@GetMapping(value = "/{id}/update")
@@ -101,10 +106,11 @@ public class InvoiceController {
 			Invoice invoice = inventoryService.findById(id);
 			model.addAttribute("productList", productService.retrieveAll());
 			model.addAttribute("invoice", invoice);
+			model.addAttribute("pageView","invoice/edit");
 		} catch (AException e) {
 			LOGGER.error(e.getMessage(), e);
 		}
-		return "invoice/edit";
+		return "common/template";
 	}
 	
 	

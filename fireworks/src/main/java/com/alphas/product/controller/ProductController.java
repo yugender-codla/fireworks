@@ -33,7 +33,8 @@ public class ProductController {
 	public String showAddProduct(Model model) {
 		Product product = new Product();
 		model.addAttribute("product", product);
-		return "product/add";
+		model.addAttribute("pageView","product/add");
+		return "common/template";
 	}
 
 	
@@ -42,11 +43,12 @@ public class ProductController {
 		try {
 		Product product = service.findById(id);
 		model.addAttribute("product", product);
+		model.addAttribute("pageView","product/add");
 		}catch(AException a) {
 			LOGGER.error(a.getMessage(), a);
 			redirectAttributes.addAttribute("error", "Unable to fetch the Product information. Please contact support.");
 		}
-		return "product/add";
+		return "common/template";
 	}
 	
 	
@@ -68,6 +70,7 @@ public class ProductController {
 			model.addAttribute("product",result);
 		}
 		
+		
 		catch(IOException | NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
 			LOGGER.error(e.getMessage(), e);
 			redirectAttributes.addFlashAttribute("error","Problem while saving the image");
@@ -76,7 +79,8 @@ public class ProductController {
 			LOGGER.error(e.getMessage(), e);
 			redirectAttributes.addFlashAttribute("error",e.getMessage());
 		}
-		return "redirect:/product/add/";
+		//model.addAttribute("pageView","/add");
+		return "redirect:add";
 	}
 	
 		
@@ -88,6 +92,7 @@ public class ProductController {
 		} catch (AException e) {
 			
 		}
-		return "product/list";
+		model.addAttribute("pageView","product/list");
+		return "common/template";
 	}
 }
