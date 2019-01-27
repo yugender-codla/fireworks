@@ -19,6 +19,9 @@
           ...
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+      
+      
+      <a class="dropdown-item" href="/order/showProducts">Place Order</a>
         
      <h5 class="dropdown-header">Invoices</h5>
       <a class="dropdown-item" href="/invoice/search/display">List Invoices</a>
