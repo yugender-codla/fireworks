@@ -9,6 +9,7 @@ import com.alphas.product.dto.Product;
 
 @Service
 public interface ProductService {
+	
 	public Product add(Product product) throws AException;
 	public List<Product> retrieveAll() throws AException;
 	public Product findById(Long id) throws AException;
@@ -16,4 +17,6 @@ public interface ProductService {
 	/*public Product findProductByIdNoLazy(Long id) throws AException;
 	public List<Product> findAllNoLazy() throws AException;*/
 	public void delete(Long id) throws AException;
+	
+	public List<Product> retrieveAvailableProducts() throws AException;
 }

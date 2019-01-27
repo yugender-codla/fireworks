@@ -22,9 +22,9 @@ import lombok.Setter;
 @Entity
 @Data
 @Table(name = "Product", uniqueConstraints={@UniqueConstraint(columnNames="name")})
-/*@NamedQueries({@NamedQuery(name = "findProductById", query = "from Product WHERE id=:id"),
-	@NamedQuery(name = "findProducts", query = "SELECT p.id, p.name,p.active from Product p")
-})*/
+@NamedQueries({@NamedQuery(name = "findProductById", query = "from Product WHERE id=:id"),
+	@NamedQuery(name = "findAvailableProducts", query = "from Product p where p.available='Y' and p.active='Y'")
+})
 
 public class Product implements Serializable{
 	private static final long serialVersionUID = 1L;

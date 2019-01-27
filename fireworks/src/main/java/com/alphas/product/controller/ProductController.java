@@ -71,7 +71,7 @@ public class ProductController {
 			}else {
 				redirectAttributes.addFlashAttribute("msg", "The Product "+product.getName()+" updated successfully!");
 			}
-			
+			product.setActive("Y");
 			service.add(product);
 			
 			model.addAttribute("product",result);

@@ -3,6 +3,8 @@ package com.alphas.product.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,6 +56,17 @@ public class ProductDaoImpl implements ProductDao{
 		Product product = this.findById(id);
 		product.setActive("N");
 		this.add(product);
+	}
+	
+	@Override
+	public List<Product> retrieveAvailableProducts(EntityManager entityManager) throws AException{
+		List<Product> result = new ArrayList<Product>();
+		try {
+			result = entityManager.createNamedQuery("findAvailableProducts").getResultList();
+		}catch(Exception e) {
+			throw new AException(e);
+		}
+		return result ;
 	}
 	
 	

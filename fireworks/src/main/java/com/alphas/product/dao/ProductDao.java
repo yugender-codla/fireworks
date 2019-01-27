@@ -18,4 +18,5 @@ public interface ProductDao {
 	/*public Product findProductByIdNoLazy(EntityManager entityManager, Long id) throws AException;
 	public List<Product> findAllNoLazy(EntityManager entityManager) throws AException;*/
 	public void delete(Long id) throws AException;
+	public List<Product> retrieveAvailableProducts(EntityManager entityManager) throws AException;
 }
