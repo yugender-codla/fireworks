@@ -1,7 +1,5 @@
 package com.alphas.product.controller;
 
-import java.io.IOException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +11,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alphas.common.exception.AException;
@@ -52,7 +48,63 @@ public class ProductController {
 	}
 	
 	
+	@GetMapping(value = "/{id}/delete")
+	public String inactivateProduct(@PathVariable("id") Long id, Model model, final RedirectAttributes redirectAttributes) {
+		try {
+			service.delete(id);
+		}catch(AException a) {
+			LOGGER.error(a.getMessage(), a);
+			redirectAttributes.addAttribute("error", "Unable to fetch the Product information. Please contact support.");
+		}
+		return "redirect:../list";
+	}
+	
+	
 	@PostMapping(path = "/save")
+	public String save(@ModelAttribute("product") Product product, BindingResult result, Model model,
+			final RedirectAttributes redirectAttributes) {
+		
+		try {
+			
+			if(product.getId() == null) {
+				redirectAttributes.addFlashAttribute("msg", "The Product "+product.getName()+" added successfully!");
+			}else {
+				redirectAttributes.addFlashAttribute("msg", "The Product "+product.getName()+" updated successfully!");
+			}
+			
+			service.add(product);
+			
+			model.addAttribute("product",result);
+		}
+		catch (AException e) {
+			LOGGER.error(e.getMessage(), e);
+			redirectAttributes.addFlashAttribute("error",e.getMessage());
+		}
+		//model.addAttribute("pageView","/add");
+		
+		return product.isNew() ? "redirect:add" : "redirect:list";
+	}
+	
+	
+	
+	/*
+	 * Multipart example
+	 * 
+	 * 
+	 * <form:form method="post" modelAttribute="product" action="${addUrl}" enctype="multipart/form-data">
+			<form:hidden path="id" />
+			Name : <form:input path="name" type="text" /><br><br>
+			<!-- bind to user.name-->
+			<form:errors path="name" />
+			<!-- Image 1: <input type="file" name="files"><br> -->
+			<br>
+			
+			<input type = "submit" value = "Submit"/>
+			
+			
+		</form:form>
+	 * 
+	 * @PostMapping(path = "/save")
 	public String save(@RequestParam("files") MultipartFile[] files, @ModelAttribute("product") Product product, BindingResult result, Model model,
 			final RedirectAttributes redirectAttributes) {
 		
@@ -81,7 +133,7 @@ public class ProductController {
 		}
 		//model.addAttribute("pageView","/add");
 		return "redirect:add";
-	}
+	}*/
 	
 		
 	

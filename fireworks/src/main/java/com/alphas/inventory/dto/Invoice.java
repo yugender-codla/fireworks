@@ -42,8 +42,12 @@ public class Invoice implements Serializable{
 	@Column(name="totalPrice")
 	private BigDecimal totalPrice;
 	
-	@Column(name="buyPrice")
-	private BigDecimal buyPrice;
+	@Column(name="discountPrice")
+	private BigDecimal discountPrice;
+	
+	@Column(name="discountPercentage")
+	private BigDecimal discountPercentage;
+	
 	
 	@OneToMany(mappedBy="invoice",cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
 	private List<InvoiceLineItem> invoiceLineItems;

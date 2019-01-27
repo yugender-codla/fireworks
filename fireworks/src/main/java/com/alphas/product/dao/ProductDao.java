@@ -15,6 +15,7 @@ public interface ProductDao {
 	public List<Product> retrieveAll() throws AException;
 	public Product findById(Long id) throws AException;
 	public List<Product> findByName(String name) throws AException;
-	public Product findProductByIdNoLazy(EntityManager entityManager, Long id) throws AException;
-	public List<Product> findAllNoLazy(EntityManager entityManager) throws AException;
+	/*public Product findProductByIdNoLazy(EntityManager entityManager, Long id) throws AException;
+	public List<Product> findAllNoLazy(EntityManager entityManager) throws AException;*/
+	public void delete(Long id) throws AException;
 }

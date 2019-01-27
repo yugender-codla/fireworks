@@ -25,63 +25,74 @@
 
 <script type="text/javascript">
 
-    $(document).ready(function(){
-    	
-    	//if the records in the table is empty then the lineItemsCount = -1. already there is one <tr> in this table.  To balance it even with Edit functionality (-2 i set up). 
-    	var lineItemsCount = $('#listInvoicesTable tr').length - 2;
-        $(".add-row").click(function(){
-        	lineItemsCount ++;
-            var productId = $("#productName").val();
-            var productName = $("#productName option:selected").text();
-            var quantity = $("#quantity").val();
-            var price = $("#price").val();
-
-            var markup = "<tr><td><input type='checkbox' name='record'><input type = 'hidden' name='invoiceLineItems["+lineItemsCount+"].productId' value="+productId+" /> <input type = 'hidden' name='invoiceLineItems["+lineItemsCount+"].quantity' value="+quantity+" /><input type = 'hidden' name='invoiceLineItems["+lineItemsCount+"].price' value="+price+" /></td>"+
-            "<td>" + productName + "</td><td>" + quantity + "</td><td>"+price+"</td> </tr>";
-            
-            $("table tbody").append(markup);
-            calculateColumn(3);
-        });
+$(document).ready(function(){
+	
+	//if the records in the table is empty then the lineItemsCount = -1. already there is one <tr> in this table.  To balance it even with Edit functionality (-2 i set up). 
+	var lineItemsCount = $('#listInvoicesTable tr').length - 2;
+    $(".add-row").click(function(){
+    	lineItemsCount ++;
+        var productId = $("#productName").val();
+        var productName = $("#productName option:selected").text();
+        var quantity = $("#quantity").val();
+        var price = $("#price").val();
+		var discountPrice = calculatediscountPriceForItem(price);
+        var markup = "<tr><td><input type='checkbox' name='record'><input type = 'hidden' name='invoiceLineItems["+lineItemsCount+"].productId' value="+productId+" /> <input type = 'hidden' name='invoiceLineItems["+lineItemsCount+"].quantity' value="+quantity+" /><input type = 'hidden' name='invoiceLineItems["+lineItemsCount+"].price' value="+price+" /><input type = 'hidden' name='invoiceLineItems["+lineItemsCount+"].discountPrice' value="+discountPrice+" /></td>"+
+        "<td>" + productName + "</td><td>" + quantity + "</td><td>"+price+"</td><td>"+discountPrice+"</td></tr>";
         
-        // Find and remove selected table rows
-        $(".delete-row").click(function(){
-            $("table tbody").find('input[name="record"]').each(function(){
-                if($(this).is(":checked")){
-                    $(this).parents("tr").remove();
-                }
-            });
-            calculateColumn(3);
-        });
+        $("table tbody").append(markup);
+        $('#totalPrice').val(calculateColumn(3));
+        $('#discountPrice').val(calculateColumn(4));
         
-    });   
+    });
     
-    function calculateColumn(index)
-    {
-    var total = 0;
-    $('table tr').each(function()
-    {
-    var value = parseFloat($('td', this).eq(index).text());
-    if (!isNaN(value))
-    {
-    total += value;
-    }
-    }); 
-    $('#totalPrice').val(total);
-    }
+    // Find and remove selected table rows
+    $(".delete-row").click(function(){
+        $("table tbody").find('input[name="record"]').each(function(){
+            if($(this).is(":checked")){
+                $(this).parents("tr").remove();
+            }
+        });
+        $('#totalPrice').val(calculateColumn(3));
+        $('#discountPrice').val(calculateColumn(4));
+    });
+    
+});   
+
+function calculateColumn(index)
+{
+	var total = 0;
+	$('table tr').each(function()
+	{
+		var value = parseFloat($('td', this).eq(index).text());
+		if (!isNaN(value))
+		{
+			total += value;
+		}
+	}); 
+	//$('#totalPrice').val(total);
+	return total;
+}
+
+
+function calculatediscountPriceForItem(price){
+	var discountPercentage = $("#discountPercentage").val();
+	var discountPrice = price - ((price * discountPercentage)/100)
+	return discountPrice;
+}
 </script>
 </head>
 <body>
 <div class="container">
-<h1>Add Invoice</h1>
+<h1>Edit Invoice</h1>
 		<h4>${msg}</h4>
 		<h4>${error}</h4>
 		<spring:url value="/invoice/save" var="saveUrl" />
 		
     <form:form method="post" action="${saveUrl}" modelAttribute="invoice" >
-	    <input name="invoiceid" type="hidden"><label for="Invoice Number">Invoice No : </label> ${invoice.invoiceid} <br>
+	    <input name="invoiceid" type="hidden" value = "${invoice.invoiceid}"><label for="Invoice Number">Invoice No : </label> ${invoice.invoiceid} <br>
     	<label for="bill date">Bill Date : </label> <input name = "billDate"  type="date" value="<fmt:formatDate pattern="yyyy-MM-dd" value="${invoice.billDate}" />" >
     	<label for="bill date">Bill No : </label> <input type="text" name = "billNo" value="${invoice.billNo}">     
-    	
+    	<label for="bill date">Discount Percentage : </label> <input type="text" name = "discountPercentage" id="discountPercentage" value="${invoice.discountPercentage}">
     	<br><br>
     	
   
@@ -109,6 +120,7 @@
                 <th>Name</th>
                 <th>Quantity</th>
                 <th>Price</th>
+                <th>Discounted Price</th>
             </tr>
         </thead>
         <tbody>
@@ -120,17 +132,19 @@
 				<input type = 'hidden' name="invoiceLineItems[${loop.index}].productId" value="${item.productId}" />
 				<input type = 'hidden' name="invoiceLineItems[${loop.index}].quantity" value="${item.quantity}" />
 				<input type = 'hidden' name="invoiceLineItems[${loop.index}].price" value="${item.price}" />
+				<input type = 'hidden' name="invoiceLineItems[${loop.index}].discountPrice" value="${item.discountPrice}" />
 					${item.productId}
 				</td>
 				<td>${item.quantity}</td>
 				<td>${item.price} </td>
+				<td>${item.discountPrice} </td>
 				
 			    </tr>
 			</c:forEach>
         </tbody>
     </table>
     <label for="Total">Total : </label> <input type="text" name = "totalPrice" readonly="readonly" id="totalPrice" value = "${invoice.totalPrice}">
-    <label for="ActualPrice">Buying Price: </label> <input type="text" name = "buyPrice" value = "${invoice.buyPrice}">
+    <label for="ActualPrice">Discounted Price: </label> <input type="text" name = "discountPrice" value = "${invoice.discountPrice}" id="discountPrice">
     <br>
     <br>
     

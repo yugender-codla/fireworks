@@ -26,20 +26,24 @@
 		<h4>${error}</h4>
 		<spring:url value="/product/save" var="addUrl" />
 		<spring:url value="/product/list" var="listUrl" />
-		<form:form method="post" modelAttribute="product" action="${addUrl}" enctype="multipart/form-data">
+		<form:form method="post" modelAttribute="product" action="${addUrl}">
 			<form:hidden path="id" />
-			Name : <form:input path="name" type="text" /><br><br>
+			Name : <form:input path="name" type="text" /><br>
+			Price : <form:input path="price" type="text" /><br>
+			
+  		<label for="Available">Available: </label>
+  		<form:select path="available">
+  			<form:option value="Y" selected="selected">Yes</form:option>
+  			<form:option value="N">No</form:option>
+  		
+  		</form:select>
+		
+			
+			<br>
 			<!-- bind to user.name-->
 			<form:errors path="name" />
-			Image 1: <input type="file" name="files"><br>
-			Image 2: <input type="file" name="files"><br>
-			Image 3: <input type="file" name="files"><br>
-			Image 4: <input type="file" name="files"><br>
-			Image 5: <input type="file" name="files"><br>
 			<br>
-			
 			<input type = "submit" value = "Submit"/>
-			
 			
 		</form:form>
 		<c:choose>

@@ -30,11 +30,9 @@
 				<tr>
 					<th>#ID</th>
 					<th>Name</th>
-					<th>Image 1</th>
-					<th>Image 2</th>
-					<th>Image 3</th>
-					<th>Image 4</th>
-					<th>Image 5</th>
+					<th>Price</th>
+					<th>Available</th>
+					
 				</tr>
 			</thead>
 
@@ -44,12 +42,9 @@
 					${item.id}
 				</td>
 				<td>${item.name}</td>
-				<td>${item.image1Name} </td>
-				<td>${item.image2Name} </td>
-				<td>${item.image3Name} </td>
-				<td>${item.image4Name} </td>
-				<td>${item.image5Name} </td>
-				
+				<td>${item.price}</td>
+				<td>${item.available}</td>
+				<td>${item.active}</td>
 				<td>
 				 
 				  
@@ -61,7 +56,7 @@
 				  <button class="btn btn-primary" 
                                           onclick="location.href='${updateUrl}'">Update</button>
 				  <button class="btn btn-danger" 
-                                          onclick="this.disabled=true;post('${deleteUrl}')">Delete</button>
+                                          onclick="this.disabled=true;location.href='${deleteUrl}'">Delete</button>
                                 </td>
 			    </tr>
 			</c:forEach>

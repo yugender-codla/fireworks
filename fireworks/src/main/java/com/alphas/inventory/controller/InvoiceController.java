@@ -56,7 +56,9 @@ public class InvoiceController {
 	@PostMapping(value = "/save")
 	public String addInvoice(@ModelAttribute("invoice") Invoice invoice, BindingResult result, Model model,
 			final RedirectAttributes redirectAttributes) {
+		String redirectTo = invoice.getInvoiceid() == null ? "redirect:add" : "redirect:search/display";
 		try {
+			//model.addAttribute("pageView",invoice.getInvoiceid() == null ? "invoice/add" : "invoice/edit");
 			
 			List<InvoiceLineItem> list = invoice.getInvoiceLineItems().stream().filter(t -> t.getProductId() != null).collect(Collectors.toList());
 			invoice.setInvoiceLineItems(list);
@@ -65,13 +67,14 @@ public class InvoiceController {
 
 			model.addAttribute("invoice", invoice);
 			model.addAttribute("productList", productService.retrieveAll());
-			model.addAttribute("pageView","invoice/add");
-			redirectAttributes.addFlashAttribute("msg",
-					"Invoice " + returnResult.getBillNo() + " created successfully!");
+			
+			
+			redirectAttributes.addFlashAttribute("msg",	"Invoice " + returnResult.getBillNo() + " created/updated successfully!");
 		} catch (AException e) {
 			LOGGER.error(e.getMessage(), e);
 		}
-		return "common/template";
+		
+		return redirectTo;
 	}
 
 	@GetMapping("/search/display")

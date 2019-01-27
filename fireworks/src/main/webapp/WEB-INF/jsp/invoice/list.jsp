@@ -5,17 +5,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-<!-- Latest compiled JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-<title>Insert title here</title>
 <script>
-
 $(document).ready(function(){
 	var infoModal = $('#myModal');
 	
@@ -31,7 +21,7 @@ $(document).ready(function(){
 	            	var lineItemsLength =output.invoiceLineItems.length;
 	            	var row = "";
 	            	for(var i=0;i<lineItemsLength;i++){
-	            		 row = row + "<tr><td>"+output.invoiceLineItems[i].productId+"</td><td>"+output.invoiceLineItems[i].quantity+"</td><td>"+output.invoiceLineItems[i].price+"</td> </tr>";
+	            		 row = row + "<tr><td>"+output.invoiceLineItems[i].productId+"</td><td>"+output.invoiceLineItems[i].quantity+"</td><td>"+output.invoiceLineItems[i].price+"</td><td>"+output.invoiceLineItems[i].discountPrice+" </td></tr>";
 	            	}
 	            	
 	            	var dt = new Date(output.billDate);
@@ -39,7 +29,7 @@ $(document).ready(function(){
 	            	infoModal.find("#mdlBillDate").text(( dt.getDate()+ '/' + dt.getMonth() +1) + '/' + dt.getFullYear());
 	            	infoModal.find("#mdlBillNo").text(output.billNo);
 	            	infoModal.find("#mdlPrice").text(output.totalPrice);
-	            	infoModal.find("#mdlBuyPrice").text(output.buyPrice);
+	            	infoModal.find("#mdlDiscountPrice").text(output.discountPrice);
 	            	
 	            	infoModal.find('.modal-body').find(".mdlTbody").html(row);
             		infoModal.modal('show');
@@ -58,9 +48,6 @@ $(document).ready(function(){
 
 
 </script>
-</head>
-<body>
-	<div class="container">
 
 		<c:if test="${not empty msg}">
 		    <div class="alert alert-${css} alert-dismissible" role="alert">
@@ -90,7 +77,7 @@ $(document).ready(function(){
 					<th>Bill Date</th>
 					<th>Bill No</th>
 					<th>Total Price</th>
-					<th>Buy Price</th>
+					<th>Discounted Price</th>
 				</tr>
 			</thead>
 			
@@ -103,7 +90,7 @@ $(document).ready(function(){
 				<td>${item.billDate}</td>
 				<td>${item.billNo} </td>
 				<td>${item.totalPrice} </td>
-				<td>${item.buyPrice} </td>
+				<td>${item.discountPrice} </td>
 				<td>
 				 
 				  
@@ -111,7 +98,7 @@ $(document).ready(function(){
  				<spring:url value="/invoice/${item.invoiceid}/view" var="viewUrl" />
  				
 				 <!-- <button class="btn btn-info" onclick="location.href='${userUrl}'">Query</button>  -->
-				  <button class="btn btn-primary" onclick="location.href='${updateUrl}'">Update</button>
+				  <button class="btn btn-primary" onclick="location.href='${updateUrl}'">Edit</button>
 				  <button class="view-button btn btn-primary" id="${viewUrl}">View</button>
 				  </td>
 				  
@@ -119,9 +106,6 @@ $(document).ready(function(){
 			</c:forEach>
 		</table>
 
-	</div>
-	
-	
 
 <div class="modal fade" id="myModal">
 <div class="modal-dialog">
@@ -134,7 +118,7 @@ $(document).ready(function(){
       <label >Bill No: </label><span id="mdlBillNo"></span>
       <label >Bill Date: </label><span id="mdlBillDate"></span>
        <label >Price: </label><span id="mdlPrice"></span>
-       <label >Buy Price: </label><span id="mdlBuyPrice"></span>
+       <label >Discount Price: </label><span id="mdlDiscountPrice"></span>
       
     </div>
     <div class="modal-body">
@@ -144,6 +128,7 @@ $(document).ready(function(){
           	<th>Product Name</th>
           	<th>Quantity</th>
           	<th>Price</th>
+          	<th>Discount Price</th>
           </tr>
           </thead>
           <tbody class="mdlTbody">
@@ -162,5 +147,3 @@ $(document).ready(function(){
 </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 	
-</body>
-</html>

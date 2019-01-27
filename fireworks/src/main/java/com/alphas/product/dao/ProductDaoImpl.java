@@ -1,10 +1,7 @@
 package com.alphas.product.dao;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-
-import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,16 +33,7 @@ public class ProductDaoImpl implements ProductDao{
 	@Override
 	public List<Product> retrieveAll() throws AException{
 		List<Product> products = new ArrayList<Product>();
-		Iterator<Product> i = repository.findAll().iterator();
-		while(i.hasNext()) {
-			Product p = i.next();
-			p.getImage1();
-			p.getImage2();
-			p.getImage3();
-			p.getImage4();
-			p.getImage5();
-			products.add(p);
-		}
+		repository.findAll().forEach(products::add);;
 		return products;
 	}
 	
@@ -61,7 +49,15 @@ public class ProductDaoImpl implements ProductDao{
 		return products;
 	}
 	
-	public List<Product> findAllNoLazy(EntityManager entityManager) throws AException{
+	@Override
+	public void delete(Long id) throws AException{
+		Product product = this.findById(id);
+		product.setActive("N");
+		this.add(product);
+	}
+	
+	
+	/*public List<Product> findAllNoLazy(EntityManager entityManager) throws AException{
 		List<Product> result = new ArrayList<Product>();
 		try {
 			result = entityManager.createNamedQuery("findProducts").getResultList();
@@ -83,7 +79,7 @@ public class ProductDaoImpl implements ProductDao{
 			throw new AException(e);
 		}
 		return null;
-	}
+	}*/
 	
 	
 	

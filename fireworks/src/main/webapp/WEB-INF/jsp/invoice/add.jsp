@@ -35,12 +35,14 @@
             var productName = $("#productName option:selected").text();
             var quantity = $("#quantity").val();
             var price = $("#price").val();
-
-            var markup = "<tr><td><input type='checkbox' name='record'><input type = 'hidden' name='invoiceLineItems["+lineItemsCount+"].productId' value="+productId+" /> <input type = 'hidden' name='invoiceLineItems["+lineItemsCount+"].quantity' value="+quantity+" /><input type = 'hidden' name='invoiceLineItems["+lineItemsCount+"].price' value="+price+" /></td>"+
-            "<td>" + productName + "</td><td>" + quantity + "</td><td>"+price+"</td> </tr>";
+			var discountPrice = calculatediscountPriceForItem(price);
+            var markup = "<tr><td><input type='checkbox' name='record'><input type = 'hidden' name='invoiceLineItems["+lineItemsCount+"].productId' value="+productId+" /> <input type = 'hidden' name='invoiceLineItems["+lineItemsCount+"].quantity' value="+quantity+" /><input type = 'hidden' name='invoiceLineItems["+lineItemsCount+"].price' value="+price+" /><input type = 'hidden' name='invoiceLineItems["+lineItemsCount+"].discountPrice' value="+discountPrice+" /></td>"+
+            "<td>" + productName + "</td><td>" + quantity + "</td><td>"+price+"</td><td>"+discountPrice+"</td></tr>";
             
             $("table tbody").append(markup);
-            calculateColumn(3);
+            $('#totalPrice').val(calculateColumn(3));
+            $('#discountPrice').val(calculateColumn(4));
+            
         });
         
         // Find and remove selected table rows
@@ -50,24 +52,34 @@
                     $(this).parents("tr").remove();
                 }
             });
-            calculateColumn(3);
+            $('#totalPrice').val(calculateColumn(3));
+            $('#discountPrice').val(calculateColumn(4));
         });
         
     });   
     
     function calculateColumn(index)
     {
-    var total = 0;
-    $('table tr').each(function()
-    {
-    var value = parseFloat($('td', this).eq(index).text());
-    if (!isNaN(value))
-    {
-    total += value;
+    	var total = 0;
+    	$('table tr').each(function()
+    	{
+    		var value = parseFloat($('td', this).eq(index).text());
+    		if (!isNaN(value))
+    		{
+    			total += value;
+    		}
+    	}); 
+    	//$('#totalPrice').val(total);
+    	return total;
     }
-    }); 
-    $('#totalPrice').val(total);
+    
+    
+    function calculatediscountPriceForItem(price){
+    	var discountPercentage = $("#discountPercentage").val();
+    	var discountPrice = price - ((price * discountPercentage)/100)
+    	return discountPrice;
     }
+    
 </script>
 </head>
 <body>
@@ -80,6 +92,7 @@
     <form:form method="post" action="${saveUrl}" modelAttribute="invoice">
     	<label for="bill date">Bill Date : </label><input name = "billDate"  type="date" value="2019-01-01">
     	<label for="bill date">Bill No : </label> <input type="text" name = "billNo">  
+    	<label for="bill date">Discount Percentage : </label> <input type="text" name = "discountPercentage" id="discountPercentage">
     	
     	<br><br>
     	
@@ -108,6 +121,7 @@
                 <th>Name</th>
                 <th>Quantity</th>
                 <th>Price</th>
+                <th>Discounted Price</th>
             </tr>
         </thead>
         <tbody>
@@ -115,7 +129,7 @@
         </tbody>
     </table>
     <label for="Total">Total : </label> <input type="text" name = "totalPrice" readonly="readonly" id="totalPrice">
-    <label for="ActualPrice">Buying Price: </label> <input type="text" name = "buyPrice">
+    <label for="DiscountPrice">Discounted Price: </label> <input type="text" name = "discountPrice" id="discountPrice">
     <br>
     <br>
     
