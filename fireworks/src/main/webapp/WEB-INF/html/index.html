@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Complete Bootstrap 4 Website Layout</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+<link href="style.css" rel="stylesheet">
+
+
+
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$(".quantityBtnAdd").click(function() {
+			var parentTag = $(this).parent().children('label');
+			var val = parseInt(parentTag.text());
+			val = val + 1;
+			parentTag.text(val);
+		});
+
+		$(".quantityBtnMinus").click(function() {
+			var parentTag = $(this).parent().children('label');
+			var val = parseInt(parentTag.text());
+			if (val > 0) {
+				val = val - 1;
+				parentTag.text(val);
+			}
+		});
+
+	});
+</script>
+</head>
+<body>
+	<!--  <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+		<div class="container-fluid">
+			<a href="#" class="navbar-brand js-scroll-trigger"><img src="images/logo.png"></a><h4>4Aplhas</h4>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item">
+						<a class="nav-link js-scroll-trigger"  href="#">Home</a> 
+					</li>
+				</ul>
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item">
+						<a class="nav-link js-scroll-trigger" href="#">Order</a> 
+					</li>
+				</ul>
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item">
+						<a class="nav-link js-scroll-trigger" href="#">Track Order</a> 
+					</li>
+				</ul>
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item">
+						<a class="nav-link js-scroll-trigger" href="#">Services</a> 
+					</li>
+				</ul>
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item">
+						<a class="nav-link js-scroll-trigger" href="#">Connect</a> 
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav> -->
+
+
+
+	<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top"
+		id="mainNav">
+		<div class="container-fluid">
+			<a class="navbar-brand js-scroll-trigger" href="#page-top"><div>
+					<img src="images/logo.png"> <span
+						style="font-family: Times New Roman;">4alphas fireworks</span>
+				</div> </a>
+			<button class="navbar-toggler navbar-toggler-right" type="button"
+				data-toggle="collapse" data-target="#navbarResponsive"
+				aria-controls="navbarResponsive" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<i class="fas fa-bars"></i>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item"><a class="nav-link js-scroll-trigger"
+						href="#about">Home</a></li>
+					<li class="nav-item"><a class="nav-link js-scroll-trigger"
+						href="#projects">Order</a></li>
+					<li class="nav-item"><a class="nav-link js-scroll-trigger"
+						href="#projects">Track Order</a></li>
+					<li class="nav-item"><a class="nav-link js-scroll-trigger"
+						href="#projects">Services</a></li>
+					<li class="nav-item"><a class="nav-link js-scroll-trigger"
+						href="#signup">Contact</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<!-- <div class="container-fluid padding">
+	<div class="row welcome text-center">
+		<div class="col-12">
+			<h1 class="display-4">List of Products</h1>
+		</div>
+		<hr>
+	</div>
+</div>
+ -->
+
+
+	<div class="container-fluid padding">
+
+		<div class="pb-2 mt-4 mb-2 border-bottom">
+			<h5>Sparklers</h5>
+		</div>
+
+		<div class="row">
+			<div class="col-12 col-sm-6 col-md-3 col-lg-3 ">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="card-text">JASMINE 10cm Colourful</h4>
+						<div class="float-left" style="font-size: 12px;">
+							<span class="input-group-btn"><i class="fa"
+								style="color: grey">&#xf156;</i> </span> <label class="input-group-btn"
+								style="color: dark">50</label>
+						</div>
+
+
+						<div
+							class="rounded border border-grey quantity-padding float-right ">
+							<button class="btn quantityBtnMinus">
+								<i class="fa fa-minus" aria-hidden="true"
+									style="color: grey; cursor: hand"></i>
+							</button>
+							<label style="font-size: 12px; color: dark;">0</label>
+							<button class="btn quantityBtnAdd">
+								<i class="fa fa-plus" aria-hidden="true"
+									style="color: green; cursor: hand"></i>
+							</button>
+						</div>
+
+
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-12 col-sm-6 col-md-3 col-lg-3 ">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="card-text">Electric Sparkler 10cm Whistle</h4>
+						<div class="float-left" style="font-size: 12px;">
+							<span class="input-group-btn"><i class="fa"
+								style="color: grey">&#xf156;</i> </span> <label class="input-group-btn"
+								style="color: dark">15</label>
+						</div>
+
+
+						<div
+							class="rounded border border-grey quantity-padding float-right ">
+							<button class="btn quantityBtnMinus">
+								<i class="fa fa-minus" aria-hidden="true"
+									style="color: grey; cursor: hand"></i>
+							</button>
+							<label style="font-size: 12px; color: dark;">0</label>
+							<button class="btn quantityBtnAdd">
+								<i class="fa fa-plus" aria-hidden="true"
+									style="color: green; cursor: hand"></i>
+							</button>
+						</div>
+
+						</p>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="col-12 col-sm-6 col-md-3 col-lg-3 ">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="card-text">Color Sparkles Green 12cm</h4>
+						<div class="float-left" style="font-size: 12px;">
+							<span class="input-group-btn"><i class="fa"
+								style="color: grey">&#xf156;</i> </span> <label class="input-group-btn"
+								style="color: dark">41</label>
+						</div>
+
+
+						<div
+							class="rounded border border-grey quantity-padding float-right ">
+							<button class="btn quantityBtnMinus">
+								<i class="fa fa-minus" aria-hidden="true"
+									style="color: grey; cursor: hand"></i>
+							</button>
+							<label style="font-size: 12px; color: dark;">0</label>
+							<button class="btn quantityBtnAdd">
+								<i class="fa fa-plus" aria-hidden="true"
+									style="color: green; cursor: hand"></i>
+							</button>
+						</div>
+
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-12 col-sm-6 col-md-3 col-lg-3 ">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="card-text">Color Sparkles Red 12cm</h4>
+						<div class="float-left" style="font-size: 12px;">
+							<span class="input-group-btn"><i class="fa"
+								style="color: grey">&#xf156;</i> </span> <label class="input-group-btn"
+								style="color: dark">45</label>
+						</div>
+
+
+						<div
+							class="rounded border border-grey quantity-padding float-right ">
+							<button class="btn quantityBtnMinus">
+								<i class="fa fa-minus" aria-hidden="true"
+									style="color: grey; cursor: hand"></i>
+							</button>
+							<label style="font-size: 12px; color: dark;">0</label>
+							<button class="btn quantityBtnAdd">
+								<i class="fa fa-plus" aria-hidden="true"
+									style="color: green; cursor: hand"></i>
+							</button>
+						</div>
+
+						</p>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="col-12 col-sm-6 col-md-3 col-lg-3 ">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="card-text">4 Color Sparklers Mixed 12cm</h4>
+						<div class="float-left" style="font-size: 12px;">
+							<span class="input-group-btn"><i class="fa"
+								style="color: grey">&#xf156;</i> </span> <label class="input-group-btn"
+								style="color: dark">41</label>
+						</div>
+
+
+						<div
+							class="rounded border border-grey quantity-padding float-right ">
+							<button class="btn quantityBtnMinus">
+								<i class="fa fa-minus" aria-hidden="true"
+									style="color: grey; cursor: hand"></i>
+							</button>
+							<label style="font-size: 12px; color: dark;">0</label>
+							<button class="btn quantityBtnAdd">
+								<i class="fa fa-plus" aria-hidden="true"
+									style="color: green; cursor: hand"></i>
+							</button>
+						</div>
+
+						</p>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="col-12 col-sm-6 col-md-3 col-lg-3 ">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="card-text">5 Color Sparklers Mixed 60cm</h4>
+						<div class="float-left" style="font-size: 12px;">
+							<span class="input-group-btn"><i class="fa"
+								style="color: grey">&#xf156;</i> </span> <label class="input-group-btn"
+								style="color: dark">338</label>
+						</div>
+
+
+						<div
+							class="rounded border border-grey quantity-padding float-right ">
+							<button class="btn quantityBtnMinus">
+								<i class="fa fa-minus" aria-hidden="true"
+									style="color: grey; cursor: hand"></i>
+							</button>
+							<label style="font-size: 12px; color: dark;">0</label>
+							<button class="btn quantityBtnAdd">
+								<i class="fa fa-plus" aria-hidden="true"
+									style="color: green; cursor: hand"></i>
+							</button>
+						</div>
+
+						</p>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="pb-2 mt-4 mb-2 border-bottom">
+			<h5>Lighting</h5>
+		</div>
+		<div class="row">
+			<div class="col-12 col-sm-6 col-md-3 col-lg-3 ">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="card-text">5 Color Sparklers Mixed 60cm</h4>
+						<div class="float-left" style="font-size: 12px;">
+							<span class="input-group-btn"><i class="fa"
+								style="color: grey">&#xf156;</i> </span> <label class="input-group-btn"
+								style="color: dark">338</label>
+						</div>
+
+
+						<div
+							class="rounded border border-grey quantity-padding float-right ">
+							<button class="btn quantityBtnMinus">
+								<i class="fa fa-minus" aria-hidden="true"
+									style="color: grey; cursor: hand"></i>
+							</button>
+							<label style="font-size: 12px; color: dark;">0</label>
+							<button class="btn quantityBtnAdd">
+								<i class="fa fa-plus" aria-hidden="true"
+									style="color: green; cursor: hand"></i>
+							</button>
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+
+
+
+</body>
+
+<div class="btn-group btn-group-justified buttonStyleRectangle"
+	role="group" aria-label="Justified button group"
+	style="position: fixed; bottom: 0px;">
+	<div class="float-left">
+		<p>
+			4 Items | <span class="input-group-btn"><i class="fa"
+				style="color: white">&#xf156;</i> </span> <span>250</span>
+		</p>
+	</div>
+	<div class="float-right">
+		<a class="btn-success" href="#" role="button"><p>
+				View Cart <i class="fa fa-shopping-cart"></i>
+			</p></a>
+	</div>
+</div>
+</html>
+
+
+
+
+
+
+
