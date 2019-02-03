@@ -35,6 +35,10 @@ public class Product implements Serializable{
 	@Column(name = "id")
 	private Long id;
 	
+	@Column(name="category") 
+	@Getter @Setter(AccessLevel.PUBLIC)
+	private String category;
+	
 	@Column(name="name") 
 	@Getter @Setter(AccessLevel.PUBLIC)
 	private String name;

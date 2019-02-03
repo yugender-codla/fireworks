@@ -63,7 +63,7 @@ public class ProductController {
 	@PostMapping(path = "/save")
 	public String save(@ModelAttribute("product") Product product, BindingResult result, Model model,
 			final RedirectAttributes redirectAttributes) {
-		
+		boolean isNew = product.isNew() ?true:false;
 		try {
 			
 			if(product.getId() == null) {
@@ -82,7 +82,7 @@ public class ProductController {
 		}
 		//model.addAttribute("pageView","/add");
 		
-		return product.isNew() ? "redirect:add" : "redirect:list";
+		return isNew ? "redirect:add" : "redirect:list";
 	}
 	
 	

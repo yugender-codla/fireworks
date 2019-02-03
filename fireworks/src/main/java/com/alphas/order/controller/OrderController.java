@@ -1,6 +1,9 @@
 package com.alphas.order.controller;
 
+import static java.util.stream.Collectors.toMap;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +25,6 @@ import com.alphas.order.dto.OrderLineItem;
 import com.alphas.order.service.OrderService;
 import com.alphas.product.dto.Product;
 import com.alphas.product.service.ProductService;
-import static java.util.stream.Collectors.toMap;
 
 @Controller
 @RequestMapping("/order")
@@ -62,13 +64,43 @@ public class OrderController {
 	}
 	
 	
+	@GetMapping("/showProductsMap")
+	public String ShowProductsMap(Model model) {
+		try {
+			
+			List<Product> products = productService.retrieveAvailableProducts();
+			
+			Map<String, List<OrderLineItem>> productsMap = new HashMap<String, List<OrderLineItem>>();
+			for(Product product: products) {
+				if(!productsMap.containsKey(product.getCategory())) {
+					productsMap.put(product.getCategory(), new ArrayList<OrderLineItem>());
+				}
+				
+				OrderLineItem lineItem = new OrderLineItem();
+				lineItem.setProductId(product.getId());
+				lineItem.setProductName(product.getName());
+				lineItem.setPrice(product.getPrice());
+				productsMap.get(product.getCategory()).add(lineItem);
+			}
+			
+
+			model.addAttribute("productsMap",productsMap);
+			model.addAttribute("products",products);
+		} catch (AException e) {
+			
+		}
+		model.addAttribute("pageView","order/orderPage");
+		return "common/template";
+	}
+	
+	
 	@PostMapping(value = "/showConfirmOrder")
 	public String showConfirmOrder(@ModelAttribute("order") Order order, BindingResult result, Model model,
 			final RedirectAttributes redirectAttributes) {
 		
 		List<OrderLineItem> selectedLineItems = new ArrayList<OrderLineItem>();
 		for (OrderLineItem orderLineItem : order.getOrderLineItems()) {
-			if(orderLineItem.isChecked()) {
+			if(orderLineItem.getQuantity() != null && orderLineItem.getQuantity() > 0) {
 				selectedLineItems.add(orderLineItem);
 			}
 		}
@@ -87,9 +119,14 @@ public class OrderController {
 			List<OrderLineItem> orderLineItems = new ArrayList<OrderLineItem>();
 			List<Product> products = productService.retrieveAvailableProducts();
 			Map<Long, OrderLineItem> orderLineItemMap = order.getOrderLineItems().stream().collect(toMap(s -> s.getProductId(), s -> s ));
+			Map<String, List<OrderLineItem>> productsMap = new HashMap<String, List<OrderLineItem>>();
 			
 			for(Product product: products) {
 				OrderLineItem lineItem = new OrderLineItem();
+				if(!productsMap.containsKey(product.getCategory())) {
+					productsMap.put(product.getCategory(), new ArrayList<OrderLineItem>());
+				}
+
 				if(orderLineItemMap.containsKey(product.getId())) {
 					lineItem.setChecked(true);
 					lineItem.setQuantity(orderLineItemMap.get(product.getId()).getQuantity());
@@ -98,16 +135,17 @@ public class OrderController {
 				lineItem.setProductId(product.getId());
 				lineItem.setProductName(product.getName());
 				lineItem.setPrice(product.getPrice());
-				orderLineItems.add(lineItem);
+				//orderLineItems.add(lineItem);
+				productsMap.get(product.getCategory()).add(lineItem);
 			}
-			order.setOrderLineItems(orderLineItems);
+			//order.setOrderLineItems(orderLineItems);
 
-			model.addAttribute("order",order);
+			model.addAttribute("productsMap",productsMap);
 			model.addAttribute("products",products);
 		} catch (AException e) {
 			
 		}
-		model.addAttribute("pageView","order/list");
+		model.addAttribute("pageView","order/orderPage");
 		return "common/template";
 	}
 	
@@ -117,13 +155,13 @@ public class OrderController {
 		
 		try {
 			order.setStatus("");
-			orderService.addOrder(order);
+			order = orderService.addOrder(order);
 			
 			model.addAttribute("pageView","order/confirmationPage");
 			}catch(AException exception) {
 				LOGGER.error(exception.getMessage(), exception);
 			}
-		
+		model.addAttribute("orderNumber",order.getId());
 		return "common/template";
 	}
 }
