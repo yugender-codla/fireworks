@@ -39,21 +39,19 @@
 		    </div>
 		</c:if>
 
-		<h1>Confirm Order</h1>
+		<h5>Confirm Order</h5>
 
 <spring:url value="/order/confirmOrder" var="confirmOrderUrl" />
  <form:form method="post" action="${confirmOrderUrl}" modelAttribute="order" name="confirmationForm">
 
-
+<c:set var="netPrice" value="${0}"/>
 		<table class="table table-striped">
 			<thead>
 				<tr>
 					<th>Name</th>
-					<th>Type</th>
-					<th>Spec</th>
-					<th>Function</th>
 					<th>Price</th>
 					<th>Quantity</th>
+					<th>Total</th>
 				</tr>
 			</thead>
 
@@ -65,15 +63,20 @@
 				<input type="hidden" name="orderLineItems[${loop.index}].price" value="${item.price}">
 				<input type="hidden" name="orderLineItems[${loop.index}].quantity" value="${item.quantity}">
 				
-				<td>${nameParts[0]}</td>
-				<td>${nameParts[1]}</td>
-				<td>${nameParts[2]}</td>
-				<td>${nameParts[3]}</td>
+				<td>${nameParts[0]} ${nameParts[1]} ${nameParts[2]} ${nameParts[3]}</td>
 				<td>${item.price}</td>
 				<td>${item.quantity}</td>
-				
+				<td>${item.quantity * item.price}</td>
+				<c:set var="netPrice" value="${netPrice + (item.quantity * item.price)}" />
 			    </tr>
 			</c:forEach>
+			<tfoot>
+				<tr>
+					
+					<th colspan="3">Total</th>
+					<th>${netPrice}</th>
+				</tr>
+			</tfoot>
 		</table>
 		
 		<label for="Phone Number">Phone No: </label> <form:input path="phoneNumber"/> 

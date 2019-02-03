@@ -25,7 +25,7 @@
 
 		<h1>All Products</h1>
 
-		<table class="table table-striped">
+		<table class="table table-striped ">
 			<thead>
 				<tr>
 					<th>#ID</th>
