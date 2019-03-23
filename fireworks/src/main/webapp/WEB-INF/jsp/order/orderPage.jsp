@@ -32,14 +32,11 @@
 		$(".quantityBtnMinus").click(function() {
 			var parentTag = $(this).parent().children('label');
 			var val = parseInt(parentTag.text());
-			calculateQty();
 			if (val > 0) {
 				val = val - 1;
 				parentTag.text(val);
 			}
-
-			calculateQty(priceObject);
-
+			calculateQty();
 		});
 
 		function calculateQty(){
@@ -124,7 +121,7 @@
 							<label class="qty-class">${subItem.quantity}</label>
 							<button class="btn quantityBtnAdd" type="button">
 								<i class="fa fa-plus" aria-hidden="true"
-									style="color: green; cursor: hand"></i>
+									style="color: #F26522; cursor: hand"></i>
 							</button>
 						</div>
 			
@@ -139,9 +136,9 @@
 
 
 
-<div class="btn-group btn-group-justified buttonStyleRectangle"
-	role="group" aria-label="Justified button group"
-	style="position: fixed; bottom: 0px;">
+
+</div>
+<div class="buttonStyleRectangle1 btn-group btn-group-justified " role="group" aria-label="Justified button group" style="position: fixed; bottom: 0px;">
 	<div class="float-left">
 		<p>
 			<input type="hidden" id="qntyCountInputTxt">
@@ -156,8 +153,6 @@
 			</p></a>
 	</div>
 </div>
-</div>
-
 </form:form>
 
 

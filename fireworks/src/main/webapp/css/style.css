@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,700');
+@import url('https://fonts.googleapis.com/css?family=OpenSans:400,500,700');
 
 html,body{
   height: 100%;
@@ -89,10 +90,11 @@ footer {
 /*---Media Queries --*/
 @media (max-width: 575.98px) { 
     .card-text{
-    font-size: .65em;
-
-  }
-
+    	font-size: .65em;
+	  }
+	table, .confimPgInputForm{
+		font-size: .65em;
+	}
  
 
  }
@@ -102,22 +104,29 @@ footer {
     font-size: .7em;
   }
 
+	table, .confimPgInputForm{
+		font-size: .7em;
+	}
  
 }
 
 @media (max-width: 768px) {
    .card-text{
     font-size: .75em;
-
   }
+  table, .confimPgInputForm{
+		font-size: .75em;
+	}
  
 }
 
 @media (max-width: 862px) {
    .card-text{
     font-size: .75em;
-
   }
+  table, .confimPgInputForm{
+		font-size: .75em;
+	}
 
 }
 
@@ -127,6 +136,9 @@ footer {
       font-size: .8em;
     }
    
+   table, .confimPgInputForm{
+		font-size: .8em;
+	}
   }
 
 @media (min-width: 1200px) {
@@ -134,7 +146,9 @@ footer {
     font-size: .9em;
   }
   
-
+table, .confimPgInputForm{
+		font-size: .9em;
+	}
 
 }
 
@@ -184,12 +198,12 @@ footer {
 
 
 .btn-group-justified a:hover{
-  background-color: #28a745 ;
+  background-color: #ffc107 ;
   border: none;
 }
 
 .buttonStyleRectangle {
-  background-color: #4CAF50; /* Green */
+  background-color: #ffc107; /* Green */
   border: none;
   color: white;
   padding-top: 12px;
@@ -200,6 +214,20 @@ footer {
   display: inline-block;
   font-size: 16px;
 }
+
+.buttonStyleRectangle1 {
+  background-color: #F26522; /* Green */
+  border: none;
+  color: white;
+  padding-top: 12px;
+  padding-left: 32px;
+  padding-right: 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
 
 a.nostyle:link {
     text-decoration: inherit;
@@ -237,7 +265,9 @@ button:focus,
 
 
 
-
+.bodypadding{
+	padding-top:1em;
+}
 
 
 
@@ -317,8 +347,26 @@ Extra (xl) large devices (large desktops, 1200px and up)
 
 
 
+.tblTemplate{
+	color: #111f;
+}
+
+.confimPgInputForm{
+	color: #111f;
+	padding: 1em;
+}
+
+.tblTemplate thead th {border: none !important; }
+.tblTemplate td {border: none !important; }
+.tblTemplate thead {border: none !important; }
 
 
 
+.rupeesymbol{
+	font-size: 12px;
+	color: grey;
+}
 
-
+.align-right{
+	text-align: right;
+}
