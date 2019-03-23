@@ -116,11 +116,14 @@ public class OrderController {
 	@PostMapping("/backToShowProducts")
 	public String backToShowProducts(Order order, Model model) {
 		try {
-			List<OrderLineItem> orderLineItems = new ArrayList<OrderLineItem>();
 			List<Product> products = productService.retrieveAvailableProducts();
-			Map<Long, OrderLineItem> orderLineItemMap = order.getOrderLineItems().stream().collect(toMap(s -> s.getProductId(), s -> s ));
 			Map<String, List<OrderLineItem>> productsMap = new HashMap<String, List<OrderLineItem>>();
+			Map<Long, OrderLineItem> orderLineItemMap = new HashMap<Long, OrderLineItem>();
 			
+			 if(order.getOrderLineItems() !=null) {
+				orderLineItemMap = order.getOrderLineItems().stream().collect(toMap(s -> s.getProductId(), s -> s ));
+			 }
+			 
 			for(Product product: products) {
 				OrderLineItem lineItem = new OrderLineItem();
 				if(!productsMap.containsKey(product.getCategory())) {
@@ -139,9 +142,10 @@ public class OrderController {
 				productsMap.get(product.getCategory()).add(lineItem);
 			}
 			//order.setOrderLineItems(orderLineItems);
-
+		 
 			model.addAttribute("productsMap",productsMap);
 			model.addAttribute("products",products);
+			
 		} catch (AException e) {
 			
 		}
@@ -157,12 +161,26 @@ public class OrderController {
 			order.setStatus("");
 			order = orderService.addOrder(order);
 			
-			model.addAttribute("pageView","order/confirmationPage");
 			}catch(AException exception) {
 				LOGGER.error(exception.getMessage(), exception);
 			}
-		model.addAttribute("orderNumber",order.getId());
+		model.addAttribute("order", order);
+		redirectAttributes.addFlashAttribute("order",	order);
+		return "redirect:showConfirmationPage";
+	}
+	
+	
+	@GetMapping(value = "/showConfirmationPage")
+	public String showConfirmationPage(@ModelAttribute("order") Order order, BindingResult result, Model model,
+			final RedirectAttributes redirectAttributes) {
+			model.addAttribute("pageView","order/confirmationPage");
+			if(order.getId() !=null) {
+					model.addAttribute("orderNumber",order.getId());
+			}else {
+				model.addAttribute("orderNumber","Order has been already generated.");
+			}
 		return "common/template";
 	}
+	
 }
 

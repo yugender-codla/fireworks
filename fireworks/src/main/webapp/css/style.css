@@ -33,7 +33,13 @@ table{
 .quantity-padding{
   padding: .5px;
   font-size: 11px;
+  text-align: center;
 }
+
+
+.qtyBtnGeneral{
+	font-size: 11px;
+} 
 
 .padding-0{
     padding-right:0;

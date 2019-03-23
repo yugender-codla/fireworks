@@ -18,6 +18,46 @@
     	 $("#backButton").click(function(){
              document.confirmationForm.action = "<%=request.getContextPath()%>/order/backToShowProducts";
 					});
+    	 
+    	 
+    	 $(".quantityBtnAdd").click(function() {
+ 			var parentTag = $(this).parent().children('label');
+ 			var val = parseInt(parentTag.text());
+ 			val = val + 1;
+ 			parentTag.text(val);
+
+ 			calculateQty();
+ 		});
+
+ 		$(".quantityBtnMinus").click(function() {
+ 			var parentTag = $(this).parent().children('label');
+ 			var val = parseInt(parentTag.text());
+ 			if (val > 0) {
+ 				val = val - 1;
+ 				parentTag.text(val);
+ 			}
+ 			
+ 			calculateQty();
+ 		});
+    	 
+ 		
+ 		
+ 		function calculateQty(){
+			var qnty = 0;
+			var price = 0;
+			var totalPrice = 0;
+			$(".qty-class").each(function() {
+				qnty = parseInt($(this).text());
+				price = $(this).parent().children(".hiddenPrice").val();
+				$(this).parent().children(".hiddenQnty").val(parseInt($(this).text()));
+				$(this).parent().parent().parent().children(".priceCountOuputLbl").text((qnty * parseFloat(price)).toFixed(2));
+				totalPrice = totalPrice + parseInt($(this).text()) * parseFloat(price);
+			});
+			
+			$("#netPriceCountOuputLbl").text(totalPrice.toFixed(2));			
+		}
+ 		
+    	 
 		});
 </script>
 
@@ -50,10 +90,9 @@
 							<thead>
 								<tr>
 									<th>Name</th>
-									<th>Price</th>
 									<th>Qty</th>
 									<th>Total</th>
-									<th>&nbsp;</th>
+									
 								</tr>
 							</thead>
 
@@ -62,25 +101,35 @@
 								<c:set var="nameParts"
 									value="${fn:split(item.productName, ',')}" />
 								<tr>
-
-									<input type="hidden" name="orderLineItems[${loop.index}].productId"	value="${item.productId}">
-									<input type="hidden" name="orderLineItems[${loop.index}].price"	value="${item.price}">
-									<input type="hidden" name="orderLineItems[${loop.index}].quantity"	value="${item.quantity}">
-
-									<td>${nameParts[0]}${nameParts[1]}${nameParts[2]}
-										${nameParts[3]}</td>
-									<td>${item.price}</td>
-									<td>${item.quantity}</td>
-									<td>${item.quantity * item.price}</td>
+									<td style="width:40%">${nameParts[0]}<br> ${nameParts[1]}
+										${nameParts[2]} ${nameParts[3]}</td>
+									<td style="width:9em;">
+										<div class="rounded border border-grey quantity-padding" >
+											<button class="btn quantityBtnMinus" type="button">
+												<i class="fa fa-minus qtyBtnGeneral" aria-hidden="true"
+													style="color: grey; cursor: hand"></i>
+											</button>
+												<input type="hidden" name="orderLineItems[${loop.index}].productId"	value="${item.productId}">
+												<input type="hidden" class="hiddenPrice" name="orderLineItems[${loop.index}].price"	value="${item.price}">
+												<input type="hidden" class="hiddenQnty" name="orderLineItems[${loop.index}].quantity"	value="${item.quantity}">
+											<label class="qty-class qtyBtnGeneral">${item.quantity}</label>
+											<button class="btn quantityBtnAdd" type="button">
+												<i class="fa fa-plus qtyBtnGeneral" aria-hidden="true"
+													style="color: #F26522; cursor: hand;"></i>
+											</button>
+										</div>
+									</td>
+									
+									<td class="priceCountOuputLbl" style="text-align: left">${item.quantity * item.price}</td>
 									<c:set var="netPrice"
 										value="${netPrice + (item.quantity * item.price)}" />
-										<td>&nbsp</td>
+								  
 								</tr>
 							</c:forEach>
 							<tfoot>
 								<tr>
-									<th colspan="3">Total</th>
-									<th colspan="2"><span class="rupeesymbol"><i class="fa" >&#xf156;</i></span> ${netPrice}</th>
+									<th colspan="2">Total</th>
+									<th colspan="1"><span class="rupeesymbol"><i class="fa" >&#xf156;</i></span> <span id="netPriceCountOuputLbl">${netPrice}</span> </th>
 								</tr>
 							</tfoot>
 						</table>
