@@ -1,6 +1,7 @@
 package com.alphas.product.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 
@@ -19,4 +20,5 @@ public interface ProductDao {
 	public List<Product> findAllNoLazy(EntityManager entityManager) throws AException;*/
 	public void delete(Long id) throws AException;
 	public List<Product> retrieveAvailableProducts(EntityManager entityManager) throws AException;
+	public Map<Long, Product> retrieveAllProductsMap() throws AException;
 }

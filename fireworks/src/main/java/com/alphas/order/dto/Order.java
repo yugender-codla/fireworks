@@ -1,8 +1,8 @@
 package com.alphas.order.dto;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -14,9 +14,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.alphas.common.exception.CommonUtils;
 
 import lombok.Data;
 
@@ -44,12 +45,24 @@ public class Order implements Serializable{
 	@Column(name="status")
 	private String status;
 	
+	
 	@OneToMany(mappedBy="order",cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
 	private List<OrderLineItem> orderLineItems;
 	
 	
+	
+	
 	public Order() {
 		//orderLineItems = new ArrayList<OrderLineItem>();
+	}
+	
+	public BigDecimal getPriceOfTheOrder() {
+		return BigDecimal.valueOf(orderLineItems.stream().mapToDouble(t -> t.getPrice().doubleValue() * t.getQuantity()).sum());
+	}
+	
+	
+	public String getDeliverByUI(){
+		return CommonUtils.convertDateToUI(deliverBy);
 	}
 	
 }

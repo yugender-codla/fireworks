@@ -1,5 +1,8 @@
 package com.alphas.order.service;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.persistence.EntityManager;
 
 import org.springframework.stereotype.Service;
@@ -12,4 +15,6 @@ public interface OrderService {
 	public Order addOrder(Order order) throws AException;
 	public Order findById(Long id);
 	public Order updateOrder(Order order) throws AException;
+	public List<Order> trackOrder(Map<String, String> params) throws AException;
+	
 }

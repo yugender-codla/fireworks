@@ -1,6 +1,8 @@
 package com.alphas.order.service;
 
-import javax.persistence.EntityManager;
+import java.util.List;
+import java.util.Map;
+
 import javax.persistence.EntityManagerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +23,14 @@ public class OrderServiceImpl implements OrderService{
 	
 	@Override
 	public Order addOrder(Order order) throws AException {
-		EntityManager entityManager = null;
+		//EntityManager entityManager = null;
 		try {
-			entityManager = entityManagerFactory.createEntityManager();
-			order = dao.addOrder(order, entityManager);
+			//entityManager = entityManagerFactory.createEntityManager();
+			order = dao.addOrder(order);
 		}catch(Exception exception) {
 			throw new AException(exception);
 		}finally {
-			entityManager.close();
+			
 		}
 		return order;
 	}
@@ -47,6 +49,11 @@ public class OrderServiceImpl implements OrderService{
 			throw new AException(exception);
 		}
 		return order;
+	}
+	
+	@Override
+	public List<Order> trackOrder(Map<String, String> params) throws AException{
+		return dao.trackOrder(params);
 	}
 
 }

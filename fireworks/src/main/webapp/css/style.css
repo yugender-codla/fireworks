@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,700');
-@import url('https://fonts.googleapis.com/css?family=OpenSans:400,500,700');
+@import url('https://fonts.googleapis.com/css?family=Open Sans:400,500,700');
 
 html,body{
   height: 100%;
@@ -375,4 +375,33 @@ Extra (xl) large devices (large desktops, 1200px and up)
 
 .align-right{
 	text-align: right;
+}
+
+
+.form-inline > * {
+   margin:5px 3px;
+}
+
+#trackOrderTable{
+overflow-y:scroll;
+height:500px;
+}
+
+
+
+.table-fixed thead {
+  width: 100%;
+}
+.table-fixed tbody {
+  height: 400px;
+  overflow-y: auto;
+  width: 100%;
+  
+}
+.table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
+  display: block;
+}
+.table-fixed tbody td, .table-fixed thead > tr> th {
+  float: left;
+  border-bottom-width: 0;
 }

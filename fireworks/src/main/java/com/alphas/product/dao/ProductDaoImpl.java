@@ -1,7 +1,11 @@
 package com.alphas.product.dao;
 
+import static java.util.stream.Collectors.toMap;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 
@@ -9,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alphas.common.exception.AException;
+import com.alphas.order.dto.OrderLineItem;
 import com.alphas.product.dto.Product;
 import com.alphas.repository.ProductRepository;
 
@@ -67,6 +72,14 @@ public class ProductDaoImpl implements ProductDao{
 			throw new AException(e);
 		}
 		return result ;
+	}
+	
+	@Override
+	public Map<Long, Product> retrieveAllProductsMap() throws AException{
+		List<Product> products = this.retrieveAll();
+		Map<Long, Product> productMap = new HashMap<Long, Product>();
+		productMap = products.stream().collect(toMap(s -> s.getId(), s-> s));
+		return productMap;
 	}
 	
 	

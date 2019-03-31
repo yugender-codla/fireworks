@@ -182,5 +182,33 @@ public class OrderController {
 		return "common/template";
 	}
 	
+	
+	
+	@GetMapping("/showTrack")
+	public String showTrackOrder(@ModelAttribute("order") Order order, BindingResult result, Model model,
+			final RedirectAttributes redirectAttributes) {
+		
+		
+		model.addAttribute("pageView","order/track");
+		return "common/template";
+	}
+	
+	@PostMapping("/track")
+	public String trackOrder(@ModelAttribute("order") Order order, BindingResult result, Model model,
+			final RedirectAttributes redirectAttributes) {
+		try {
+			Map<String, String> params = new HashMap<String, String>();
+			params.put("phoneNumber", order.getPhoneNumber());
+			
+			model.addAttribute("pageView","order/track");
+			model.addAttribute("phoneNumber",order.getPhoneNumber());
+			model.addAttribute("orders", orderService.trackOrder(params));
+		}catch(AException exception) {
+			
+		}
+		return "common/template";
+	}
+	
+	
 }
 
