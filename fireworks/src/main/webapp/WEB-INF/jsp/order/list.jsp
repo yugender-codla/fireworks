@@ -28,7 +28,7 @@
 
 		<h1>Items</h1>
 
-<spring:url value="/order/showConfirmOrder" var="showConfirmOrderUrl" />
+<spring:url value="/fireworks/showConfirmOrder" var="showConfirmOrderUrl" />
  <form:form method="post" action="${showConfirmOrderUrl}" modelAttribute="order">
 
  	<input type="hidden" name="phoneNumber" value="${order.phoneNumber}"/> 

@@ -43,14 +43,14 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ml-auto">
-					<li class="nav-item"><a class="nav-link js-scroll-trigger"
+	<!-- 				<li class="nav-item"><a class="nav-link js-scroll-trigger"
 						href="#about">Home</a></li>
+	 -->				<li class="nav-item"><a class="nav-link js-scroll-trigger"
+						href="/fireworks">Order</a></li>
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
-						href="/order/showProductsMap">Order</a></li>
-					<li class="nav-item"><a class="nav-link js-scroll-trigger"
-						href="#projects">Track Order</a></li>
+						href="/fireworks/showTrack">Track Order</a></li>
 							
-					<li class="nav-item"><a class="nav-link js-scroll-trigger"
+<!-- 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
 						href="/product/add">Add Product</a></li>
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
 						href="/product/list">Products List</a></li>
@@ -59,7 +59,7 @@
 						href="/invoice/add">Add Invoice</a></li>
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
 						href="/invoice/search/display">Invoices</a></li>
-				</ul>
+ -->				</ul>
 			</div>
 		</div>
 	</nav>

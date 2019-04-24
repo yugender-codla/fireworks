@@ -50,7 +50,7 @@ $(document).ready(function(){
 		<hr>
 
 		<section>
-			<spring:url value="/order/track" var="trackOrderUrl" />
+			<spring:url value="/fireworks/track" var="trackOrderUrl" />
 			<form:form method="post" action="${trackOrderUrl}"
 				modelAttribute="order" name="searchForm" class="form-inline">
 
@@ -69,10 +69,10 @@ $(document).ready(function(){
 				<table class="table table-fixed">
 					<thead>
 						<tr>
-							<th class="col-3">Order Id</th>
-							<th class="col-3">Deliver By</th>
-							<th class="col-3">Net Amount</th>
-							<th class="col-3">Status</th>
+							<th >Order Id</th>
+							<th >Deliver By</th>
+							<th >Net Amount</th>
+							<th >Status</th>
 
 						</tr>
 					</thead>
@@ -106,11 +106,11 @@ $(document).ready(function(){
 										</table>
 								</div></td>
 
-							<td class="col-3">${item.deliverByUI}</td>
+							<td >${item.deliverByUI}</td>
 
-							<td class="col-3">${item.priceOfTheOrder}</td>
+							<td >${item.priceOfTheOrder}</td>
 
-							<td class="col-3">Received ${item.status}</td>
+							<td >Received ${item.status}</td>
 						</tr>
 					</c:forEach>
 				</table>

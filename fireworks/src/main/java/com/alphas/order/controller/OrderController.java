@@ -27,7 +27,7 @@ import com.alphas.product.dto.Product;
 import com.alphas.product.service.ProductService;
 
 @Controller
-@RequestMapping("/order")
+@RequestMapping("/fireworks")
 public class OrderController {
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 	
@@ -64,7 +64,7 @@ public class OrderController {
 	}
 	
 	
-	@GetMapping("/showProductsMap")
+	@GetMapping("")
 	public String ShowProductsMap(Model model) {
 		try {
 			

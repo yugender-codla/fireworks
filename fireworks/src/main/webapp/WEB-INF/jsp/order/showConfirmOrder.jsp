@@ -16,7 +16,7 @@
     $(document).ready(function(){
     	
     	 $("#backButton").click(function(){
-             document.confirmationForm.action = "<%=request.getContextPath()%>/order/backToShowProducts";
+             document.confirmationForm.action = "<%=request.getContextPath()%>/fireworks/backToShowProducts";
 					});
     	 
     	 
@@ -78,7 +78,7 @@
 
 		<h5>Bill Details</h5>
 		<hr>
-		<spring:url value="/order/confirmOrder" var="confirmOrderUrl" />
+		<spring:url value="/fireworks/confirmOrder" var="confirmOrderUrl" />
 		<form:form method="post" action="${confirmOrderUrl}"
 			modelAttribute="order" name="confirmationForm">
 
