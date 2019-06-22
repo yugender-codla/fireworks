@@ -7,7 +7,9 @@ import javax.persistence.EntityManagerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 
+import com.alphas.common.dto.Event;
 import com.alphas.common.exception.AException;
 import com.alphas.order.dao.OrderDao;
 import com.alphas.order.dto.Order;
@@ -56,4 +58,13 @@ public class OrderServiceImpl implements OrderService{
 		return dao.trackOrder(params);
 	}
 
+	@Override
+	public List<Order> findOrder(MultiValueMap<String, String> params) throws AException{
+		return dao.findOrder(params);
+	}
+	
+	@Override
+	public Order modifyStatus(String orderId, Event event) throws AException{
+		return dao.modifyStatus(orderId, event);
+	}
 }

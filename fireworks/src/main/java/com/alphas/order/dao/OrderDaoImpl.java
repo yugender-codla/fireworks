@@ -9,7 +9,10 @@ import javax.transaction.Transactional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 
+import com.alphas.common.dao.StateMapDao;
+import com.alphas.common.dto.Event;
 import com.alphas.common.exception.AException;
 import com.alphas.order.dto.Order;
 import com.alphas.order.dto.OrderLineItem;
@@ -35,6 +38,9 @@ public class OrderDaoImpl implements OrderDao{
 	@Autowired
 	private ProductDao productDao;
 	
+	@Autowired
+	private StateMapDao stateMapDao;
+	
 	@Override
 	@Transactional
 	public Order addOrder(Order order) throws AException {
@@ -46,6 +52,8 @@ public class OrderDaoImpl implements OrderDao{
 		}	
 
 		List<UserOrderLineItem> orderLineItems = this.addUserOrder(order);
+		stateMapDao.moveState(order, Event.SUBMIT_ORDER, 100);
+		
 		order = repository.save(order);
 		System.out.println("Order main Time:=======: "+(System.currentTimeMillis()-initTime)+" milliseconds");
 		userOrderLineItemRepository.saveAll(orderLineItems);
@@ -92,6 +100,8 @@ public class OrderDaoImpl implements OrderDao{
 			Order oldOrderDetails = repository.findById(order.getId()).orElse(null);
 			lineItemRepository.deleteAll(oldOrderDetails.getOrderLineItems());
 		}
+		
+		stateMapDao.moveState(order, Event.MODIFY_ORDER, order.getStatusCode());
 		order = repository.save(order);
 		return order;
 	}
@@ -131,4 +141,22 @@ public class OrderDaoImpl implements OrderDao{
 		}
 		return list;
 	} 
-}
+	
+	@Override
+	public List<Order> findOrder(MultiValueMap<String, String> params){
+		List<Order> list = new ArrayList<Order>();
+			if(params.get("statusCode") == null || params.get("statusCode").get(0).toString().equals("0")) {
+				list = repository.findAllByOrderByIdDesc();
+			}else{
+				list = repository.findAllByStatusCode(Integer.valueOf(params.get("statusCode").get(0)));
+			}
+			return list;
+		}
+	
+	
+	public Order modifyStatus(String orderId, Event event) {
+		Order order = repository.findById(Long.valueOf(orderId)).orElse(null);
+		stateMapDao.moveState(order, event, order.getStatusCode());
+		return repository.save(order);
+	}
+	}

@@ -66,12 +66,12 @@ $(document).ready(function(){
 		<section>
 
 			<div class="table-responsive-md">
-				<table class="table table-fixed">
+				<table class="table">
 					<thead>
 						<tr>
 							<th >Order Id</th>
-							<th >Deliver By</th>
-							<th >Net Amount</th>
+							<th>Deliver By</th>
+							<th>Net Amount</th>
 							<th >Status</th>
 
 						</tr>
@@ -80,7 +80,7 @@ $(document).ready(function(){
 					<c:forEach var="item" items="${orders}" varStatus="loop">
 					
 						<tr>
-							<td class="col-3">
+							<td >
 							<a class="trackOrderDetails" href="#">${item.id}</a>
 								<div style="display: none">
 									<table class="table table-bordered">
@@ -106,11 +106,11 @@ $(document).ready(function(){
 										</table>
 								</div></td>
 
-							<td >${item.deliverByUI}</td>
+							<td>${item.deliverByUI}</td>
 
-							<td >${item.priceOfTheOrder}</td>
+							<td>${item.priceOfTheOrder}</td>
 
-							<td >Received ${item.status}</td>
+							<td>${item.status}</td>
 						</tr>
 					</c:forEach>
 				</table>

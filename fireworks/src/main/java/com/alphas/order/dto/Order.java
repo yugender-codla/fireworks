@@ -14,9 +14,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.alphas.common.dto.StateMap;
 import com.alphas.common.exception.CommonUtils;
 
 import lombok.Data;
@@ -45,13 +47,15 @@ public class Order implements Serializable{
 	@Column(name="status")
 	private String status;
 	
+	@Column(name="statusCode")
+	private int statusCode;
+	
 	
 	@OneToMany(mappedBy="order",cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
 	private List<OrderLineItem> orderLineItems;
 	
 	
-	
-	
+		
 	public Order() {
 		//orderLineItems = new ArrayList<OrderLineItem>();
 	}
@@ -63,6 +67,10 @@ public class Order implements Serializable{
 	
 	public String getDeliverByUI(){
 		return CommonUtils.convertDateToUI(deliverBy);
+	}
+	
+	public List<String> getEvents(){
+		return StateMap.getStatusEventMap(this.statusCode);
 	}
 	
 }
