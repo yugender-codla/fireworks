@@ -3,9 +3,13 @@ package com.alphas.order.dao;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +17,9 @@ import org.springframework.util.MultiValueMap;
 
 import com.alphas.common.dao.StateMapDao;
 import com.alphas.common.dto.Event;
+import com.alphas.common.dto.States;
 import com.alphas.common.exception.AException;
+import com.alphas.inventory.dto.Stock;
 import com.alphas.order.dto.Order;
 import com.alphas.order.dto.OrderLineItem;
 import com.alphas.order.dto.UserOrderLineItem;
@@ -154,9 +160,52 @@ public class OrderDaoImpl implements OrderDao{
 		}
 	
 	
-	public Order modifyStatus(String orderId, Event event) {
+	public boolean modifyStatus(String orderId, Event event, EntityManager entityManager) throws AException{
 		Order order = repository.findById(Long.valueOf(orderId)).orElse(null);
+		int toStatusCode = stateMapDao.moveState(event, order.getStatusCode());
+		
+		if(Integer.valueOf(States.ADMIN_COMPLETE_PACKING.getStateId()).equals(toStatusCode)) {
+			return checkAvailability(entityManager, Long.valueOf(orderId));
+		}
 		stateMapDao.moveState(order, event, order.getStatusCode());
-		return repository.save(order);
+		repository.save(order);
+		return true;
+	}
+	
+	
+	private boolean checkAvailability(EntityManager em, Long orderId) {
+		List<Stock> stockList = this.getStockListForAnOrder(em, orderId);
+		
+		for (Stock stock : stockList) {
+			if(stock.getRequiredQuantity() > stock.getAvailableQuantity()) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public List<Stock> getStockListForAnOrder(EntityManager em, Long orderId) {
+		String queryString = "select product_id,quantity, round(t.available,0),t.name  from order_line_item oli left outer join  " + 
+				"(select total.id,total.name, total.totalInvoiceQty, " + 
+				"case when used.usedQty is null then 0 else used.usedQty end usedQty,   " + 
+				"(case when total.totalinvoiceQty is null then 0 else total.totalinvoiceQty end - case when used.usedQty is null then 0 else used.usedQty end) as available " + 
+				"from  " + 
+				"(select p.id,p.name,case when sum(ili.quantity) is null then 0 else sum(ili.quantity) end as totalInvoiceQty from product p  " + 
+				"left outer join invoice_line_item ili on p.id = ili.product_id  " + 
+				"group by p.id,p.name) total  " + 
+				"left outer join  " + 
+				"( " + 
+				"select oli.product_id, case when sum(quantity) is null then 0 else sum(quantity) end as usedQty from order_line_item oli  " + 
+				"join order_main m on m.id = oli.order_id  " + 
+				"where m.status_code in(105,102) group by oli.product_id  " + 
+				") used on used.product_id = total.id " + 
+				") t on t.id = product_id  " + 
+				"where order_id = :orderid";
+		
+		Query query = em.createNativeQuery(queryString);
+		query.setParameter("orderid", orderId);
+		List<Object[]> objList = query.getResultList();
+        List<Stock> ooBj = objList.stream().map(Stock::new).collect(Collectors.toList());
+		return ooBj;
 	}
 	}

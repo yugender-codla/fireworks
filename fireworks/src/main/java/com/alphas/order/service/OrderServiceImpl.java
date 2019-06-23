@@ -3,6 +3,7 @@ package com.alphas.order.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.util.MultiValueMap;
 
 import com.alphas.common.dto.Event;
 import com.alphas.common.exception.AException;
+import com.alphas.inventory.dto.Stock;
 import com.alphas.order.dao.OrderDao;
 import com.alphas.order.dto.Order;
 
@@ -64,7 +66,27 @@ public class OrderServiceImpl implements OrderService{
 	}
 	
 	@Override
-	public Order modifyStatus(String orderId, Event event) throws AException{
-		return dao.modifyStatus(orderId, event);
+	public boolean modifyStatus(String orderId, Event event) throws AException{
+		EntityManager entityManager = null;
+				try {
+					entityManager = entityManagerFactory.createEntityManager();
+					return dao.modifyStatus(orderId, event, entityManager);
+				}finally {
+					entityManager.close();
+				}
+		
+	}
+	
+	@Override
+	public List<Stock> getStockListForAnOrder(Long orderId) throws AException{
+		EntityManager entityManager = null;
+		List<Stock> stockList = null;
+		try {
+			entityManager = entityManagerFactory.createEntityManager();
+			stockList = dao.getStockListForAnOrder(entityManager, orderId);
+		}finally {
+			entityManager.close();
+		}
+		return stockList;
 	}
 }

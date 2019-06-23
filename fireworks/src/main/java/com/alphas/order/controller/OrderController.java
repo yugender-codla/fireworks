@@ -16,14 +16,18 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alphas.common.dto.Event;
 import com.alphas.common.exception.AException;
+import com.alphas.inventory.dto.Invoice;
+import com.alphas.inventory.dto.Stock;
 import com.alphas.order.dto.Order;
 import com.alphas.order.dto.OrderLineItem;
 import com.alphas.order.service.OrderService;
@@ -207,11 +211,11 @@ public class OrderController {
 	public String findOrders(@RequestBody MultiValueMap<String, String> params, Model model,
 			final RedirectAttributes redirectAttributes) {
 		try {
-			
+
 			model.addAttribute("pageView", "order/searchOrders");
 			model.addAttribute("orders", orderService.findOrder(params));
 			model.addAttribute("statusCode", params.get("statusCode").get(0).toString());
-			
+
 		} catch (AException exception) {
 
 		}
@@ -219,28 +223,44 @@ public class OrderController {
 	}
 
 	@GetMapping("/showSearchOrder")
-	public String showSearchOrder(Model model,
-			final RedirectAttributes redirectAttributes) {
+	public String showSearchOrder(Model model, final RedirectAttributes redirectAttributes) {
 		model.addAttribute("pageView", "order/searchOrders");
 		return "common/template";
 	}
-	
-	
-	@PostMapping("/modifyStatus")
-	public String modifyStatus(@RequestParam("orderId") String orderId, @RequestParam("event") String event,@RequestBody MultiValueMap<String, String> params, Model model,
-			final RedirectAttributes redirectAttributes)
-	{
-		try {
-		orderService.modifyStatus(orderId, Event.valueOf(event));
-		model.addAttribute("orders", orderService.findOrder(params));
-		model.addAttribute("statusCode", params.get("statusCode").get(0).toString());
-		model.addAttribute("pageView", "order/searchOrders");
-		} catch (AException exception) {
 
+	@PostMapping("/modifyStatus")
+	public String modifyStatus(@RequestParam("orderId") String orderId, @RequestParam("event") String event,
+			@RequestBody MultiValueMap<String, String> params, Model model,
+			final RedirectAttributes redirectAttributes) {
+		try {
+			
+			boolean status = orderService.modifyStatus(orderId, Event.valueOf(event));
+			if(!status) {
+				model.addAttribute("msg", "One or more Products are not available. Please check Stock.");
+			}
+			
+			model.addAttribute("orders", orderService.findOrder(params));
+			model.addAttribute("statusCode", params.get("statusCode").get(0).toString());
+			model.addAttribute("pageView", "order/searchOrders");
+		} catch (AException exception) {
+			LOGGER.error(exception.getMessage(), exception);
 		}
 		return "common/template";
 	}
-	
-	
-	
+
+	@GetMapping(value = "/{id}/view")
+	@ResponseBody
+	public List<Stock> viewStock(@PathVariable("id") Long id, Model model,
+			final RedirectAttributes redirectAttributes) {
+		List<Stock> stockList = null;
+		try {
+			stockList = orderService.getStockListForAnOrder(id);
+		} catch (AException e) {
+
+			e.printStackTrace();
+		}
+
+		return stockList;
+	}
+
 }
