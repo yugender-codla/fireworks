@@ -57,10 +57,11 @@ public class OrderDaoImpl implements OrderDao{
 			item.setOrder(order);
 		}	
 
-		List<UserOrderLineItem> orderLineItems = this.addUserOrder(order);
+		
 		stateMapDao.moveState(order, Event.SUBMIT_ORDER, 100);
 		
 		order = repository.save(order);
+		List<UserOrderLineItem> orderLineItems = this.addUserOrder(order);
 		System.out.println("Order main Time:=======: "+(System.currentTimeMillis()-initTime)+" milliseconds");
 		userOrderLineItemRepository.saveAll(orderLineItems);
 		
@@ -82,6 +83,7 @@ public class OrderDaoImpl implements OrderDao{
 			BeanUtils.copyProperties(item, userOrder);
 			userOrder.setId(null);
 			userOrder.setOrderId(order.getId());
+			
 			list.add(userOrder);
 		}	
 		

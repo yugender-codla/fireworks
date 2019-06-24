@@ -29,7 +29,7 @@ public class UserOrderLineItem implements Serializable {
 	private String productName;
 	
 	@Column(name="quantity")
-	private String quantity;
+	private Integer quantity = 0;
 	
 	@Column(name="price")
 	private BigDecimal price;

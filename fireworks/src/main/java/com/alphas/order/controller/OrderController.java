@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alphas.common.dto.Event;
 import com.alphas.common.exception.AException;
-import com.alphas.inventory.dto.Invoice;
 import com.alphas.inventory.dto.Stock;
 import com.alphas.order.dto.Order;
 import com.alphas.order.dto.OrderLineItem;
@@ -118,41 +119,44 @@ public class OrderController {
 	@PostMapping("/backToShowProducts")
 	public String backToShowProducts(Order order, Model model) {
 		try {
-			List<Product> products = productService.retrieveAvailableProducts();
-			Map<String, List<OrderLineItem>> productsMap = new HashMap<String, List<OrderLineItem>>();
-			Map<Long, OrderLineItem> orderLineItemMap = new HashMap<Long, OrderLineItem>();
-
-			if (order.getOrderLineItems() != null) {
-				orderLineItemMap = order.getOrderLineItems().stream().collect(toMap(s -> s.getProductId(), s -> s));
-			}
-
-			for (Product product : products) {
-				OrderLineItem lineItem = new OrderLineItem();
-				if (!productsMap.containsKey(product.getCategory())) {
-					productsMap.put(product.getCategory(), new ArrayList<OrderLineItem>());
-				}
-
-				if (orderLineItemMap.containsKey(product.getId())) {
-					lineItem.setChecked(true);
-					lineItem.setQuantity(orderLineItemMap.get(product.getId()).getQuantity());
-					lineItem.setPrice(orderLineItemMap.get(product.getId()).getPrice());
-				}
-				lineItem.setProductId(product.getId());
-				lineItem.setProductName(product.getName());
-				lineItem.setPrice(product.getPrice());
-				// orderLineItems.add(lineItem);
-				productsMap.get(product.getCategory()).add(lineItem);
-			}
-			// order.setOrderLineItems(orderLineItems);
-
-			model.addAttribute("productsMap", productsMap);
-			model.addAttribute("products", products);
-
+			populateOrder(order, model);
 		} catch (AException e) {
-
+			
 		}
 		model.addAttribute("pageView", "order/orderPage");
 		return "common/template";
+	}
+
+	private void populateOrder(Order order, Model model) throws AException {
+		List<Product> products = productService.retrieveAvailableProducts();
+		Map<String, List<OrderLineItem>> productsMap = new HashMap<String, List<OrderLineItem>>();
+		Map<Long, OrderLineItem> orderLineItemMap = new HashMap<Long, OrderLineItem>();
+
+		if (order.getOrderLineItems() != null) {
+			orderLineItemMap = order.getOrderLineItems().stream().collect(toMap(s -> s.getProductId(), s -> s));
+		}
+
+		for (Product product : products) {
+			OrderLineItem lineItem = new OrderLineItem();
+			if (!productsMap.containsKey(product.getCategory())) {
+				productsMap.put(product.getCategory(), new ArrayList<OrderLineItem>());
+			}
+
+			if (orderLineItemMap.containsKey(product.getId())) {
+				lineItem.setChecked(true);
+				lineItem.setQuantity(orderLineItemMap.get(product.getId()).getQuantity());
+				lineItem.setPrice(orderLineItemMap.get(product.getId()).getPrice());
+			}
+			lineItem.setProductId(product.getId());
+			lineItem.setProductName(product.getName());
+			lineItem.setPrice(product.getPrice());
+			// orderLineItems.add(lineItem);
+			productsMap.get(product.getCategory()).add(lineItem);
+		}
+		// order.setOrderLineItems(orderLineItems);
+
+		model.addAttribute("productsMap", productsMap);
+		model.addAttribute("products", products);
 	}
 
 	@PostMapping(value = "/confirmOrder")
@@ -263,4 +267,20 @@ public class OrderController {
 		return stockList;
 	}
 
+	@PostMapping(value = "/{id}/retrieve")
+	public String retrieveOrder(@PathVariable("id") Long id, Model model,
+			final RedirectAttributes redirectAttributes) {
+		Order order = null;
+		try {
+			order = orderService.findById(id);
+			this.populateOrder(order, model);
+		} catch (AException e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("order", order);
+		model.addAttribute("pageView", "order/orderPage");
+		return "common/template";
+		
+	}
+	
 }

@@ -30,7 +30,11 @@ public class OrderServiceImpl implements OrderService{
 		//EntityManager entityManager = null;
 		try {
 			//entityManager = entityManagerFactory.createEntityManager();
-			order = dao.addOrder(order);
+			if(order.getId() == null) {
+				order = dao.addOrder(order);
+			}else {
+				order = this.updateOrder(order);
+			}
 		}catch(Exception exception) {
 			throw new AException(exception);
 		}finally {
