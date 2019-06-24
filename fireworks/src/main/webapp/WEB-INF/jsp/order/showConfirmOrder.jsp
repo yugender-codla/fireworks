@@ -81,8 +81,8 @@
 		<spring:url value="/fireworks/confirmOrder" var="confirmOrderUrl" />
 		<form:form method="post" action="${confirmOrderUrl}"
 			modelAttribute="order" name="confirmationForm">
-			<input type="text" name="id" value ="${order.id}">
-			<input type="text" name="statusCode" value="${order.statusCode}"/>
+			<input type="hidden" name="id" value ="${order.id}">
+			<input type="hidden" name="statusCode" value="${order.statusCode}"/>
 			<c:set var="netPrice" value="${0}" />
 			<div class="row row-padding">
 				<div class="col-12 col-sm-12 col-md-12 col-lg-12">

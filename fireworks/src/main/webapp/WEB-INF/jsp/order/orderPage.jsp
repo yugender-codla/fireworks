@@ -81,10 +81,10 @@
 <spring:url value="/fireworks/showConfirmOrder" var="showConfirmOrderUrl" />
  <form:form method="post" action="${showConfirmOrderUrl}" modelAttribute="order">
 
- 	<input type="text" name="phoneNumber" value="${order.phoneNumber}"/> 
-    <input type="text" name="email" value="${order.email}"/> 
-    <input type="text" name="id" value="${order.id}"/>
-    <input type="text" name="statusCode" value="${order.statusCode}"/>
+ 	<input type="hidden" name="phoneNumber" value="${order.phoneNumber}"/> 
+    <input type="hidden" name="email" value="${order.email}"/> 
+    <input type="hidden" name="id" value="${order.id}"/>
+    <input type="hidden" name="statusCode" value="${order.statusCode}"/>
 
 	<c:set var="itemsCounter" value="${0}"/>
 	<div class="container-fluid padding">
