@@ -30,7 +30,7 @@ public class ProductController {
 		Product product = new Product();
 		model.addAttribute("product", product);
 		model.addAttribute("pageView","product/add");
-		return "common/template";
+		return "common/maintenanceTemplate";
 	}
 
 	
@@ -44,7 +44,7 @@ public class ProductController {
 			LOGGER.error(a.getMessage(), a);
 			redirectAttributes.addAttribute("error", "Unable to fetch the Product information. Please contact support.");
 		}
-		return "common/template";
+		return "common/maintenanceTemplate";
 	}
 	
 	
@@ -145,6 +145,6 @@ public class ProductController {
 			
 		}
 		model.addAttribute("pageView","product/list");
-		return "common/template";
+		return "common/maintenanceTemplate";
 	}
 }

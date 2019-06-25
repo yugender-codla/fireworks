@@ -50,7 +50,7 @@ public class InvoiceController {
 			LOGGER.error(e.getMessage(), e);
 		}
 	//	return "invoice/add";
-		return "common/template";
+		return "common/maintenanceTemplate";
 	}
 
 	@PostMapping(value = "/save")
@@ -81,7 +81,7 @@ public class InvoiceController {
 	public String showSearch(Model model) {
 		
 		model.addAttribute("pageView","invoice/list");
-		return "common/template";
+		return "common/maintenanceTemplate";
 	}
 
 	@GetMapping(value = "/search/find")
@@ -99,7 +99,7 @@ public class InvoiceController {
 		} catch (AException e) {
 			LOGGER.error(e.getMessage(), e);
 		}
-		return "common/template";
+		return "common/maintenanceTemplate";
 	}
 
 	@GetMapping(value = "/{id}/update")
@@ -113,7 +113,7 @@ public class InvoiceController {
 		} catch (AException e) {
 			LOGGER.error(e.getMessage(), e);
 		}
-		return "common/template";
+		return "common/maintenanceTemplate";
 	}
 	
 	

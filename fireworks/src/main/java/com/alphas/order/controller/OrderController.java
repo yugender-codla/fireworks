@@ -223,13 +223,13 @@ public class OrderController {
 		} catch (AException exception) {
 
 		}
-		return "common/template";
+		return "common/maintenanceTemplate";
 	}
 
-	@GetMapping("/showSearchOrder")
+	@GetMapping("/maintenance")
 	public String showSearchOrder(Model model, final RedirectAttributes redirectAttributes) {
 		model.addAttribute("pageView", "order/searchOrders");
-		return "common/template";
+		return "common/maintenanceTemplate";
 	}
 
 	@PostMapping("/modifyStatus")
@@ -249,7 +249,7 @@ public class OrderController {
 		} catch (AException exception) {
 			LOGGER.error(exception.getMessage(), exception);
 		}
-		return "common/template";
+		return "common/maintenanceTemplate";
 	}
 
 	@GetMapping(value = "/{id}/view")
@@ -279,7 +279,7 @@ public class OrderController {
 		}
 		model.addAttribute("order", order);
 		model.addAttribute("pageView", "order/orderPage");
-		return "common/template";
+		return "common/maintenanceTemplate";
 		
 	}
 	
