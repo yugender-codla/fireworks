@@ -49,7 +49,7 @@
 				$(this).parent().children(".hiddenQnty").val(parseInt($(this).text()));
 				
 				totalPrice = totalPrice + parseInt($(this).text()) * parseFloat(price);
-
+				
 			});
 			
 			$("#qntyCountInputTxt").val(qnty);
@@ -78,13 +78,14 @@
 	</div>
 </div>
  -->
-<spring:url value="/fireworks/showConfirmOrder" var="showConfirmOrderUrl" />
+<spring:url value="/fireworks/order" var="showConfirmOrderUrl" />
  <form:form method="post" action="${showConfirmOrderUrl}" modelAttribute="order">
 
  	<input type="hidden" name="phoneNumber" value="${order.phoneNumber}"/> 
     <input type="hidden" name="email" value="${order.email}"/> 
     <input type="hidden" name="id" value="${order.id}"/>
     <input type="hidden" name="statusCode" value="${order.statusCode}"/>
+	<input type="hidden" name="orderId" value="${order.orderId}"/>
 
 	<c:set var="itemsCounter" value="${0}"/>
 	<div class="container-fluid padding">

@@ -46,7 +46,7 @@ public class OrderController {
 	@Autowired
 	private OrderService orderService;
 
-	@GetMapping("/showProducts")
+/*	@GetMapping("/showProducts")
 	public String ShowProducts(Model model) {
 		try {
 			Order order = new Order();
@@ -69,10 +69,10 @@ public class OrderController {
 		}
 		model.addAttribute("pageView", "order/list");
 		return "common/template";
-	}
+	}*/
 
 	@GetMapping("")
-	public String ShowProductsMap(Model model) {
+	public String ShowProducts(Model model) {
 		try {
 
 			List<Product> products = productService.retrieveAvailableProducts();
@@ -99,7 +99,7 @@ public class OrderController {
 		return "common/template";
 	}
 
-	@PostMapping(value = "/showConfirmOrder")
+	@PostMapping(value = "/order")
 	public String showConfirmOrder(@ModelAttribute("order") Order order, BindingResult result, Model model,
 			final RedirectAttributes redirectAttributes) {
 
@@ -172,15 +172,15 @@ public class OrderController {
 		}
 		model.addAttribute("order", order);
 		redirectAttributes.addFlashAttribute("order", order);
-		return "redirect:showConfirmationPage";
+		return "redirect:confirm";
 	}
 
-	@GetMapping(value = "/showConfirmationPage")
+	@GetMapping(value = "/confirm")
 	public String showConfirmationPage(@ModelAttribute("order") Order order, BindingResult result, Model model,
 			final RedirectAttributes redirectAttributes) {
-		model.addAttribute("pageView", "order/confirmationPage");
-		if (order.getId() != null) {
-			model.addAttribute("orderNumber", order.getId());
+		model.addAttribute("pageView", "order/success");
+		if (order.getId() != null && order.getOrderId() != null) {
+			model.addAttribute("orderNumber", order.getOrderId());
 		} else {
 			model.addAttribute("orderNumber", "Order has been already generated.");
 		}

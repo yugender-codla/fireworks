@@ -12,6 +12,7 @@ import org.springframework.util.MultiValueMap;
 
 import com.alphas.common.dto.Event;
 import com.alphas.common.exception.AException;
+import com.alphas.common.util.CommonUtil;
 import com.alphas.inventory.dto.Stock;
 import com.alphas.order.dao.OrderDao;
 import com.alphas.order.dto.Order;
@@ -25,12 +26,17 @@ public class OrderServiceImpl implements OrderService{
 	@Autowired
 	private EntityManagerFactory entityManagerFactory;
 	
+	@Autowired
+	CommonUtil commonUtil;
+	
 	@Override
 	public Order addOrder(Order order) throws AException {
 		//EntityManager entityManager = null;
 		try {
 			//entityManager = entityManagerFactory.createEntityManager();
+			
 			if(order.getId() == null) {
+				order.setOrderId(commonUtil.generateRandomString());
 				order = dao.addOrder(order);
 			}else {
 				order = this.updateOrder(order);

@@ -9,17 +9,16 @@
 <%-- <script type="text/javascript" src='<c:url value="/scripts/jquery-1.12.4.min.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/scripts/bootstrap.min.js"/>'></script>
 <link rel="stylesheet" href="/css/bootstrap.min.css"> --%>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"> -->
   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script> -->
-  
+<!--   <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/fonts/font-awesome.min.css"> -->
   <link rel="stylesheet" href="/css/bootstrap.min.css">
   <link rel="stylesheet" href="/css/style.css">
   <script src="/scripts/jquery.js"></script>
-  <script src="/scripts/fontawesome.js"></script>
-  <script src="/scripts/popper.js"></script>
-  <script src="/scripts/bootstrap.min.js"></script>
+     
   
 </head>
 <body>

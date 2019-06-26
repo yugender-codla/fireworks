@@ -50,6 +50,11 @@ public class Order implements Serializable{
 	@Column(name="statusCode")
 	private int statusCode;
 	
+	@Column(name="orderId")
+	private String orderId;
+	
+	@Column(name="custName")
+	private String custName;
 	
 	@OneToMany(mappedBy="order",cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
 	private List<OrderLineItem> orderLineItems;

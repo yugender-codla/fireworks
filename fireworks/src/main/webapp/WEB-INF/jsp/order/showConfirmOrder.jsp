@@ -83,6 +83,8 @@
 			modelAttribute="order" name="confirmationForm">
 			<input type="hidden" name="id" value ="${order.id}">
 			<input type="hidden" name="statusCode" value="${order.statusCode}"/>
+			<input type="hidden" name="orderId" value="${order.orderId}"/>
+			
 			<c:set var="netPrice" value="${0}" />
 			<div class="row row-padding">
 				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
@@ -138,7 +140,7 @@
 				</div>
 			</div>
 
-			<div class="row row-padding confimPgInputForm">
+			<!-- <div class="row row-padding confimPgInputForm">
 				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
 					<label class="" for="inputEmail">Email</label>
 				</div>
@@ -171,7 +173,7 @@
 					<button type="submit" value="Back" id="backButton" class="btn btn-secondary">Back</button>
 					<button type="submit" value="Confirm Order" class="btn btn-success"> Confirm Order</button>
 				</div>
-			</div>
+			</div> -->
 			
 			<%-- <label for="Phone Number">Phone No: </label>
 			<form:input path="phoneNumber" />
@@ -183,9 +185,51 @@
 			<br> --%>
 
 				
-					
-					 
+				<h5>Register Form</h5>
+ 				<hr>
+			<div class="row row-padding confimPgInputForm">
+				
+				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
+					<label class="" for="inputName">Name</label>
+				</div>
+				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
+					<input type="text" class="form-control " name="custName"
+						>
+				</div>
 			
+				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
+					<label class="" for="inputEmail">Email</label>
+				</div>
+
+				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
+					<input type="email" name="email" class="form-control"
+						id="inputEmail" >
+				</div>
+
+				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
+					<label class="" for="Phone Number">Phone </label>
+				</div>
+
+				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
+					<input type="tel" class="form-control " name="phoneNumber"
+						>
+				</div>
+
+				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
+					<label class="" for="Deliver by">Deliver by</label>
+				</div>
+
+				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
+					<input name="deliverBy" type="date" class="form-control">
+				</div>
+				
+			</div>
+			<div class="row row-padding" style="text-align: center;">
+				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
+					<button type="submit" value="Back" id="backButton" class="btn btn-primary"><- Back</button>
+					<button type="submit" value="Confirm Order" class="btn btn-primary"> Confirm Order</button>
+				</div>
+			</div>
 		</form:form>
 	</div>
 
