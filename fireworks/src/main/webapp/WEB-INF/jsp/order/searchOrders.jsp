@@ -18,9 +18,10 @@
 function callAction(id,obj){
 	document.getElementById("orderId").value=id;
 	document.getElementById("event").value=obj.value;
-	document.getElementById("statusCode").value = document.getElementById("status").options[document.getElementById("status").selectedIndex].value;
+	document.getElementById("statusCode").value = document.getElementById("inputSelect").options[document.getElementById("inputSelect").selectedIndex].value;
+	
 	if(obj.value == "MODIFY_ORDER"){
-		document.forms[1].action = "/fireworks/"+id+"/retrieve";	
+		document.forms[1].action = "/firesupport/order/"+id+"/retrieve";	
 	}
 	document.forms[1].submit();
 }
@@ -31,20 +32,27 @@ $(document).ready(function(){
 	 $(".view-button").click(function(event){
 		 event.preventDefault();
 		 var url = $(this).attr("id");
-		
+		 var itemPrice = $(this).attr("itemPrice");
+		 var itemDeliverBy = $(this).attr("itemDeliverBy");
 		 $.ajax({
 	            type: 'GET',
 	            url: url,
 	            dataType: 'json',
 	            success: function (output) {
-	            	var lineItemsLength = output.length;
-	            	var row = "";
 	            	
+	            	var lineItemsLength = output.length;
+					var row = "";
+					var tFootContent = "";
 	            	for(var i=0;i<lineItemsLength;i++){
-	            		 row = row + "<tr><td>"+output[i].productName+"</td><td>"+output[i].availableQuantity+"</td><td>"+output[i].requiredQuantity+"</td></tr>";
+	            		 row = row + "<tr><td>"+output[i].productName+"</td><td>"+output[i].requiredQuantity+"</td><td>"+output[i].availableQuantity+"</td></tr>";
 	            	}
 	            	
+	            	tFootContent = tFootContent + "<tr><td colspan='3'>Price: "+itemPrice+"</td></tr>";
+	            	tFootContent = tFootContent + "<tr><td colspan='3'>Deliver By: "+itemDeliverBy+"</td></tr>";
+	            	
 	            	infoModal.find('.modal-body').find(".mdlTbody").html(row);
+	            	infoModal.find('.modal-body').find(".mdlTfoot").html(tFootContent);
+	            	
             		infoModal.modal('show');
 	            	//$('#myModal').modal('toggle');
 	            },
@@ -55,6 +63,27 @@ $(document).ready(function(){
 		 
 		 
 	 });
+	 
+	 
+	 $("#searchBtn").click(function(event){
+		 if($("#searchCriteria option:selected").val() == "orderStatus"){
+			 $("#searchValue").val($("#inputSelect option:selected").val());	 
+		 }else{
+			 $("#searchValue").val($("#inputTxt").val());	 
+		 }
+		 $("#searchForm").submit();
+		 
+	 });
+	 
+	 $('#searchCriteria').on('change', function() {
+		  if(this.value == "orderStatus"){
+			  $('#inputSelect').show();
+			  $('#inputTxt').hide();
+		  }else{
+			  $('#inputSelect').hide();
+			  $('#inputTxt').show();
+		  }
+		});
 });  
 
 </script>
@@ -72,35 +101,59 @@ $(document).ready(function(){
 		    </div>
 		</c:if>
 
-		<h1>Search Orders</h1>
+<spring:url value="/firesupport/order/find" var="showFindOrdersUrl" />
+<spring:url value="/firesupport/order/modifyStatus" var="orderModifyStatusUrl" />
 
-<spring:url value="/fireworks/findOrders" var="showFindOrdersUrl" />
-<spring:url value="/fireworks/modifyStatus" var="orderModifyStatusUrl" />
 
- <form:form method="post" action="${showFindOrdersUrl}" modelAttribute="searchOrder">
+ <div class="container" style="padding: 0px;padding-top: 0px;padding-left: 0px;padding-right: 0px;">
+        <div style="margin-top: 28px;">
+            <h1 class="text-left" style="font-size: 22px;">Search Orders</h1>
+            <hr>
+        </div>
+        <form:form class="border-primary shadow" id="searchForm" method="post" action="${showFindOrdersUrl}" modelAttribute="searchOrder">
+        
+                <div class="row" style="padding: 20px;">
+        <div class="col" style="padding-right: 14px;padding-top: 14px;">
+        
+         <select class="form-control" style="margin: 0px;width: 178px;height: 38px;" id="searchCriteria" name="searchCriteria" onchange="setCriteriaInput(this)">
+                    <option value="orderStatus" selected="selected">Order Status</option>
+                    <option value="phoneNumber">Phone Number</option>
+                    <option value="orderNumber">Order Number</option>
+                    <option value="email">Email</option>
+                    </select>
+        </div>
+        <div
+            class="col" style="padding-top: 14px;">
+           <!--  <input class="border rounded border-secondary" type="text" style="padding-top: 0px;padding-bottom: 0px;height: 38px;"> -->
+            
+            <select class="form-control" id ="inputSelect"  style="margin: 0px;width: 178px;height: 38px;">
+                    	<option value = "0" label = "Select" ${0 == statusCode ? 'selected="selected"' : ''}/>
+						<option value ="101" ${101 == statusCode ? 'selected="selected"' : ''}>Order Submitted</option>
+						<option value ="103"  ${103 == statusCode ? 'selected="selected"' : ''}>Order Modified</option>
+						<option value ="104"  ${104 == statusCode ? 'selected="selected"' : ''}>User Approved Order</option>
+						<option value ="102"  ${102 == statusCode ? 'selected="selected"' : ''}>Packing Completed</option>
+						<option value ="105"  ${105 == statusCode ? 'selected="selected"' : ''}>Delivered</option>
+						<option value ="106"  ${106 == statusCode ? 'selected="selected"' : ''}>Order In Progress</option>
+                     </select>
+                     
+                    <input class="form-control" type="text" id="inputTxt" style="width: 178px;height: 38px;display:none">
+             <input class="form-control" type="hidden" id="searchValue" name="searchValue">
+            </div>
+    <div class="col" style="padding-top: 14px;"><button class="btn btn-primary" type="button" style="width: 97px;height: 38px;" id="searchBtn">Search</button></div>
+    <div class="col"></div>
+    </div>
+         
+    </form:form>
 
- 		<select id ="status" name ="statusCode" >
-		<option value = "0" label = "Select" ${0 == statusCode ? 'selected="selected"' : ''}/>
-		<option value ="101" ${101 == statusCode ? 'selected="selected"' : ''}>Order Submitted</option>
-		<option value ="103"  ${103 == statusCode ? 'selected="selected"' : ''}>Order Modified</option>
-		<option value ="104"  ${104 == statusCode ? 'selected="selected"' : ''}>User Approved Order</option>
-		<option value ="102"  ${102 == statusCode ? 'selected="selected"' : ''}>Packing Completed</option>
-		<option value ="105"  ${105 == statusCode ? 'selected="selected"' : ''}>Delivered</option>
-		<option value ="106"  ${106 == statusCode ? 'selected="selected"' : ''}>Order In Progress</option>
-		</select>
-    	<br>
-    	<input type ="submit" value = "Search">
-    	</form:form>
-    	
+
     	<form:form method="post" action="${orderModifyStatusUrl}" modelAttribute="order">
     	<table class="table table-striped">
 			<thead>
-				<tr>
+				<tr style="height:45px;">
 					<th>#ID</th>
-					<th>DeliverBy</th>
-					<th>Phone Number</th>
-					<th>Price</th>
+					<th>Name</th>
 					<th>Status</th>
+					<!-- <th>Phone</th> -->
 					<th>Action</th>
 				</tr>
 			</thead>
@@ -109,23 +162,27 @@ $(document).ready(function(){
 			<c:forEach var="item" items="${orders}">
 			    <tr>
 				<td>
-					${item.id}
+					${item.orderNumber}
 				</td>
 				<td>
-				<fmt:formatDate value="${item.deliverBy}" pattern="dd-MM-yyyy" />
+					${item.custName}
 				</td>
-				<td>${item.phoneNumber} </td>
-				<td>${item.priceOfTheOrder}</td>
-				<td>${item.status} </td>
+					<td>${item.status} </td>
+				<%-- <td>
+				<fmt:formatDate value="${item.deliverBy}" pattern="dd-MM-yyyy" />
+				</td> --%>
+				<%-- <td>${item.phoneNumber} </td> --%>
+				<%-- <td>${item.priceOfTheOrder}</td> --%>
+			
 			<td>
-				<spring:url value="/fireworks/${item.id}/view" var="viewUrl" />
+				<spring:url value="/firesupport/order/${item.id}/view" var="viewUrl" />
 				 <c:forEach var="events" items="${item.events}">
-				  <button class="btn btn-primary" type="button" value ="${events}" onclick ="callAction(${item.id},this)">${events}</button>
+				  <button style="font-size:10px;width:25px" type="button" value ="${events}" onclick ="callAction(${item.id},this)" title="${events}" >${fn:substring(events, 0, 1)}</button>
 				  </c:forEach>
-				  <button class="view-button btn btn-primary" id="${viewUrl}" type ="button">View</button>
+				  <button class="view-button" id="${viewUrl}" itemPrice="${item.priceOfTheOrder}" itemDeliverBy ="<fmt:formatDate value="${item.deliverBy}" pattern="dd-MM-yyyy" />" type ="button" style="font-size:10px;width:25px" title="View">V</button>
 			</td>
-				  
 			    </tr>
+			    
 			</c:forEach>
 	
 			
@@ -135,25 +192,25 @@ $(document).ready(function(){
 			 <input type="hidden" name="statusCode" id="statusCode">
 		</form:form>
 	</div>
+	</div>
 	
-	
-	<div class="modal fade" id="myModal">
+<div class="modal fade" id="myModal">
 <div class="modal-dialog">
   <div class="modal-content">
-    <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-      <h4 class="modal-title">Order Details: <span id="mdlInvoiceId"></span></h4> 
-      
-      
-           
-    </div>
+	<div class="modal-header">
+					<h4 class="modal-title">
+						<span id="mdlInvoiceId">Order/Stock Details: </span>
+					</h4>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+				</div>
     <div class="modal-body">
       <table class="table table-bordered">
           <thead>
           <tr>
-          	<th>Product id</th>
-          	<th>Available Qty</th>
-          	<th>Required Qty</th>
+          	<th>Product Name</th>
+          	<th>Qty</th>
+          	<th>Available</th>
           </tr>
           </thead>
           <tbody class="mdlTbody">
@@ -163,6 +220,9 @@ $(document).ready(function(){
               </tr>
               
           </tbody>
+          <tfoot class="mdlTfoot">
+          
+          </tfoot>
       </table>
     </div>
     <div class="modal-footer">

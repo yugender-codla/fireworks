@@ -1,6 +1,9 @@
 package com.alphas.common.util;
 
 import java.security.SecureRandom;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.springframework.stereotype.Component;
 
@@ -25,4 +28,12 @@ public class CommonUtil {
                 .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
                 .toString().toUpperCase();
     }
+	
+	
+	
+	public String convertDateToUI(Date date){
+		Format formatter = new SimpleDateFormat("dd-MMM-yyyy");
+		if(date == null) return null;
+		return formatter.format(date);
+	}
 }

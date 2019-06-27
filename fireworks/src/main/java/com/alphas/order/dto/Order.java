@@ -14,12 +14,12 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.alphas.common.dto.StateMap;
-import com.alphas.common.exception.CommonUtils;
+import com.alphas.common.util.CommonUtil;
 
 import lombok.Data;
 
@@ -28,7 +28,7 @@ import lombok.Data;
 @Table(name = "OrderMain")
 public class Order implements Serializable{
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_seq")
 	@SequenceGenerator(name = "order_seq", sequenceName = "order_id_seq", allocationSize = 1)
@@ -50,8 +50,8 @@ public class Order implements Serializable{
 	@Column(name="statusCode")
 	private int statusCode;
 	
-	@Column(name="orderId")
-	private String orderId;
+	@Column(name="orderNumber")
+	private String orderNumber;
 	
 	@Column(name="custName")
 	private String custName;
@@ -71,7 +71,7 @@ public class Order implements Serializable{
 	
 	
 	public String getDeliverByUI(){
-		return CommonUtils.convertDateToUI(deliverBy);
+		return new CommonUtil().convertDateToUI(deliverBy);
 	}
 	
 	public List<String> getEvents(){

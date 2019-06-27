@@ -10,6 +10,8 @@ import com.alphas.common.dto.Event;
 import com.alphas.common.exception.AException;
 import com.alphas.inventory.dto.Stock;
 import com.alphas.order.dto.Order;
+import com.alphas.order.dto.OrderLineItem;
+import com.alphas.product.dto.Product;
 
 @Service
 public interface OrderService {
@@ -20,4 +22,5 @@ public interface OrderService {
 	public List<Order> findOrder(MultiValueMap<String, String> params) throws AException;
 	public boolean modifyStatus(String orderId, Event event) throws AException;
 	public List<Stock> getStockListForAnOrder(Long orderId) throws AException;
+	public Map<String, List<OrderLineItem>> populateOrder(Order order, List<Product> products) throws AException;
 }

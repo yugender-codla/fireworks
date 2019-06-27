@@ -15,56 +15,50 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script> -->
 <!--   <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="/assets/fonts/font-awesome.min.css"> -->
-  <link rel="stylesheet" href="/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/css/style.css">
+
+
   <script src="/scripts/jquery.js"></script>
-     
+  <script src="/scripts/popper.js"></script>
+  <script src="/scripts/bootstrap.min.js"></script>
   
+
+ <link rel="stylesheet" href="/assets/fonts/font-awesome.min.css"> 
+ <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+ <link rel="stylesheet" href="/css/style.css">
+    
+ <link rel="stylesheet" href="/assets/css/styles.css">
+
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top" id="mainNav">
+
+	 	 <nav class="navbar navbar-light navbar-expand-md sticky-top navigation-clean-button" id="mainNav" style="background-color: #3655a4;color:#ffffff">
 		<div class="container-fluid">
-			<a class="navbar-brand js-scroll-trigger" href="#page-top" >
-				<div>
-					<div class="float-left" >
-						
-							<img src="/images/logo.png" class="float-left" style="height: 20px">
-						<div class="align-middle">
-						<h6 class="float-middle"> <span class="text-dark align-middle">4alphas Deepavali Services </span></h6></div>
-						</div>
-				</div> 
-			</a>
-			<button class="navbar-toggler navbar-toggler-right" type="button"
+			<a class="navbar-brand" href="/fireworks" style="color:#ffffff;"><i class="fa fa-shopping-bag"></i> &nbsp;4Alphas</a>
+	<!-- 		<button class="navbar-toggler navbar-toggler-right" type="button"
 				data-toggle="collapse" data-target="#navbarResponsive"
 				aria-controls="navbarResponsive" aria-expanded="false"
 				aria-label="Toggle navigation">
 				<i class="fas fa-bars"></i>
-			</button>
+			</button> -->
+			 <button data-toggle="collapse" class="navbar-toggler" data-target="#navbarResponsive" ><span class="sr-only" >Toggle navigation</span><span class="navbar-toggler-icon" style="color:#ffffff;"></span></button>
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ml-auto">
-	<!-- 				<li class="nav-item"><a class="nav-link js-scroll-trigger"
-						href="#about">Home</a></li>
-	 -->				<!-- <li class="nav-item"><a class="nav-link js-scroll-trigger"
-						href="/fireworks">Order</a></li>
+				<li class="nav-item"><a class="nav-link js-scroll-trigger"
+						href="/firesupport/order/search" style="color:#ffffff;"><i class="fa fa-star"></i>&nbsp;Orders</a></li>
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
-						href="/fireworks/showTrack">Track Order</a></li> -->
+						href="/product/add" style="color:#ffffff;"><i class="fa fa-home"></i>&nbsp;Add Product</a></li>
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
-						href="/fireworks/maintenance">Search Orders</a></li>
- 				<li class="nav-item"><a class="nav-link js-scroll-trigger"
-						href="/product/add">Add Product</a></li>
+						href="/product/list" style="color:#ffffff;"><i class="fa fa-first-order"></i>&nbsp;Products</a></li>
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
-						href="/product/list">Products List</a></li>
-					
+						href="/invoice/add" style="color:#ffffff;"><i class="fa fa-wpexplorer"></i>&nbsp;Add Invoice</a></li>
+							
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
-						href="/invoice/add">Add Invoice</a></li>
-					<li class="nav-item"><a class="nav-link js-scroll-trigger"
-						href="/invoice/search/display">Invoices</a></li>
- 				</ul>
+						href="/invoice/search/display" style="color:#ffffff;"><i class="fa fa-bullhorn"></i>&nbsp;Invoices</a></li>
+				</ul>
 			</div>
 		</div>
-	</nav>
-  
-     
+	</nav> 
+
     <jsp:include page="../${pageView}.jsp"/>
 
 </body>

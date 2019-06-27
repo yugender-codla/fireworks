@@ -129,13 +129,17 @@ public class OrderDaoImpl implements OrderDao{
 		
 		List<Order> list = new ArrayList<Order>();
 		try {
-		if(params.get("phoneNumber") == null) {
+		if(params.get("phoneNumber") == null && params.get("orderNumber") == null) { 
 			return list;
 		}
 		
 		Map<Long, Product> productsMap = productDao.retrieveAllProductsMap();
 		
-		list = repository.findByPhoneNumber(params.get("phoneNumber").toString());
+		if(params.get("phoneNumber") != null) {
+			list = repository.findByPhoneNumber(params.get("phoneNumber").toString());
+		}else if(params.get("orderNumber") != null) {
+			list = repository.findByOrderNumber(params.get("orderNumber").toString());
+		}
 		
 		for (Order order : list) {
 			List<OrderLineItem> items = order.getOrderLineItems();
@@ -151,15 +155,25 @@ public class OrderDaoImpl implements OrderDao{
 	} 
 	
 	@Override
-	public List<Order> findOrder(MultiValueMap<String, String> params){
+	public List<Order> findOrder(MultiValueMap<String, String> params) {
 		List<Order> list = new ArrayList<Order>();
-			if(params.get("statusCode") == null || params.get("statusCode").get(0).toString().equals("0")) {
-				list = repository.findAllByOrderByIdDesc();
-			}else{
-				list = repository.findAllByStatusCode(Integer.valueOf(params.get("statusCode").get(0)));
-			}
-			return list;
+
+		if (params.get("searchCriteria") == null || params.get("searchCriteria").get(0).toString().equals("0")) {
+			list = repository.findAllByOrderByIdDesc();
+		} else if ("orderStatus".equals(params.get("searchCriteria").get(0).toString())) {
+			list = repository.findAllByStatusCode(Integer.valueOf(params.get("searchValue").get(0)));
+		} else if ("phoneNumber".equals(params.get("searchCriteria").get(0).toString())) {
+			list = repository.findByPhoneNumber(params.get("searchValue").get(0).toString());
+		} else if ("orderNumber".equals(params.get("searchCriteria").get(0).toString())) {
+			list = repository.findByOrderNumber(params.get("searchValue").get(0).toString());
+		} else if ("email".equals(params.get("searchCriteria").get(0).toString())) {
+			list = repository.findByEmail(params.get("searchValue").get(0).toString());
+		} else {
+			list = repository.findAllByOrderByIdDesc();
 		}
+
+		return list;
+	}
 	
 	
 	public boolean modifyStatus(String orderId, Event event, EntityManager entityManager) throws AException{

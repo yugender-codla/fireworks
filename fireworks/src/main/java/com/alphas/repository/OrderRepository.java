@@ -14,4 +14,7 @@ public interface OrderRepository extends CrudRepository<Order, Long>{
 	
 	public List<Order> findAllByOrderByIdDesc();
 	
+	public List<Order> findByOrderNumber(String orderNumber);
+	
+	public List<Order> findByEmail(String orderNumber);
 }

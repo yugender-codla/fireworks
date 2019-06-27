@@ -16,9 +16,6 @@
 <title>4aplhas</title>
 <link rel="stylesheet" href="/assets/css/Contact-Form-Clean.css">
 
-<link rel="stylesheet" href="/assets/css/Table-With-Search-1.css">
-<link rel="stylesheet" href="/assets/css/Table-With-Search.css">
-
 
 <script>
 
@@ -42,14 +39,14 @@ $(document).ready(function(){
 
 <body>
 	<div class="contact-clean" style="height: 362px;">
-		<spring:url value="/fireworks/track" var="trackOrderUrl" />
+		<spring:url value="/fireworks/order/track" var="trackOrderUrl" />
 		<form:form method="post" style="height: 253px;"
 			action="${trackOrderUrl}" modelAttribute="order" name="searchForm">
 			<h2 class="text-center">Track Your Order</h2>
 			<div class="form-group">
-				<input class="form-control" type="text" name="phoneNumber"
-					placeholder="Order Number" id="phoneNumber" name="phoneNumber"
-					value="${phoneNumber}">
+				<input class="form-control" type="text" name="orderNumber"
+					placeholder="Order Number" id="orderNumber" name="orderNumber"
+					value="${orderNumber}">
 			</div>
 			<div class="form-group">
 				<button class="btn btn-primary" type="submit">search</button>
@@ -77,7 +74,7 @@ $(document).ready(function(){
 				<c:forEach var="item" items="${orders}" varStatus="loop">
 
 					<tr>
-						<td><a class="trackOrderDetails" href="#">${item.orderId}</a>
+						<td><a class="trackOrderDetails" href="#">${item.orderNumber}</a>
 							<div style="display: none">
 								<table class="table table-bordered">
 									<thead>

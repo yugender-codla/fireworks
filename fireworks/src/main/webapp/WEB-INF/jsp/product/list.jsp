@@ -22,25 +22,30 @@
 			<strong>${msg}</strong>
 		    </div>
 		</c:if>
-
-		<h1>All Products</h1>
+		
+		<div style="margin-top: 28px;margin-bottom:30px;">
+            <h1 class="text-left" style="font-size: 22px;">Products</h1>
+            <hr>
+        </div>
+		
 
 		<table class="table table-striped ">
 			<thead>
 				<tr>
-					<th>#ID</th>
+					<!-- <th>#ID</th> -->
 					<th>Name</th>
 					<th>Price</th>
-					<th>Available</th>
-					
+					<th>A</th>
+					<th>Act</th>
+					<th>Action</th>
 				</tr>
 			</thead>
 
 			<c:forEach var="item" items="${products}">
 			    <tr>
-				<td>
+				<%-- <td>
 					${item.id}
-				</td>
+				</td> --%>
 				<td>${item.name}</td>
 				<td>${item.price}</td>
 				<td>${item.available}</td>
@@ -53,10 +58,10 @@
  				
 				 <!-- <button class="btn btn-info" 
                                           onclick="location.href='${userUrl}'">Query</button>  -->
-				  <button class="btn btn-primary" 
-                                          onclick="location.href='${updateUrl}'">Update</button>
-				  <button class="btn btn-danger" 
-                                          onclick="this.disabled=true;location.href='${deleteUrl}'">Delete</button>
+				  <button class="btn btn-primary" style="font-size:10px;width:25px" 
+                                          onclick="location.href='${updateUrl}'">U</button>
+				  <button class="btn btn-danger" style="font-size:10px;width:25px"
+                                          onclick="this.disabled=true;location.href='${deleteUrl}'">D</button>
                                 </td>
 			    </tr>
 			</c:forEach>

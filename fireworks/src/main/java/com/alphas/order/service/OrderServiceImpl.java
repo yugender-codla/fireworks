@@ -1,11 +1,17 @@
 package com.alphas.order.service;
 
+import static java.util.stream.Collectors.toMap;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
@@ -14,12 +20,17 @@ import com.alphas.common.dto.Event;
 import com.alphas.common.exception.AException;
 import com.alphas.common.util.CommonUtil;
 import com.alphas.inventory.dto.Stock;
+import com.alphas.mail.AmazonMail;
 import com.alphas.order.dao.OrderDao;
 import com.alphas.order.dto.Order;
+import com.alphas.order.dto.OrderLineItem;
+import com.alphas.product.dto.Product;
 
 @Service
 public class OrderServiceImpl implements OrderService{
 
+	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	private OrderDao dao;
 	
@@ -29,6 +40,9 @@ public class OrderServiceImpl implements OrderService{
 	@Autowired
 	CommonUtil commonUtil;
 	
+	@Autowired
+	AmazonMail amazonMail;
+	
 	@Override
 	public Order addOrder(Order order) throws AException {
 		//EntityManager entityManager = null;
@@ -36,11 +50,16 @@ public class OrderServiceImpl implements OrderService{
 			//entityManager = entityManagerFactory.createEntityManager();
 			
 			if(order.getId() == null) {
-				order.setOrderId(commonUtil.generateRandomString());
+				order.setOrderNumber(commonUtil.generateRandomString());
 				order = dao.addOrder(order);
 			}else {
 				order = this.updateOrder(order);
 			}
+			System.out.println("Before mail........");
+			LOGGER.info("Mail is being sent");
+			//amazonMail.send();
+			System.out.println("After mail........");
+			LOGGER.info("Mail sent");
 		}catch(Exception exception) {
 			throw new AException(exception);
 		}finally {
@@ -98,5 +117,36 @@ public class OrderServiceImpl implements OrderService{
 			entityManager.close();
 		}
 		return stockList;
+	}
+	
+	@Override
+	public Map<String, List<OrderLineItem>> populateOrder(Order order, List<Product> products) throws AException {
+		Map<String, List<OrderLineItem>> productsMap = new HashMap<String, List<OrderLineItem>>();
+		Map<Long, OrderLineItem> orderLineItemMap = new HashMap<Long, OrderLineItem>();
+
+		if (order.getOrderLineItems() != null) {
+			orderLineItemMap = order.getOrderLineItems().stream().collect(toMap(s -> s.getProductId(), s -> s));
+		}
+
+		for (Product product : products) {
+			OrderLineItem lineItem = new OrderLineItem();
+			if (!productsMap.containsKey(product.getCategory())) {
+				productsMap.put(product.getCategory(), new ArrayList<OrderLineItem>());
+			}
+
+			if (orderLineItemMap.containsKey(product.getId())) {
+				lineItem.setChecked(true);
+				lineItem.setQuantity(orderLineItemMap.get(product.getId()).getQuantity());
+				lineItem.setPrice(orderLineItemMap.get(product.getId()).getPrice());
+			}
+			lineItem.setProductId(product.getId());
+			lineItem.setProductName(product.getName());
+			lineItem.setPrice(product.getPrice());
+			// orderLineItems.add(lineItem);
+			productsMap.get(product.getCategory()).add(lineItem);
+		}
+		// order.setOrderLineItems(orderLineItems);
+
+		return productsMap;
 	}
 }
