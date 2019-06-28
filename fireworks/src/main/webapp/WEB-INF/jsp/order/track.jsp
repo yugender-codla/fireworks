@@ -18,6 +18,20 @@
 
 
 <script>
+function callAction(id,obj){
+	document.getElementById("orderId").value=id;
+	document.getElementById("event").value=obj.value;
+	document.getElementById("searchCriteria").value="orderId";
+	document.getElementById("searchValue").value=id;
+	alert(obj.id);
+	document.getElementById("orderNo").value=obj.id;
+	
+	document.forms[1].action = "/fireworks/order/modifyStatus";
+	document.forms[1].method="post";
+	document.forms[1].submit();
+
+}
+
 
 $(document).ready(function(){
 	var infoModal = $('#myModal');
@@ -28,7 +42,60 @@ $(document).ready(function(){
 		 infoModal.modal('show');
 		 
 	 });
+	 
+	 
+
+	 
+
+			var infoModal = $('#myModal');
+			
+			 $(".view-button").click(function(event){
+				 event.preventDefault();
+				 var url = $(this).attr("id");
+				 var htmlHeadString = "<div> <table class='table table-bordered'>	<thead>	<tr><th>Product Name</th><th>New</th><th>Old</th></tr></thead><tbody class='mdlTbody'>";
+				 var htmlFootString = "</tbody></table></div>";
+
+				 $.ajax({
+			            type: 'GET',
+			            url: url,
+			            dataType: 'json',
+			            success: function (output) {
+			            	
+			            	var lineItemsLength = output.length;
+							var row = "";
+							var tFootContent = "";
+							var qty1 = "";
+			            	for(var i=0;i<lineItemsLength;i++){
+			            		qty1 = "-";
+			            		qty2 = "-";
+			            		
+			            		if(output[i].qty1 != null){
+			            			qty1 = output[i].qty1;
+			            		}
+			            		
+			            		if(output[i].qty2 != null){
+			            			qty2 = output[i].qty2;
+			            		}
+			            		 row = row + "<tr><td>"+output[i].productName+"</td><td>"+qty1+"</td><td>"+qty2+"</td></tr>";
+			            	}
+			            	
+			            	var fullString = htmlHeadString + row + htmlFootString;
+			            	
+			            	infoModal.find('.modal-body').html(fullString);
+		            		infoModal.modal('show');
+			            	//$('#myModal').modal('toggle');
+			            },
+			            error: function(output){
+			            alert("fail");
+			            }
+			        });
+				 
+				 
+				 
+			     });
+	
 });  
+
 
 
 
@@ -40,7 +107,7 @@ $(document).ready(function(){
 <body>
 	<div class="contact-clean" style="height: 362px;">
 		<spring:url value="/fireworks/order/track" var="trackOrderUrl" />
-		<form:form method="post" style="height: 253px;"
+		<form:form method="get" style="height: 253px;"
 			action="${trackOrderUrl}" modelAttribute="order" name="searchForm">
 			<h2 class="text-center">Track Your Order</h2>
 			<div class="form-group">
@@ -58,6 +125,7 @@ $(document).ready(function(){
 
 
 	<div class="container">
+	<form>
 		<div class="table-responsive-md">
 		<c:if test="${fn:length(orders) gt 0}">
 			<table class="table">
@@ -67,7 +135,7 @@ $(document).ready(function(){
 						<th>Deliver By</th>
 						<th>Net Amount</th>
 						<th>Status</th>
-
+						<th>Action</th>
 					</tr>
 				</thead>
 
@@ -104,16 +172,30 @@ $(document).ready(function(){
 						<td>${item.priceOfTheOrder}</td>
 
 						<td>${item.status}</td>
+						
+						<td>
+						<spring:url value="/fireworks/order/${item.id}/review" var="reviewUrl" />
+							<c:if test="${item.statusCode == '103'}">
+				  				<button style="font-size:10px;width:25px" type="button" value ="USER_APPROVE_ORDER" id="${item.orderNumber}" onclick ="callAction(${item.id},this)" title="APPROVE ORDER">A</button>
+				  			</c:if>
+						<c:if test="${item.modifiedFlag == 'Y'}">
+				  			<button class="view-button" id="${reviewUrl}" type ="button" style="font-size:10px;width:25px" title="View">R</button>
+				  		</c:if>
+						</td>
 					</tr>
 				</c:forEach>
 			</table>
 			</c:if>
 		</div>
-
-		</section>
-
-
-
+		
+		<input type="hidden" name="orderId" id="orderId">
+		<input type="hidden" name="event" id="event">
+		<input type="hidden" name="orderNumber" id="orderNo">
+		
+		<input type="hidden" name="searchCriteria" id="searchCriteria">
+		<input type="hidden" name="searchValue" id="searchValue">
+		<input type="hidden" name="page" value="orderTracker">
+</form>
 
 	</div>
 
@@ -132,6 +214,8 @@ $(document).ready(function(){
 
 				</div>
 				<div class="modal-body"></div>
+				
+				
 				<!-- <div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				</div> -->
@@ -144,7 +228,7 @@ $(document).ready(function(){
 
 
 
-	</div>
+
 </body>
 
 </html>

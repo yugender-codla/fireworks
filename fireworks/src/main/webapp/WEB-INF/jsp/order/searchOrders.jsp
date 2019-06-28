@@ -32,6 +32,7 @@ $(document).ready(function(){
 	 $(".view-button").click(function(event){
 		 event.preventDefault();
 		 var url = $(this).attr("id");
+		 var fn = $(this).attr("fn");
 		 var itemPrice = $(this).attr("itemPrice");
 		 var itemDeliverBy = $(this).attr("itemDeliverBy");
 		 $.ajax({
@@ -43,15 +44,41 @@ $(document).ready(function(){
 	            	var lineItemsLength = output.length;
 					var row = "";
 					var tFootContent = "";
+					var qty1 = "";
 	            	for(var i=0;i<lineItemsLength;i++){
-	            		 row = row + "<tr><td>"+output[i].productName+"</td><td>"+output[i].requiredQuantity+"</td><td>"+output[i].availableQuantity+"</td></tr>";
+	            		qty1 = "-";
+	            		qty2 = "-";
+	            		
+	            		if(output[i].qty1 != null){
+	            			qty1 = output[i].qty1;
+	            		}
+	            		
+	            		if(output[i].qty2 != null){
+	            			qty2 = output[i].qty2;
+	            		}
+	            		 row = row + "<tr><td>"+output[i].productName+"</td><td>"+qty1+"</td><td>"+qty2+"</td></tr>";
 	            	}
 	            	
 	            	tFootContent = tFootContent + "<tr><td colspan='3'>Price: "+itemPrice+"</td></tr>";
 	            	tFootContent = tFootContent + "<tr><td colspan='3'>Deliver By: "+itemDeliverBy+"</td></tr>";
 	            	
+	            	//Build THead
+	            	var th = "";
+	            	if(fn=='view'){
+	            		$('#mdlInvoiceId').html('Order/Stock Details:');
+	            		th = "<tr><th>Product Name</th><th>Qty</th><th>Available</th></tr>"
+	            	}else if(fn == "review"){
+	            		$('#mdlInvoiceId').html('Order Review');
+	            		th = "<tr><th>Product Name</th><th>Curr</th><th>old</th></tr>"
+	            	}
+	            	
+	            	infoModal.find('.modal-body').find(".mdlTHead").html(th);
+	            	
 	            	infoModal.find('.modal-body').find(".mdlTbody").html(row);
 	            	infoModal.find('.modal-body').find(".mdlTfoot").html(tFootContent);
+	            	
+	            	
+	            	
 	            	
             		infoModal.modal('show');
 	            	//$('#myModal').modal('toggle');
@@ -174,12 +201,16 @@ $(document).ready(function(){
 				<%-- <td>${item.phoneNumber} </td> --%>
 				<%-- <td>${item.priceOfTheOrder}</td> --%>
 			
-			<td>
+			<td style="padding:1px;">
 				<spring:url value="/firesupport/order/${item.id}/view" var="viewUrl" />
+				<spring:url value="/fireworks/order/${item.id}/review" var="reviewUrl" />
 				 <c:forEach var="events" items="${item.events}">
 				  <button style="font-size:10px;width:25px" type="button" value ="${events}" onclick ="callAction(${item.id},this)" title="${events}" >${fn:substring(events, 0, 1)}</button>
 				  </c:forEach>
-				  <button class="view-button" id="${viewUrl}" itemPrice="${item.priceOfTheOrder}" itemDeliverBy ="<fmt:formatDate value="${item.deliverBy}" pattern="dd-MM-yyyy" />" type ="button" style="font-size:10px;width:25px" title="View">V</button>
+				  <button class="view-button" id="${viewUrl}" itemPrice="${item.priceOfTheOrder}" fn="view" itemDeliverBy ="<fmt:formatDate value="${item.deliverBy}" pattern="dd-MM-yyyy" />" type ="button" style="font-size:10px;width:25px" title="View">V</button>
+				  <c:if test="${item.modifiedFlag == 'Y'}">
+				  	<button class="view-button" id="${reviewUrl}" itemPrice="${item.priceOfTheOrder}" fn="review" itemDeliverBy ="<fmt:formatDate value="${item.deliverBy}" pattern="dd-MM-yyyy" />" type ="button" style="font-size:10px;width:25px" title="View">R</button>
+				  </c:if>
 			</td>
 			    </tr>
 			    
@@ -199,19 +230,15 @@ $(document).ready(function(){
   <div class="modal-content">
 	<div class="modal-header">
 					<h4 class="modal-title">
-						<span id="mdlInvoiceId">Order/Stock Details: </span>
+						<span id="mdlInvoiceId"></span>
 					</h4>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
 				</div>
     <div class="modal-body">
       <table class="table table-bordered">
-          <thead>
-          <tr>
-          	<th>Product Name</th>
-          	<th>Qty</th>
-          	<th>Available</th>
-          </tr>
+          <thead class="mdlTHead">
+          
           </thead>
           <tbody class="mdlTbody">
               <tr>
