@@ -56,6 +56,9 @@ public class Order implements Serializable{
 	@Column(name="custName")
 	private String custName;
 	
+	@Column(name="modifiedFlag")
+	private String modifiedFlag;
+	
 	@OneToMany(mappedBy="order",cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
 	private List<OrderLineItem> orderLineItems;
 	

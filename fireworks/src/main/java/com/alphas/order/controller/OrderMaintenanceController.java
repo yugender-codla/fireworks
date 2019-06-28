@@ -73,8 +73,9 @@ public class OrderMaintenanceController {
 			}
 			
 			model.addAttribute("orders", orderService.findOrder(params));
-			model.addAttribute("statusCode", params.get("statusCode").get(0).toString());
+			model.addAttribute("statusCode", params.get("statusCode") == null ? null :params.get("statusCode").get(0).toString());
 			model.addAttribute("pageView", "order/searchOrders");
+			
 		} catch (AException exception) {
 			LOGGER.error(exception.getMessage(), exception);
 		}

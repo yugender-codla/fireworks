@@ -129,17 +129,13 @@ public class OrderDaoImpl implements OrderDao{
 		
 		List<Order> list = new ArrayList<Order>();
 		try {
-		if(params.get("phoneNumber") == null && params.get("orderNumber") == null) { 
+		if(params.get("orderNumber") == null) { 
 			return list;
 		}
 		
 		Map<Long, Product> productsMap = productDao.retrieveAllProductsMap();
+		list = repository.findByOrderNumber(params.get("orderNumber").toString());
 		
-		if(params.get("phoneNumber") != null) {
-			list = repository.findByPhoneNumber(params.get("phoneNumber").toString());
-		}else if(params.get("orderNumber") != null) {
-			list = repository.findByOrderNumber(params.get("orderNumber").toString());
-		}
 		
 		for (Order order : list) {
 			List<OrderLineItem> items = order.getOrderLineItems();
@@ -158,7 +154,7 @@ public class OrderDaoImpl implements OrderDao{
 	public List<Order> findOrder(MultiValueMap<String, String> params) {
 		List<Order> list = new ArrayList<Order>();
 
-		if (params.get("searchCriteria") == null || params.get("searchCriteria").get(0).toString().equals("0")) {
+		if (params.get("searchCriteria") == null || params.get("searchValue").get(0).toString().equals("0")) {
 			list = repository.findAllByOrderByIdDesc();
 		} else if ("orderStatus".equals(params.get("searchCriteria").get(0).toString())) {
 			list = repository.findAllByStatusCode(Integer.valueOf(params.get("searchValue").get(0)));
@@ -168,10 +164,11 @@ public class OrderDaoImpl implements OrderDao{
 			list = repository.findByOrderNumber(params.get("searchValue").get(0).toString());
 		} else if ("email".equals(params.get("searchCriteria").get(0).toString())) {
 			list = repository.findByEmail(params.get("searchValue").get(0).toString());
-		} else {
+		}else if ("orderId".equals(params.get("searchCriteria").get(0).toString())) {
+			list.add(repository.findById(Long.valueOf(params.get("searchValue").get(0))).orElse(new Order()));
+		}else {
 			list = repository.findAllByOrderByIdDesc();
 		}
-
 		return list;
 	}
 	
@@ -193,7 +190,7 @@ public class OrderDaoImpl implements OrderDao{
 		List<Stock> stockList = this.getStockListForAnOrder(em, orderId);
 		
 		for (Stock stock : stockList) {
-			if(stock.getRequiredQuantity() > stock.getAvailableQuantity()) {
+			if(stock.getQty1() > stock.getQty2()) {
 				return false;
 			}
 		}
@@ -224,4 +221,40 @@ public class OrderDaoImpl implements OrderDao{
         List<Stock> ooBj = objList.stream().map(Stock::new).collect(Collectors.toList());
 		return ooBj;
 	}
+	
+	/**
+	 * Method does full outer join on 2 tables. 
+	 * 
+	 * @param em
+	 * @param orderId
+	 * @return
+	 */
+	public List<Stock> retrieveOldAndCurrentOrder(EntityManager em, Long orderId) throws AException{
+		
+		List<Stock> ooBj = null;
+		String queryString ="select p.id as productName, oli.quantity, uoli.quantity mQty,p.name " + 
+				"from  order_line_item oli " + 
+				"LEFT JOIN user_order_line_item uoli on oli.order_id = uoli.order_id and oli.product_id = uoli.product_id " + 
+				"join order_main m on m.id = oli.order_id " + 
+				"join product p on p.id = oli.product_id " + 
+				"where m.id = :orderId " + 
+				" union " + 
+				"select p.id as productName, oli.quantity, uoli.quantity mQty,p.name " + 
+				"from  order_line_item oli " + 
+				"RIGHT JOIN user_order_line_item uoli on oli.order_id = uoli.order_id and oli.product_id = uoli.product_id " + 
+				"join order_main m on m.id = uoli.order_id " + 
+				"join product p on p.id = uoli.product_id " + 
+				"where m.id = :orderId";
+		try {
+			Query query = em.createNativeQuery(queryString);
+			query.setParameter("orderId", orderId);
+			List<Object[]> objList = query.getResultList();
+			ooBj = objList.stream().map(Stock::new).collect(Collectors.toList());
+		}catch(Exception exception) {
+			throw new AException(exception);
+		}
+		return ooBj;
 	}
+}
+	
+	

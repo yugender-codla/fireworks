@@ -20,7 +20,7 @@ import com.alphas.common.dto.Event;
 import com.alphas.common.exception.AException;
 import com.alphas.common.util.CommonUtil;
 import com.alphas.inventory.dto.Stock;
-import com.alphas.mail.AmazonMail;
+import com.alphas.mail.SendMail;
 import com.alphas.order.dao.OrderDao;
 import com.alphas.order.dto.Order;
 import com.alphas.order.dto.OrderLineItem;
@@ -41,7 +41,7 @@ public class OrderServiceImpl implements OrderService{
 	CommonUtil commonUtil;
 	
 	@Autowired
-	AmazonMail amazonMail;
+	SendMail mailSender;
 	
 	@Override
 	public Order addOrder(Order order) throws AException {
@@ -55,11 +55,7 @@ public class OrderServiceImpl implements OrderService{
 			}else {
 				order = this.updateOrder(order);
 			}
-			System.out.println("Before mail........");
-			LOGGER.info("Mail is being sent");
-			//amazonMail.send();
-			System.out.println("After mail........");
-			LOGGER.info("Mail sent");
+			this.sendMail(order);
 		}catch(Exception exception) {
 			throw new AException(exception);
 		}finally {
@@ -77,6 +73,7 @@ public class OrderServiceImpl implements OrderService{
 	@Override
 	public Order updateOrder(Order order) throws AException {
 		try {
+			order.setModifiedFlag("Y");
 			order = dao.updateOrder(order);
 		}catch(Exception exception) {
 			throw new AException(exception);
@@ -148,5 +145,36 @@ public class OrderServiceImpl implements OrderService{
 		// order.setOrderLineItems(orderLineItems);
 
 		return productsMap;
+	}
+	
+	
+	private void sendMail(Order order) {
+		
+		LOGGER.info("Mail is being sent."+order.getOrderNumber());
+		
+		String subject = "4Alphas - Fireworks - Order Number: "+order.getOrderNumber();
+		String toAddress = order.getEmail();
+		String content = "Dear Sir/Madam,"
+                + "\n\nThank you for shopping with us. Your Order Number is: "+order.getOrderNumber()+". \nWe will reach you shortly. In case of any queries - please call us at 9841008735"
+                + "\nYou can track the order under 'Track Order' menu.\nhttp://www.4alphas.in/fireworks" +"\n\nRegards,\n4Alphas Team";
+		
+		
+		mailSender.send(toAddress, subject,content);
+		
+		LOGGER.info("Mail sent."+order.getOrderNumber());
+	}
+	
+	@Override
+	public List<Stock> retrieveOldAndCurrentOrder(Long orderId) throws AException{
+		EntityManager entityManager = null;
+		List<Stock> stockList = null;
+		try {
+			entityManager = entityManagerFactory.createEntityManager();
+			stockList = dao.retrieveOldAndCurrentOrder(entityManager, orderId);
+		}finally {
+			entityManager.close();
+		}
+		return stockList;
+	
 	}
 }

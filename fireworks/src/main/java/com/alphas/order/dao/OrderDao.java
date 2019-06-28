@@ -23,4 +23,5 @@ public interface OrderDao {
 	public List<Order> findOrder(MultiValueMap<String, String> params) throws AException;
 	public boolean modifyStatus(String orderId, Event event, EntityManager entityManager) throws AException;
 	public List<Stock> getStockListForAnOrder(EntityManager em, Long orderId) throws AException;
+	public List<Stock> retrieveOldAndCurrentOrder(EntityManager em, Long orderId) throws AException;
 }

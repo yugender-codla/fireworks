@@ -10,17 +10,17 @@ public class Stock implements Serializable{
 
 	private Long productId;
 	
-	private Long requiredQuantity;
+	private Long qty1;
 	
-	private Long availableQuantity;
+	private Long qty2;
 	
 	private String productName;
 	
 	 public Stock(Object...fields) {
 	        super();
-	        this.productId = ((java.math.BigInteger) fields[0]).longValue();
-	        this.requiredQuantity =  Long.valueOf(fields[1].toString());
-	        this.availableQuantity = Double.valueOf(fields[2].toString()).longValue();
-	        this.productName = fields[3].toString();
+	        this.productId = fields[0] == null ? null : ((java.math.BigInteger) fields[0]).longValue();
+	        this.qty1 =  fields[1] == null ? null : Long.valueOf(fields[1].toString());
+	        this.qty2 = fields[2] == null ? null : Double.valueOf(fields[2].toString()).longValue();
+	        this.productName = fields[3] == null ? null : fields[3].toString();
 	    }
 }

@@ -10,14 +10,21 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.alphas.common.dto.Event;
 import com.alphas.common.exception.AException;
+import com.alphas.inventory.dto.Stock;
 import com.alphas.order.dto.Order;
 import com.alphas.order.dto.OrderLineItem;
 import com.alphas.order.service.OrderService;
@@ -158,17 +165,15 @@ public class OrderController {
 		return "common/template";
 	}
 
-	@PostMapping("/order/track")
-	public String trackOrder(@ModelAttribute("order") Order order, BindingResult result, Model model,
-			final RedirectAttributes redirectAttributes) {
+	@GetMapping("/order/track")
+	public String trackOrder(@RequestParam("orderNumber") String orderNumber,
+			Model model, final RedirectAttributes redirectAttributes) {
 		try {
 			Map<String, String> params = new HashMap<String, String>();
-			params.put("phoneNumber", order.getPhoneNumber());
-			params.put("orderNumber", order.getOrderNumber());
+			params.put("orderNumber", orderNumber);
 
 			model.addAttribute("pageView", "order/track");
-			model.addAttribute("phoneNumber", order.getPhoneNumber());
-			model.addAttribute("orderNumber", order.getOrderNumber());
+			model.addAttribute("orderNumber", orderNumber);
 			model.addAttribute("orders", orderService.trackOrder(params));
 		} catch (AException exception) {
 
@@ -177,6 +182,43 @@ public class OrderController {
 	}
 	
 
+	@GetMapping("/order/{id}/review")
+	@ResponseBody
+	public List<Stock> reviewOrder(@PathVariable("id") Long id, Model model,
+			final RedirectAttributes redirectAttributes) {
+		List<Stock> stockList = null;
+		try {
+			stockList = orderService.retrieveOldAndCurrentOrder(id);
+		} catch (AException e) {
+
+			e.printStackTrace();
+		}
+		return stockList;
+	}
+	
+	
+	
+	
+	@PostMapping("/order/modifyStatus")
+	public String modifyStatus(@RequestParam("orderId") String orderId, @RequestParam("event") String event, @RequestParam("orderNumber") String orderNumber,
+			@RequestBody MultiValueMap<String, String> params, Model model,
+			final RedirectAttributes redirectAttributes) {
+		try {
+			
+			boolean status = orderService.modifyStatus(orderId, Event.valueOf(event));
+			if(!status) {
+				model.addAttribute("msg", "One or more Products are not available. Please check Stock.");
+			}
+			
+			model.addAttribute("orders", orderService.findOrder(params));
+			model.addAttribute("statusCode", params.get("statusCode") == null ? null :params.get("statusCode").get(0).toString());
+			model.addAttribute("pageView", "order/track");
+		    redirectAttributes.addAttribute("orderNumber", orderNumber);	
+		} catch (AException exception) {
+			LOGGER.error(exception.getMessage(), exception);
+		}
+		return "redirect:track";
+	}
 	
 	@GetMapping(value="/contactUs")
 	public String contactUs(Model model,
