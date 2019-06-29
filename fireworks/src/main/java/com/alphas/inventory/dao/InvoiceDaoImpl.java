@@ -2,7 +2,10 @@ package com.alphas.inventory.dao;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +14,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 import com.alphas.common.exception.AException;
+import com.alphas.inventory.dto.Inventory;
 import com.alphas.inventory.dto.Invoice;
 import com.alphas.inventory.dto.InvoiceLineItem;
 import com.alphas.inventory.dto.InvoiceSearchForm;
+import com.alphas.inventory.dto.Stock;
 import com.alphas.repository.InvoiceLineItemRepository;
 import com.alphas.repository.InvoiceRepository;
 
@@ -61,5 +66,49 @@ public class InvoiceDaoImpl implements InvoiceDao{
 		return repository.findById(id).orElse(new Invoice());
 	}
 	
+	
+	
+	/***
+	 * Method used to retrieve the stock availability at any point of time.
+	 * Available qty = [total qty invoiced] - [all 'packed' and 'delivered' items]
+	 * Required qty = [qty not packed or delivered] 
+	 * 
+	 * @param em
+	 * @return
+	 * @throws AException
+	 */
+	@Override
+	public List<Inventory> retrieveStockAvailability(EntityManager em) throws AException{
+		String queryString = "select * from( " + 
+				"select total.id,total.name, total.totalInvoiceQty, " + 
+				"case when used.usedQty is null then 0 else used.usedQty end usedQty,   " + 
+				"(case when total.totalinvoiceQty is null then 0 else total.totalinvoiceQty end - case when used.usedQty is null then 0 else used.usedQty end) as available, " + 
+				"case when orderQty.requiredQty is null then 0 else orderQty.requiredQty end as required  " + 
+				"from  " + 
+				"(select p.id,p.name,case when sum(ili.quantity) is null then 0 else sum(ili.quantity) end as totalInvoiceQty from product p  " + 
+				"left outer join invoice_line_item ili on p.id = ili.product_id  " + 
+				"group by p.id,p.name) total  " + 
+				"left outer join  " + 
+				"( " + 
+				"select oli.product_id, case when sum(quantity) is null then 0 else sum(quantity) end as usedQty from order_line_item oli  " + 
+				"join order_main m on m.id = oli.order_id  " + 
+				"where m.status_code in(105,102) group by oli.product_id  " + 
+				") used on used.product_id = total.id " + 
+				"left outer join  " + 
+				"( " + 
+				"select oli.product_id, case when sum(quantity) is null then 0 else sum(quantity) end as requiredQty from order_line_item oli join order_main m on m.id = oli.order_id  " + 
+				"where m.status_code not in(105,102) group by oli.product_id " + 
+				") orderQty on orderQty.product_id = total.id) maintbl order by maintbl.required desc ";
+		List<Inventory> ooBj = null;
+		try {
+		Query query = em.createNativeQuery(queryString);
+
+		List<Object[]> objList = query.getResultList();
+        ooBj = objList.stream().map(Inventory::new).collect(Collectors.toList());
+	}catch(Exception exception) {
+		throw new AException(exception);
+	}
+		return ooBj;
+	}
 	
 }

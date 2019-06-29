@@ -47,15 +47,17 @@ public class OrderServiceImpl implements OrderService{
 	public Order addOrder(Order order) throws AException {
 		//EntityManager entityManager = null;
 		try {
-			//entityManager = entityManagerFactory.createEntityManager();
-			
 			if(order.getId() == null) {
 				order.setOrderNumber(commonUtil.generateRandomString());
 				order = dao.addOrder(order);
 			}else {
 				order = this.updateOrder(order);
 			}
+			
+						
 			this.sendMail(order);
+			
+			
 		}catch(Exception exception) {
 			throw new AException(exception);
 		}finally {

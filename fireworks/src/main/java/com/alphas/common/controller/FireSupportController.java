@@ -10,14 +10,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alphas.common.dto.ContactForm;
 import com.alphas.mail.SendMail;
 
 @Controller
-@RequestMapping("/firesupport")
 public class FireSupportController {
 	
 	
@@ -33,14 +31,14 @@ public class FireSupportController {
 	
 	
 	
-	@GetMapping("")
+	@GetMapping("/firesupport")
 	public String showMaintenancePage(Model model, final RedirectAttributes redirectAttributes) {
 		model.addAttribute("pageView", "order/searchOrders");
 		return "common/maintenanceTemplate";
 	}
 	
 	
-	@GetMapping(value="/contactUs")
+	@GetMapping(value="/fireworks/contactUs")
 	public String contactUs(@ModelAttribute("contactForm") ContactForm contactForm,BindingResult result, Model model,
 			final RedirectAttributes redirectAttributes) {
 		model.addAttribute("pageView", "common/contactUs");
@@ -48,7 +46,7 @@ public class FireSupportController {
 		
 	}
 	
-	@PostMapping("/contactUs")
+	@PostMapping("/fireworks/contactUs")
 	public String sendMessage(@Valid @ModelAttribute("contactForm") ContactForm contactForm,BindingResult result, Model model,
 			final RedirectAttributes redirectAttributes) {
 		

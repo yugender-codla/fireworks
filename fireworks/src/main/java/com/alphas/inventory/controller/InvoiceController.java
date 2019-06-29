@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alphas.common.exception.AException;
+import com.alphas.inventory.dto.Inventory;
 import com.alphas.inventory.dto.Invoice;
 import com.alphas.inventory.dto.InvoiceLineItem;
 import com.alphas.inventory.dto.InvoiceSearchForm;
@@ -128,4 +129,17 @@ public class InvoiceController {
 		return invoice;
 	}
 
+	
+	@GetMapping("/stock")
+	public String retrieveStock(Model model,
+			final RedirectAttributes redirectAttributes) {
+		try {
+			List<Inventory> inventoryList = inventoryService.retrieveStockAvailability();
+			model.addAttribute("inventory", inventoryList);
+			model.addAttribute("pageView","invoice/stock");
+		} catch (AException e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+		return "common/maintenanceTemplate";
+	}
 }
