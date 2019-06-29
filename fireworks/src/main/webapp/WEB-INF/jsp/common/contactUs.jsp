@@ -17,13 +17,13 @@
 
 <body>
     <div class="contact-clean">
-          <form:form method="post" action="/firesupport/contactUs" modelAttribute="contactForm">
+          <form:form method="post" action="/fireworks/contactUs" modelAttribute="contactForm">
             <h2 class="text-center">Contact us</h2>
             <div class="form-group"><input class="form-control" type="text" name="name" placeholder="Name" value="${contactForm.name}"><form:errors path="name" cssClass="error"/> </div>
             <div class="form-group"><input class="form-control" type="email" name="userEmail" placeholder="Email" value="${contactForm.userEmail}">
             <form:errors path="userEmail" cssClass="error"/> 
             <!-- <small class="form-text text-danger">Please enter a correct email address.</small> --></div>
-            <div class="form-group"><textarea class="form-control" name="message" placeholder="Message" rows="14" value="${contactForm.message}"></textarea><form:errors path="message" cssClass="error"/> </div>
+            <div class="form-group"><textarea class="form-control" name="message" placeholder="Message" rows="14" >${contactForm.message}</textarea><form:errors path="message" cssClass="error"/> </div>
             <div class="form-group"><button class="btn btn-primary" type="submit">send </button>
                 <hr>
             </div>

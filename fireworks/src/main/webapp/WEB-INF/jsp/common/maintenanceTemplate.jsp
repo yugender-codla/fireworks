@@ -44,6 +44,9 @@
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ml-auto">
 				<li class="nav-item"><a class="nav-link js-scroll-trigger"
+						href="/invoice/stock" style="color:#ffffff;"><i class="fa fa-suitcase"></i>&nbsp;Inventory</a></li>
+						
+				<li class="nav-item"><a class="nav-link js-scroll-trigger"
 						href="/firesupport/order/search" style="color:#ffffff;"><i class="fa fa-star"></i>&nbsp;Orders</a></li>
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
 						href="/product/add" style="color:#ffffff;"><i class="fa fa-home"></i>&nbsp;Add Product</a></li>
