@@ -14,6 +14,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -36,12 +39,18 @@ public class Order implements Serializable{
 	
 	@Column(name="deliverBy")
 	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@NotNull(message="required")
 	private Date deliverBy;
 	
 	@Column(name="phoneNumber")
+	@NotNull(message="required")
+	@Pattern(regexp = "[0-9]+",message = "Please enter only numbers")
+	@Size(min=10, max=10,message = "Please enter 10 digit phone number")
 	private String phoneNumber;
 	
 	@Column(name="email")
+	@NotNull
+	@Pattern(regexp ="^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$",message = "Please enter valid email id")
 	private String email;
 	
 	@Column(name="status")
@@ -54,6 +63,8 @@ public class Order implements Serializable{
 	private String orderNumber;
 	
 	@Column(name="custName")
+	@NotNull(message="Name is required")
+	@Size(min=1,message="Name is required")
 	private String custName;
 	
 	@Column(name="modifiedFlag")

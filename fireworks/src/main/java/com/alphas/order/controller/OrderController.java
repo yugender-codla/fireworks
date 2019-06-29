@@ -5,9 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
@@ -22,9 +25,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.alphas.common.dto.ContactForm;
 import com.alphas.common.dto.Event;
 import com.alphas.common.exception.AException;
 import com.alphas.inventory.dto.Stock;
+import com.alphas.mail.SendMail;
 import com.alphas.order.dto.Order;
 import com.alphas.order.dto.OrderLineItem;
 import com.alphas.order.service.OrderService;
@@ -41,6 +46,8 @@ public class OrderController {
 
 	@Autowired
 	private OrderService orderService;
+	
+
 
 /*	@GetMapping("/showProducts")
 	public String ShowProducts(Model model) {
@@ -112,6 +119,15 @@ public class OrderController {
 		return "common/template";
 	}
 
+	@GetMapping(value = "/order/cart")
+	public String showConfirmOrderViaGet(@ModelAttribute("order") Order order, BindingResult result, Model model,
+			final RedirectAttributes redirectAttributes) {
+
+		model.addAttribute("pageView", "order/showConfirmOrder");
+		return "common/template";
+	}
+	
+	
 	@PostMapping("/order/back")
 	public String backToShowProducts(Order order, Model model) {
 		try {
@@ -130,10 +146,13 @@ public class OrderController {
 	
 
 	@PostMapping(value = "/order/save")
-	public String saveOrder(@ModelAttribute("order") Order order, BindingResult result, Model model,
+	public String saveOrder(@Valid @ModelAttribute("order") Order order, BindingResult result, Model model,
 			final RedirectAttributes redirectAttributes) {
-
 		try {
+			if(result.hasErrors()) {
+				model.addAttribute("pageView", "order/showConfirmOrder");
+				return "common/template";
+			}
 			order.setStatus("");
 			order = orderService.addOrder(order);
 
@@ -220,12 +239,5 @@ public class OrderController {
 		return "redirect:track";
 	}
 	
-	@GetMapping(value="/contactUs")
-	public String contactUs(Model model,
-			final RedirectAttributes redirectAttributes) {
-		model.addAttribute("pageView", "common/contactUs");
-		return "common/template";
-		
-	}
 	
 }
