@@ -115,6 +115,8 @@
 												<input type="hidden" name="orderLineItems[${loop.index}].productId"	value="${item.productId}">
 												<input type="hidden" class="hiddenPrice" name="orderLineItems[${loop.index}].price"	value="${item.price}">
 												<input type="hidden" class="hiddenQnty" name="orderLineItems[${loop.index}].quantity"	value="${item.quantity}">
+												<input type="hidden" class="hiddenQnty" name="orderLineItems[${loop.index}].productName"	value="${item.productName}">
+												
 											<label class="qty-class qtyBtnGeneral">${item.quantity}</label>
 											<button class="btn quantityBtnAdd" type="button">
 												<i class="fa fa-plus qtyBtnGeneral" aria-hidden="true"
@@ -193,8 +195,9 @@
 					<label class="" for="inputName">Name</label>
 				</div>
 				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
-					<input type="text" class="form-control " name="custName"
-						>
+					<!-- <input type="text" class="form-control " name="custName"> -->
+					<form:input path="custName" cssClass="form-control"/>
+					<form:errors path="custName" cssClass="error"/>  
 				</div>
 			
 				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
@@ -202,8 +205,11 @@
 				</div>
 
 				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
-					<input type="email" name="email" class="form-control"
-						id="inputEmail" >
+					<!-- <input type="email" name="email" class="form-control"
+						id="inputEmail" > -->
+						
+						<form:input path="email" cssClass="form-control" id="inputEmail"/>
+						<form:errors path="email" cssClass="error"/>  
 				</div>
 
 				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
@@ -211,8 +217,9 @@
 				</div>
 
 				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
-					<input type="tel" class="form-control " name="phoneNumber"
-						>
+					<!-- <input type="tel" class="form-control " name="phoneNumber"> -->
+					<form:input path="phoneNumber" cssClass="form-control"/>
+					<form:errors path="phoneNumber" cssClass="error"/> 
 				</div>
 
 				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
@@ -220,7 +227,9 @@
 				</div>
 
 				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
-					<input name="deliverBy" type="date" class="form-control">
+					<input name="deliverBy" type="date" class="form-control" value="<fmt:formatDate pattern="yyyy-MM-dd" value="${order.deliverBy}" />">
+					
+					<form:errors path="deliverBy" cssClass="error"/> 
 				</div>
 				
 			</div>

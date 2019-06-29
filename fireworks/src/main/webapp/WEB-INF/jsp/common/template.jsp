@@ -47,7 +47,7 @@
 						href="/fireworks/order/trackview" style="color:#ffffff;"><i class="fa fa-wpexplorer"></i>&nbsp;Track Order</a></li>
 							
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
-						href="/fireworks/contactUs" style="color:#ffffff;"><i class="fa fa-bullhorn"></i>&nbsp;Contact Us</a></li>
+						href="/firesupport/contactUs" style="color:#ffffff;"><i class="fa fa-bullhorn"></i>&nbsp;Contact Us</a></li>
 					<!-- <li class="nav-item"><a class="nav-link js-scroll-trigger"
 						href="/product/add">Add Product</a></li>
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
