@@ -178,7 +178,9 @@ public class OrderDaoImpl implements OrderDao{
 		int toStatusCode = stateMapDao.moveState(event, order.getStatusCode());
 		
 		if(Integer.valueOf(States.ADMIN_COMPLETE_PACKING.getStateId()).equals(toStatusCode)) {
-			return checkAvailability(entityManager, Long.valueOf(orderId));
+			if(!checkAvailability(entityManager, Long.valueOf(orderId))) {
+				return false;
+			}
 		}
 		stateMapDao.moveState(order, event, order.getStatusCode());
 		repository.save(order);
