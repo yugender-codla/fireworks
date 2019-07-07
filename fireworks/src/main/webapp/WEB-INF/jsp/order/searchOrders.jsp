@@ -124,7 +124,7 @@ $(document).ready(function(){
                                 aria-label="Close">
 				<span aria-hidden="true">×</span>
 			</button>
-			<strong>${msg}</strong>
+			<strong>${msg}${user}</strong>
 		    </div>
 		</c:if>
 
