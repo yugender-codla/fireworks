@@ -10,7 +10,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
@@ -25,11 +25,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.alphas.common.dto.ContactForm;
 import com.alphas.common.dto.Event;
 import com.alphas.common.exception.AException;
 import com.alphas.inventory.dto.Stock;
-import com.alphas.mail.SendMail;
 import com.alphas.order.dto.Order;
 import com.alphas.order.dto.OrderLineItem;
 import com.alphas.order.service.OrderService;
@@ -75,9 +73,18 @@ public class OrderController {
 	}*/
 
 	@GetMapping("")
-	public String ShowProducts(Model model) {
+	public String ShowProducts(Device device, Model model) {
 		try {
 
+			String deviceType = "";
+			if(device.isMobile()) {
+				deviceType = "mobile";
+			}else if(device.isNormal()){
+				deviceType ="normal";
+			}else {
+				deviceType = "normal";
+			}
+			
 			List<Product> products = productService.retrieveAvailableProducts();
 
 			Map<String, List<OrderLineItem>> productsMap = new HashMap<String, List<OrderLineItem>>();
@@ -95,10 +102,16 @@ public class OrderController {
 
 			model.addAttribute("productsMap", productsMap);
 			model.addAttribute("products", products);
+			model.addAttribute("deviceType", deviceType);
+			if("normal".equals(deviceType)) {
+				model.addAttribute("pageView", "order/orderPage_d");
+			}else {
+				model.addAttribute("pageView", "order/orderPage");
+			}
 		} catch (AException e) {
 
 		}
-		model.addAttribute("pageView", "order/orderPage");
+	
 		return "common/template";
 	}
 

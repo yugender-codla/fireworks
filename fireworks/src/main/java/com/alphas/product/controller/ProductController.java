@@ -19,7 +19,7 @@ import com.alphas.product.service.ProductService;
 
 
 @Controller
-@RequestMapping("/product")
+@RequestMapping("/firesupport/product")
 public class ProductController {
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 	@Autowired

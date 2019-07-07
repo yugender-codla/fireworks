@@ -30,7 +30,7 @@ import com.alphas.inventory.service.InvoiceService;
 import com.alphas.product.service.ProductService;
 
 @Controller
-@RequestMapping("/invoice")
+@RequestMapping("/firesupport/invoice")
 public class InvoiceController {
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 

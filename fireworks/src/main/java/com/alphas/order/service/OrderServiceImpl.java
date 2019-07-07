@@ -158,9 +158,9 @@ public class OrderServiceImpl implements OrderService{
 		String toAddress = order.getEmail();
 		String content = "Dear Sir/Madam,"
                 + "\n\nThank you for shopping with us. Your Order Number is: "+order.getOrderNumber()+". \nWe will reach you shortly. In case of any queries - please call us at 9841008735"
-                + "\nYou can track the order under 'Track Order' menu.\nhttp://www.4alphas.in/fireworks" +"\n\nRegards,\n4Alphas Team";
+                + "\nYou can track the order under 'Track Order' menu.\nhttp://www.4alphas.in/fireworks/order/track?orderNumber="+order.getOrderNumber() +"\n\nRegards,\n4Alphas Team";
 		
-		
+		http://www.4alphas.in/fireworks/order/track?orderNumber=EUSHVRHF
 		mailSender.send(toAddress, subject,content);
 		
 		LOGGER.info("Mail sent."+order.getOrderNumber());
