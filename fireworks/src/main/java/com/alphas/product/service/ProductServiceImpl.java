@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.alphas.common.exception.AException;
 import com.alphas.product.dao.ProductDao;
 import com.alphas.product.dto.Product;
+import com.alphas.product.dto.ProductComboLineItem;
 
 @Service
 public class ProductServiceImpl implements ProductService{
@@ -68,5 +69,18 @@ public class ProductServiceImpl implements ProductService{
 		}finally {
 			entityManager.close();
 		}
+	}
+	
+	@Override
+	public List<ProductComboLineItem> retrieveComboByProductId(Long productId) throws AException{
+		EntityManager entityManager = null;
+		List<ProductComboLineItem> list = null;
+		try {
+		entityManager = entityManagerFactory.createEntityManager();
+		list = dao.retrieveComboByProductId(entityManager, productId);
+		}finally {
+			entityManager.close();
+		}
+		return list;
 	}
 }

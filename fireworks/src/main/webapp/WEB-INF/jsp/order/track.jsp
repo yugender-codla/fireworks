@@ -43,12 +43,7 @@ $(document).ready(function(){
 		 
 	 });
 	 
-	 
-
-	 
-
 			var infoModal = $('#myModal');
-			
 			 $(".view-button").click(function(event){
 				 event.preventDefault();
 				 var url = $(this).attr("id");

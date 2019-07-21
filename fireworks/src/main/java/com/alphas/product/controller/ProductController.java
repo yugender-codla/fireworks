@@ -1,5 +1,7 @@
 package com.alphas.product.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +13,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alphas.common.exception.AException;
 import com.alphas.product.dto.Product;
+import com.alphas.product.dto.ProductComboLineItem;
 import com.alphas.product.service.ProductService;
 
 
@@ -146,5 +150,18 @@ public class ProductController {
 		}
 		model.addAttribute("pageView","product/list");
 		return "common/maintenanceTemplate";
+	}
+	
+	@GetMapping("/{id}/viewCombo")
+	@ResponseBody
+	public List<ProductComboLineItem> viewCombo(@PathVariable("id") Long productId, Model model,
+			final RedirectAttributes redirectAttributes){
+		List<ProductComboLineItem> list = null;
+		try {
+			list = service.retrieveComboByProductId(productId);
+		} catch (AException e) {
+		e.printStackTrace();	
+		}
+		return list;
 	}
 }

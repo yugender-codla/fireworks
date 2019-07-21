@@ -62,6 +62,41 @@
 		
 		calculateQty();
 
+		
+		var infoModal = $('#myModal');
+		
+		 $(".view-button").click(function(event){
+			 event.preventDefault();
+			 var url = $(this).attr("id");
+			 var htmlHeadString = "<div> <table class='table table-bordered'><tbody class='mdlTbody'>";
+			 var htmlFootString = "</tbody></table></div>";
+			 $.ajax({
+		            type: 'GET',
+		            url: url,
+		            dataType: 'json',
+		            success: function (output) {
+		            	var lineItemsLength = output.length;
+		            
+						var row = "";
+						var tFootContent = "";
+		            	for(var i=0;i<lineItemsLength;i++){
+		            	
+		            		 row = row + "<tr><td>"+output[i].pid1+ "</td></tr>";
+		            	}
+		            	
+		            	var fullString = htmlHeadString + row + htmlFootString;
+		            	
+		            	infoModal.find('.modal-body').html(fullString);
+	            		infoModal.modal('show');
+		            	//$('#myModal').modal('toggle');
+		            },
+		            error: function(output){
+		            alert("fail");
+		            }
+		        });
+			 
+			 
+		 });
 	});
 </script>
 </head>
@@ -97,6 +132,7 @@
 		<div class="row row-padding">
 		<c:forEach var="subItem" items="${item.value}"  varStatus="loop">
 			<c:set var="itemsCounter" value="${itemsCounter + 1}" />
+			<spring:url value="/firesupport/product/${subItem.productId}/viewCombo" var="viewUrl" />
 			<div class="col-12 col-sm-6 col-md-3 col-lg-3 ">
 				<div class="card">
 					<div class="card-body">
@@ -106,8 +142,9 @@
 								<input type="hidden" name="orderLineItems[${itemsCounter}].productId" value="${subItem.productId}">
 								
 								<input type="hidden" name="orderLineItems[${itemsCounter}].productName" value="${subItem.productName}">
+								<a href="#" class="view-button" id="${viewUrl}">
 							<h4 class="card-text">${nameParts[0]} ${nameParts[1]} ${nameParts[2]}<br> ${nameParts[3]}</h4>
-							
+							</a>
 							<div style="font-size: 12px;">
 								<span><i class="fa"	style="color: grey">&#xf156;</i> </span> <label class="price-class">${subItem.price}</label>
 							</div>
@@ -158,7 +195,31 @@
 </div>
 </form:form>
 
+<div class="modal fade" id="myModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">
+						<span id="mdlInvoiceId">Products:</span>
+					</h4>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
 
+
+
+				</div>
+				<div class="modal-body"></div>
+				
+				
+				<!-- <div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div> -->
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
 
 </body>
 

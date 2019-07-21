@@ -6,9 +6,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<link
-	href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
-	rel="stylesheet" id="bootstrap-css">
+
  <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/assets/css/styles.css">
  
@@ -62,8 +60,58 @@
 		
 		calculateQty();
 
+		
+		
+		
+		var infoModal = $('#myModal');
+		
+		 $(".view-button").click(function(event){
+			 event.preventDefault();
+			 var url = $(this).attr("id");
+			 var htmlHeadString = "<div> <table class='table table-bordered'><tbody class='mdlTbody'>";
+			 var htmlFootString = "</tbody></table></div>";
+			 $.ajax({
+		            type: 'GET',
+		            url: url,
+		            dataType: 'json',
+		            success: function (output) {
+		            	var lineItemsLength = output.length;
+		            
+						var row = "";
+						var tFootContent = "";
+		            	for(var i=0;i<lineItemsLength;i++){
+		            	
+		            		 row = row + "<tr><td>"+output[i].pid1+ "</td></tr>";
+		            	}
+		            	
+		            	var fullString = htmlHeadString + row + htmlFootString;
+		            	
+		            	infoModal.find('.modal-body').html(fullString);
+	            		infoModal.modal('show');
+		            	//$('#myModal').modal('toggle');
+		            },
+		            error: function(output){
+		            alert("fail");
+		            }
+		        });
+			 
+			 
+		 });
+		
+		
 	});
 </script>
+
+<style>
+#mainNavbar5{
+position:fixed;
+top:100px;
+}
+
+.middleContent{
+padding-top:80px;
+}
+</style>
 </head>
 
 
@@ -72,42 +120,48 @@
 <div class="container">
 	<div class="row">
 	
-		<div role="tabpanel">
-			<div class="col-sm-3">
-
-				<ul class="nav nav-pills brand-pills nav-stacked" role="tablist">
+			<div class="col-xs-3" style="width:300px;">
+<nav id="mainNavbar5" >
+			<ul class="nav nav-pills nav-stacked flex-column">
 					<c:set var="categoryCounter" value="${0}" />
 					<c:forEach var="item" items="${productsMap}" varStatus="toploop">
 						<c:set var="categoryCounter" value="${categoryCounter + 1}" />
 
 						<c:choose>
 							<c:when test="${categoryCounter eq 1}">
-								<li role="presentation" class="brand-nav active"><a
-									href="#tab${categoryCounter}"
-									aria-controls="tab${categoryCounter}" role="tab"
-									data-toggle="tab">${item.key}</a></li>
+								<li  class="nav-item active"><a class="nav-link active"
+									href="#tab${categoryCounter}">${item.key}</a></li>
 							</c:when>
 							<c:otherwise>
-								<li role="presentation" class="brand-nav"><a
+								<li class="nav-item "><a class="nav-link"
 									href="#tab${categoryCounter}"
-									aria-controls="tab${categoryCounter}" role="tab"
-									data-toggle="tab">${item.key}</a></li>
+									>${item.key}</a></li>
 							</c:otherwise>
 						</c:choose>
 
 					</c:forEach>
 				</ul>
+</nav>
+
+			<!-- <nav id="mainNavbar" >
+				
+					
+ 					<ul class="nav nav-pills nav-stacked">
+ 					<li class="nav-item nav-link"><a href="#divDesert">Desert</a></li>
+ 					<li class="nav-item nav-link active" ><a href="#divLight">Desert</a></li>
+ 					<li class="nav-item nav-link "><a href="#divTulips">Desert</a></li>
+ 					<li class="nav-item nav-link "><a href="#div">Desert</a></li>
+ 					</ul>
+ 					
+ 
+ </nav> -->
+
+			
+</div>
 
 
-			</div>
-
-
-
-
-
-
-			<div class="col-sm-6">
-				<div class="tab-content">
+			<div class="col-xs-6">
+				
 
 
 					<c:set var="itemsCounter" value="${0}" />
@@ -115,28 +169,13 @@
 					<c:forEach var="item" items="${productsMap}" varStatus="toploop">
 						<c:set var="tabsCounter" value="${tabsCounter + 1}" />
 
-						<c:choose>
-							<c:when test="${tabsCounter eq 1}">
-								<div role="tabpanel" class="tab-pane active"
-									id="tab${tabsCounter}">
-							</c:when>
-							<c:otherwise>
-								<div role="tabpanel" class="tab-pane" id="tab${tabsCounter}">
-							</c:otherwise>
-						</c:choose>
-
-
-
-
-
-
-
-						<div class="pb-2 mt-4 mb-2 border-bottom">
+					<div class="middleContent" id="tab${tabsCounter}">
+						<div class="pb-2 mt-4 mb-2 border-bottom" >
 							<h4>${item.key}</h4>
 						</div>
 						<c:forEach var="subItem" items="${item.value}" varStatus="loop">
 							<c:set var="itemsCounter" value="${itemsCounter + 1}" />
-
+						<spring:url value="/firesupport/product/${subItem.productId}/viewCombo" var="viewUrl" />
 							<div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
 								<div class="card">
 									<div class="card-body">
@@ -149,9 +188,11 @@
 												value="${subItem.productId}"> <input type="hidden"
 												name="orderLineItems[${itemsCounter}].productName"
 												value="${subItem.productName}">
+											<a href="#" class="view-button" id="${viewUrl}">
 											<h4 class="card-text">${nameParts[0]}
 												${nameParts[1]} ${nameParts[2]}<br> ${nameParts[3]}
 											</h4>
+											</a>
 
 											<div style="font-size: 12px;">
 												<span><i class="fa" style="color: grey">&#xf156;</i>
@@ -181,14 +222,39 @@
 								</div>
 							</div>
 						</c:forEach>
-				</div>
-
+				
+</div>
 				</c:forEach>
-
-
-			</div>
-		</div>
-		<div class="col-sm-3">Cart Empty</div>
+				</div>
+				
+		<div class="col-xs-3 middleContent">Cart Empty</div>
 	</div>
+
 </div>
-</div>
+
+
+<div class="modal fade" id="myModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">
+						<span id="mdlInvoiceId">Products:</span>
+					</h4>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+
+
+
+				</div>
+				<div class="modal-body"></div>
+				
+				
+				<!-- <div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div> -->
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->

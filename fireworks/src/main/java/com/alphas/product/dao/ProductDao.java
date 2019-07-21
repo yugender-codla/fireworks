@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.alphas.common.exception.AException;
 import com.alphas.product.dto.Product;
+import com.alphas.product.dto.ProductComboLineItem;
 
 @Service
 public interface ProductDao {
@@ -21,4 +22,5 @@ public interface ProductDao {
 	public void delete(Long id) throws AException;
 	public List<Product> retrieveAvailableProducts(EntityManager entityManager) throws AException;
 	public Map<Long, Product> retrieveAllProductsMap() throws AException;
+	public List<ProductComboLineItem> retrieveComboByProductId(EntityManager em, Long productId) throws AException;
 }

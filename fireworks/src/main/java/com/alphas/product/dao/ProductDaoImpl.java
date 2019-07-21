@@ -6,15 +6,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alphas.common.exception.AException;
-import com.alphas.order.dto.OrderLineItem;
 import com.alphas.product.dto.Product;
+import com.alphas.product.dto.ProductComboLineItem;
+import com.alphas.repository.ProductComboLineItemRepository;
 import com.alphas.repository.ProductRepository;
 
 @Service
@@ -22,6 +25,9 @@ public class ProductDaoImpl implements ProductDao{
 	
 	@Autowired
 	private ProductRepository repository;
+	
+	@Autowired
+	private ProductComboLineItemRepository comboRepository;
 	
 	@Override
 	public Product add(Product product) throws AException {
@@ -80,6 +86,24 @@ public class ProductDaoImpl implements ProductDao{
 		Map<Long, Product> productMap = new HashMap<Long, Product>();
 		productMap = products.stream().collect(toMap(s -> s.getId(), s-> s));
 		return productMap;
+	}
+	
+	
+	public List<ProductComboLineItem> retrieveComboByProductId(EntityManager em, Long productId) throws AException {
+		String queryString = "SELECT pcli.id, pcli.product_id,pcli.pid1,pcli.pid2,pcli.pid3,p.name FROM product_combo_line_item pcli "
+				+ "join product p on p.id = pcli.product_Id WHERE p.id = :productId";
+
+		List<ProductComboLineItem> ooBj = null;
+		try {
+			Query query = em.createNativeQuery(queryString);
+			query.setParameter("productId", productId);
+			List<Object[]> objList = query.getResultList();
+			ooBj = objList.stream().map(ProductComboLineItem::new).collect(Collectors.toList());
+		} catch (Exception exception) {
+			throw new AException(exception);
+		}
+		return ooBj;
+
 	}
 	
 	

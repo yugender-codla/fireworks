@@ -27,7 +27,8 @@
   
 </head>
 <body>
-	 <nav class="navbar navbar-light navbar-expand-md sticky-top navigation-clean-button" id="mainNav" style="background-color: #3655a4;color:#ffffff">
+	 <!-- <nav class="navbar navbar-light navbar-expand-md sticky-top navigation-clean-button" id="mainNav" style="background-color: #3655a4;color:#ffffff"> -->
+	 <nav class="navbar navbar-light navbar-expand-md fixed-top" id="mainNav" style="background-color: #3655a4;color:#ffffff">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="/fireworks" style="color:#ffffff;"><i class="fa fa-shopping-bag"></i> &nbsp;4Alphas</a> 
 	<!-- 		<button class="navbar-toggler navbar-toggler-right" type="button"
