@@ -2,6 +2,7 @@ package com.alphas.order.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +33,7 @@ import com.alphas.order.dto.Order;
 import com.alphas.order.dto.OrderLineItem;
 import com.alphas.order.service.OrderService;
 import com.alphas.product.dto.Product;
+import com.alphas.product.dto.ProductComboLineItem;
 import com.alphas.product.service.ProductService;
 
 @Controller
@@ -87,7 +89,7 @@ public class OrderController {
 			
 			List<Product> products = productService.retrieveAvailableProducts();
 
-			Map<String, List<OrderLineItem>> productsMap = new HashMap<String, List<OrderLineItem>>();
+			Map<String, List<OrderLineItem>> productsMap = new LinkedHashMap<String, List<OrderLineItem>>();
 			for (Product product : products) {
 				if (!productsMap.containsKey(product.getCategory())) {
 					productsMap.put(product.getCategory(), new ArrayList<OrderLineItem>());
@@ -140,6 +142,33 @@ public class OrderController {
 		return "common/template";
 	}
 	
+	
+	
+	
+	@PostMapping(value = "/order/addToCart")
+	public String addItemsToCartViaDesktop(@ModelAttribute("order") Order order, BindingResult result, Model model,
+			final RedirectAttributes redirectAttributes) {
+try {
+		List<OrderLineItem> selectedLineItems = new ArrayList<OrderLineItem>();
+		for (OrderLineItem orderLineItem : order.getOrderLineItems()) {
+			if (orderLineItem.getQuantity() != null && orderLineItem.getQuantity() > 0) {
+				selectedLineItems.add(orderLineItem);
+			}
+		}
+		order.setOrderLineItems(selectedLineItems);
+		List<Product> products = productService.retrieveAvailableProducts();
+		Map<String, List<OrderLineItem>> productsMap = orderService.populateOrder(order, products);
+		
+		model.addAttribute("productsMap", productsMap);
+		model.addAttribute("products", products);
+		model.addAttribute("order", order);
+		
+		model.addAttribute("pageView", "order/orderPage_d");
+}catch(Exception e) {
+	e.printStackTrace();
+}
+		return "common/template";
+	}
 	
 	@PostMapping("/order/back")
 	public String backToShowProducts(Order order, Model model) {
@@ -250,6 +279,19 @@ public class OrderController {
 			LOGGER.error(exception.getMessage(), exception);
 		}
 		return "redirect:track";
+	}
+	
+	@GetMapping("/{id}/viewCombo")
+	@ResponseBody
+	public List<ProductComboLineItem> viewCombo(@PathVariable("id") Long productId, Model model,
+			final RedirectAttributes redirectAttributes){
+		List<ProductComboLineItem> list = null;
+		try {
+			list = productService.retrieveComboByProductId(productId);
+		} catch (AException e) {
+		e.printStackTrace();	
+		}
+		return list;
 	}
 	
 	

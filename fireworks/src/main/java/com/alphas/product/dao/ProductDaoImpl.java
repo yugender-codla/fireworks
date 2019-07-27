@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.alphas.common.exception.AException;
@@ -46,7 +47,7 @@ public class ProductDaoImpl implements ProductDao{
 	@Override
 	public List<Product> retrieveAll() throws AException{
 		List<Product> products = new ArrayList<Product>();
-		repository.findAll().forEach(products::add);;
+		repository.findAll(Sort.by(Sort.Direction.ASC, "category")).forEach(products::add);;
 		return products;
 	}
 	
@@ -90,8 +91,8 @@ public class ProductDaoImpl implements ProductDao{
 	
 	
 	public List<ProductComboLineItem> retrieveComboByProductId(EntityManager em, Long productId) throws AException {
-		String queryString = "SELECT pcli.id, pcli.product_id,pcli.pid1,pcli.pid2,pcli.pid3,p.name FROM product_combo_line_item pcli "
-				+ "join product p on p.id = pcli.product_Id WHERE p.id = :productId";
+		String queryString = "SELECT id, product_id,pid1,pid2,pid3,pid1Name,pid2Name,pid3Name  FROM product_combo_line_item "
+				+ " WHERE product_id = :productId";
 
 		List<ProductComboLineItem> ooBj = null;
 		try {

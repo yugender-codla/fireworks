@@ -23,7 +23,7 @@ import lombok.Setter;
 @Data
 @Table(name = "Product", uniqueConstraints={@UniqueConstraint(columnNames="name")})
 @NamedQueries({@NamedQuery(name = "findProductById", query = "from Product WHERE id=:id"),
-	@NamedQuery(name = "findAvailableProducts", query = "from Product p where p.available='Y' and p.active='Y'")
+	@NamedQuery(name = "findAvailableProducts", query = "from Product p where p.available='Y' and p.active='Y' order by p.sequence asc")
 })
 
 public class Product implements Serializable{
@@ -55,7 +55,11 @@ public class Product implements Serializable{
 	@Getter @Setter(AccessLevel.PUBLIC)
 	private String available;
 	
-	
+	@Column(name="seq")
+	@Getter @Setter(AccessLevel.PUBLIC)
+	private Long sequence;
+
+
 	/*
 	 * Image start------------->
 	 * 

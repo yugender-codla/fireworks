@@ -7,14 +7,27 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
- <link rel="stylesheet" href="/css/style.css">
-  <link rel="stylesheet" href="/assets/css/styles.css">
+ <link rel="stylesheet" href="/css/style_d.css">
+ 
  
 <head>
 <script type="text/javascript">
 
 
+	var init = function () {
+	   //return scroll position in session storage
+	   $('#middleContentDiv').scrollTop(sessionStorage.scrollPos || 0)
+	};
+	window.onload = init;
+	
 	$(document).ready(function() {
+		
+		$('#middleContentDiv').scroll(function () {
+			  //set scroll position in session storage
+			  sessionStorage.scrollPos = $('#middleContentDiv').scrollTop();
+			});
+		
+		
 		$("#qntyCountInputTxt").val(0);
 		$("#qntyCountInputLbl").text(0);
 
@@ -25,6 +38,8 @@
 			parentTag.text(val);
 
 			calculateQty();
+			$("#orderForm").attr('action', '/fireworks/order/addToCart');
+			$("#orderForm").submit();
 		});
 
 		$(".quantityBtnMinus").click(function() {
@@ -35,6 +50,8 @@
 				parentTag.text(val);
 			}
 			calculateQty();
+			$("#orderForm").attr('action', '/fireworks/order/addToCart');
+			$("#orderForm").submit();
 		});
 
 		function calculateQty(){
@@ -81,7 +98,7 @@
 						var tFootContent = "";
 		            	for(var i=0;i<lineItemsLength;i++){
 		            	
-		            		 row = row + "<tr><td>"+output[i].pid1+ "</td></tr>";
+		            		 row = row + "<tr><td>"+output[i].pid1Name+ "</td></tr>";
 		            	}
 		            	
 		            	var fullString = htmlHeadString + row + htmlFootString;
@@ -103,39 +120,45 @@
 </script>
 
 <style>
-#mainNavbar5{
+#scrollspy{
 position:fixed;
 top:100px;
 }
 
 .middleContent{
-padding-top:80px;
+padding-top:120px;
 }
 </style>
 </head>
 
 
 <!------ Include the above in your HEAD tag ---------->
+<spring:url value="/fireworks/order/cart" var="showConfirmOrderUrl" />
+ <form:form method="post" action="${showConfirmOrderUrl}" modelAttribute="order" id="orderForm">
 
+ 	<input type="hidden" name="phoneNumber" value="${order.phoneNumber}"/> 
+    <input type="hidden" name="email" value="${order.email}"/> 
+    <input type="hidden" name="id" value="${order.id}"/>
+    <input type="hidden" name="statusCode" value="${order.statusCode}"/>
+	<input type="hidden" name="orderNumber" value="${order.orderNumber}"/>
 <div class="container">
 	<div class="row">
 	
 			<div class="col-xs-3" style="width:300px;">
-<nav id="mainNavbar5" >
-			<ul class="nav nav-pills nav-stacked flex-column">
+<nav id="scrollspy" class ="navbar" >
+
+			<ul class="nav nav-pills nav-stacked flex-column mr-auto ml-auto">
 					<c:set var="categoryCounter" value="${0}" />
 					<c:forEach var="item" items="${productsMap}" varStatus="toploop">
 						<c:set var="categoryCounter" value="${categoryCounter + 1}" />
 
 						<c:choose>
 							<c:when test="${categoryCounter eq 1}">
-								<li  class="nav-item active"><a class="nav-link active"
+								<li  class="nav-item"><a class="nav-link active"
 									href="#tab${categoryCounter}">${item.key}</a></li>
 							</c:when>
 							<c:otherwise>
-								<li class="nav-item "><a class="nav-link"
-									href="#tab${categoryCounter}"
-									>${item.key}</a></li>
+								<li class="nav-item "><a class="nav-link"	href="#tab${categoryCounter}">${item.key}</a></li>
 							</c:otherwise>
 						</c:choose>
 
@@ -160,22 +183,21 @@ padding-top:80px;
 </div>
 
 
-			<div class="col-xs-6">
-				
 
-
+			<div class="col-xs-6 middleContent">
+			<div data-spy="scroll" data-target="#scrollspy" data-offset="0" style="overflow-y: scroll;height: 800px;position:relative" id="middleContentDiv">				
 					<c:set var="itemsCounter" value="${0}" />
 					<c:set var="tabsCounter" value="${0}" />
 					<c:forEach var="item" items="${productsMap}" varStatus="toploop">
 						<c:set var="tabsCounter" value="${tabsCounter + 1}" />
 
-					<div class="middleContent" id="tab${tabsCounter}">
+					<div id="tab${tabsCounter}">
 						<div class="pb-2 mt-4 mb-2 border-bottom" >
 							<h4>${item.key}</h4>
 						</div>
 						<c:forEach var="subItem" items="${item.value}" varStatus="loop">
 							<c:set var="itemsCounter" value="${itemsCounter + 1}" />
-						<spring:url value="/firesupport/product/${subItem.productId}/viewCombo" var="viewUrl" />
+						<spring:url value="/fireworks/${subItem.productId}/viewCombo" var="viewUrl" />
 							<div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
 								<div class="card">
 									<div class="card-body">
@@ -188,11 +210,14 @@ padding-top:80px;
 												value="${subItem.productId}"> <input type="hidden"
 												name="orderLineItems[${itemsCounter}].productName"
 												value="${subItem.productName}">
-											<a href="#" class="view-button" id="${viewUrl}">
-											<h4 class="card-text">${nameParts[0]}
-												${nameParts[1]} ${nameParts[2]}<br> ${nameParts[3]}
+										  
+											<h4 class="card-text">
+											<c:if test="${item.key == 'Combo'}">
+											<a href= "#"><i class="fa fa-info view-button" id="${viewUrl}" style="color:blue"></i></a> 
+											</c:if>
+											${nameParts[0]}<br>
+												${nameParts[1]} ${nameParts[2]} ${nameParts[3]} 
 											</h4>
-											</a>
 
 											<div style="font-size: 12px;">
 												<span><i class="fa" style="color: grey">&#xf156;</i>
@@ -226,12 +251,66 @@ padding-top:80px;
 </div>
 				</c:forEach>
 				</div>
-				
-		<div class="col-xs-3 middleContent">Cart Empty</div>
+				</div>
+		<div class="col-xs-3 middleContent">
+		<c:if test="${fn:length(order.orderLineItems) eq 0}">
+			Cart Empty
+		</c:if>
+		<c:if test="${fn:length(order.orderLineItems) gt 0}">
+			Cart Items
+		</c:if>
+		
+		<c:set var="netPrice" value="${0}" />
+			<div class="row row-padding">
+				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="table-responsive-md">
+						<table class="table tblTemplate">
+							<c:forEach var="item" items="${order.orderLineItems}"
+								varStatus="loop">
+								<c:set var="nameParts"
+									value="${fn:split(item.productName, ',')}" />
+								<tr>
+									<td style="width:40%">${nameParts[0]}<br> ${nameParts[1]}
+										${nameParts[2]} ${nameParts[3]}</td>
+									<td style="width:7em;">
+										<div class="rounded border border-grey quantity-padding" >
+											<button class="btn quantityBtnMinus" type="button">
+												<i class="fa fa-minus qtyBtnGeneral" aria-hidden="true"
+													style="color: grey; cursor: hand"></i>
+											</button>
+									
+												
+											<label class="qty-class qtyBtnGeneral">${item.quantity}</label>
+											<button class="btn quantityBtnAdd" type="button">
+												<i class="fa fa-plus qtyBtnGeneral" aria-hidden="true"
+													style="color: #F26522; cursor: hand;"></i>
+											</button>
+										</div>
+									</td>
+									
+									<td class="priceCountOuputLbl" style="text-align: left">${item.quantity * item.price}</td>
+									<c:set var="netPrice"
+										value="${netPrice + (item.quantity * item.price)}" />
+								  
+								</tr>
+							</c:forEach>
+							<tfoot>
+								<tr>
+									<th colspan="2">Total</th>
+									<th colspan="1"><span class="rupeesymbol"><i class="fa" >&#xf156;</i></span> <span id="netPriceCountOuputLbl">${netPrice}</span> </th>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+				</div>
+			</div>
+		
+		
+		</div>
 	</div>
 
 </div>
-
+</form:form>
 
 <div class="modal fade" id="myModal">
 		<div class="modal-dialog">

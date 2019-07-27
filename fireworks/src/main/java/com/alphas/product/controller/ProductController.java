@@ -152,16 +152,5 @@ public class ProductController {
 		return "common/maintenanceTemplate";
 	}
 	
-	@GetMapping("/{id}/viewCombo")
-	@ResponseBody
-	public List<ProductComboLineItem> viewCombo(@PathVariable("id") Long productId, Model model,
-			final RedirectAttributes redirectAttributes){
-		List<ProductComboLineItem> list = null;
-		try {
-			list = service.retrieveComboByProductId(productId);
-		} catch (AException e) {
-		e.printStackTrace();	
-		}
-		return list;
-	}
+	
 }
