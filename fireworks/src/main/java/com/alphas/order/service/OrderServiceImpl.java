@@ -4,6 +4,7 @@ import static java.util.stream.Collectors.toMap;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -120,8 +121,8 @@ public class OrderServiceImpl implements OrderService{
 	
 	@Override
 	public Map<String, List<OrderLineItem>> populateOrder(Order order, List<Product> products) throws AException {
-		Map<String, List<OrderLineItem>> productsMap = new HashMap<String, List<OrderLineItem>>();
-		Map<Long, OrderLineItem> orderLineItemMap = new HashMap<Long, OrderLineItem>();
+		Map<String, List<OrderLineItem>> productsMap = new LinkedHashMap<String, List<OrderLineItem>>();
+		Map<Long, OrderLineItem> orderLineItemMap = new LinkedHashMap<Long, OrderLineItem>();
 
 		if (order.getOrderLineItems() != null) {
 			orderLineItemMap = order.getOrderLineItems().stream().collect(toMap(s -> s.getProductId(), s -> s));

@@ -4,7 +4,7 @@
 html,body{
   height: 100%;
   width: 100%;
-  font-family: 'Poppins',sans-serif;
+  font-family: 'Open Sans';
   color: #222;
 }
 
@@ -15,32 +15,49 @@ table{
 
  .navbar{
   padding: .8rem;
+ 
 }
 
-.navbar img{
-  height: 40px;
-  width: 40px;
-}
+
 
 
 
 /* Change the link color on hover */
 .navbar li a:hover {
   color: #F26522;
-  font-weight: bold;
-  font-family: 'Poppins',sans-serif;
+  
+  font-family: 'Open Sans';
+
+}
+.navbar li a:active{
+  color: #F26522;
+ 
+   
 }
 
-.nav-pills > .active > a, .nav-pills > .active > a:hover {
-    background-color: red;
-}
 
-.nav-link{
-  font-size: 0.8em !important;
+.nav-pills .nav-link{
+  font-size: 0.9em !important;
   color:black;
-  font-family: 'Poppins',sans-serif;
-  letter-spacing: 0.05em;
+  font-family: 'Open Sans';
+   
+     border-right: 1px #e3e4e6;
+	 border-right-style:solid;
+border-radius: 0;
+width:200px;
 } 
+
+
+
+/*** To change the background of the nav menu bar - go and change the below property under assets/bootstrap/css/bootstrap.min.css ***/
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+	color: #F26522;
+	font-weight: bold;
+	border-width: 4px;
+	  border-color: #F26522;
+}
+
+
 
 
 .quantity-padding{
@@ -61,24 +78,34 @@ table{
 
 .quantityBtnMinus,.quantityBtnAdd {
      padding: 7px ;
-    font-size: 11px;
+    font-size: 10px;
     
 }
 
 
 .card{
   padding: 0em;
-  border:0;
+  border-bottom:1px;
+  border-radius:0px;
+  border-top:0px;
+  border-left:0px;
+  border-right:0px;
+  border-bottom-color:#e3e4e6;
+  border-bottom-style:solid;
   padding-top: 0em;
-
+padding-left: 0;
 }
 
 .card-body{
 padding-top: 0em;
-padding-bottom: 0em;  
+padding-bottom: 0em;
+padding-left: 0;  
 }
 
+.card-text{
+font-weight: bold;
 
+}
 
 .rightBottomfixedbutton {
     position: fixed;
@@ -442,7 +469,7 @@ height:500px;
 }
 
  #middleContentDiv::-webkit-scrollbar {
-    width: 0px;
+    width: 2px;
     background-color: #ffffff;
 }  
 
@@ -471,4 +498,8 @@ height:500px;
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
     background-color: #F5F5F5;
     
+}
+
+.cartItems{
+	font-size: 13px;
 }

@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -70,6 +71,7 @@ public class ProductDaoImpl implements ProductDao{
 		this.add(product);
 	}
 	
+	@Cacheable(value="products")
 	@Override
 	public List<Product> retrieveAvailableProducts(EntityManager entityManager) throws AException{
 		List<Product> result = new ArrayList<Product>();

@@ -49,7 +49,7 @@ public class Product implements Serializable{
 	
 	@Column(name="price")
 	@Getter @Setter(AccessLevel.PUBLIC)
-	private BigDecimal price;
+	private Long price;
 	
 	@Column(name="available")
 	@Getter @Setter(AccessLevel.PUBLIC)

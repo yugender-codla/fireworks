@@ -35,7 +35,7 @@ public class OrderLineItem implements Serializable{
 	private Integer quantity = 0;
 	
 	@Column(name="price")
-	private BigDecimal price;
+	private Long price;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn

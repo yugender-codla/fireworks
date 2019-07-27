@@ -16,14 +16,15 @@
   
   <script src="/scripts/jquery.js"></script>
   <script src="/scripts/popper.js"></script>
-  <script src="/scripts/bootstrap.min.js"></script>
+  <script src="/scripts/bootstrap.min.js"></script> 
   
 
  <link rel="stylesheet" href="/assets/fonts/font-awesome.min.css"> 
- <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
- <link rel="stylesheet" href="/css/style.css">
-    
- <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css"> 
+ <!-- <link rel="stylesheet" href="/css/style.css"> -->
+     <link rel="stylesheet" href="/css/style_d.css">
+  <link rel="stylesheet" href="/assets/css/styles.css"> 
+  <link rel="stylesheet" href="/css/style_d.css">
   
 </head>
 <body>

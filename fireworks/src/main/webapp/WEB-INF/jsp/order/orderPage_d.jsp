@@ -38,6 +38,7 @@
 			parentTag.text(val);
 
 			calculateQty();
+			
 			$("#orderForm").attr('action', '/fireworks/order/addToCart');
 			$("#orderForm").submit();
 		});
@@ -72,7 +73,10 @@
 
 
 			$("#priceCountInputTxt").val(totalPrice);
-			$("#priceCountInputLbl").text(totalPrice);			
+			$("#priceCountInputLbl").text(totalPrice);
+
+			
+			$("#cartItemsCountLbl").text(qnty);
 		}
 		
 		calculateQty();
@@ -144,9 +148,8 @@ padding-top:120px;
 <div class="container">
 	<div class="row">
 	
-			<div class="col-xs-3" style="width:300px;">
+			<div class="col-xs-3" style="width:250px;">
 <nav id="scrollspy" class ="navbar" >
-
 			<ul class="nav nav-pills nav-stacked flex-column mr-auto ml-auto">
 					<c:set var="categoryCounter" value="${0}" />
 					<c:forEach var="item" items="${productsMap}" varStatus="toploop">
@@ -185,7 +188,7 @@ padding-top:120px;
 
 
 			<div class="col-xs-6 middleContent">
-			<div data-spy="scroll" data-target="#scrollspy" data-offset="0" style="overflow-y: scroll;height: 800px;position:relative" id="middleContentDiv">				
+			<div data-spy="scroll" data-target="#scrollspy" data-offset="0" style="overflow-y: scroll;height: 800px;position:relative;" id="middleContentDiv">				
 					<c:set var="itemsCounter" value="${0}" />
 					<c:set var="tabsCounter" value="${0}" />
 					<c:forEach var="item" items="${productsMap}" varStatus="toploop">
@@ -193,7 +196,8 @@ padding-top:120px;
 
 					<div id="tab${tabsCounter}">
 						<div class="pb-2 mt-4 mb-2 border-bottom" >
-							<h4>${item.key}</h4>
+							<h2>${item.key}</h2> 
+							<h6>${fn:length(item.value)} ITEMS</h6>
 						</div>
 						<c:forEach var="subItem" items="${item.value}" varStatus="loop">
 							<c:set var="itemsCounter" value="${itemsCounter + 1}" />
@@ -211,15 +215,16 @@ padding-top:120px;
 												name="orderLineItems[${itemsCounter}].productName"
 												value="${subItem.productName}">
 										  
-											<h4 class="card-text">
+											<h3 class="card-text">
 											<c:if test="${item.key == 'Combo'}">
 											<a href= "#"><i class="fa fa-info view-button" id="${viewUrl}" style="color:blue"></i></a> 
 											</c:if>
-											${nameParts[0]}<br>
-												${nameParts[1]} ${nameParts[2]} ${nameParts[3]} 
-											</h4>
+											${nameParts[0]}
+												
+											</h3>
 
 											<div style="font-size: 12px;">
+											${nameParts[1]} ${nameParts[2]} ${nameParts[3]} <br>
 												<span><i class="fa" style="color: grey">&#xf156;</i>
 												</span> <label class="price-class" style="color: grey">${subItem.price}</label>
 											</div>
@@ -257,43 +262,58 @@ padding-top:120px;
 			Cart Empty
 		</c:if>
 		<c:if test="${fn:length(order.orderLineItems) gt 0}">
-			Cart Items
+			<h2>Cart</h2>
+			<label id="cartItemsCountLbl">0</label> ITEMS
 		</c:if>
 		
 		<c:set var="netPrice" value="${0}" />
 			<div class="row row-padding">
 				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
-					<div class="table-responsive-md">
+					<div class="table-responsive-md ">
 						<table class="table tblTemplate">
+						<tbody class="cartItems">
 							<c:forEach var="item" items="${order.orderLineItems}"
 								varStatus="loop">
 								<c:set var="nameParts"
 									value="${fn:split(item.productName, ',')}" />
 								<tr>
-									<td style="width:40%">${nameParts[0]}<br> ${nameParts[1]}
-										${nameParts[2]} ${nameParts[3]}</td>
-									<td style="width:7em;">
-										<div class="rounded border border-grey quantity-padding" >
+									<td style="width:40%">
+									${nameParts[0]}<br> ${nameParts[1]}
+										${nameParts[2]} ${nameParts[3]}
+									
+										</td>
+									<td style="width:9em;">
+									
+									<div
+											class="rounded border border-grey quantity-padding float-right">
 											<button class="btn quantityBtnMinus" type="button">
-												<i class="fa fa-minus qtyBtnGeneral" aria-hidden="true"
+												<i class="fa fa-minus" aria-hidden="true"
 													style="color: grey; cursor: hand"></i>
 											</button>
-									
+											<%-- <input type="hidden" class="hiddenPrice"
+												name="orderLineItems[${itemsCounter}].price"
+												value="${subItem.price}"> <input type="hidden"
+												name="orderLineItems[${itemsCounter}].quantity"
+												class="hiddenQnty" value="${subItem.quantity}"> --%>
 												
-											<label class="qty-class qtyBtnGeneral">${item.quantity}</label>
+												 <label
+												class="qty-class1" style="color: grey;" >${item.quantity}</label>
 											<button class="btn quantityBtnAdd" type="button">
-												<i class="fa fa-plus qtyBtnGeneral" aria-hidden="true"
-													style="color: #F26522; cursor: hand;"></i>
+												<i class="fa fa-plus" aria-hidden="true"
+													style="color: #F26522; cursor: hand"></i>
 											</button>
 										</div>
+										
 									</td>
 									
-									<td class="priceCountOuputLbl" style="text-align: left">${item.quantity * item.price}</td>
+									<td class="priceCountOuputLbl" style="text-align: left"> <span><i class="fa" style="color: grey">&#xf156;</i>
+												</span>  ${item.quantity * item.price}</td>
 									<c:set var="netPrice"
 										value="${netPrice + (item.quantity * item.price)}" />
 								  
 								</tr>
 							</c:forEach>
+							</tbody>
 							<tfoot>
 								<tr>
 									<th colspan="2">Total</th>
