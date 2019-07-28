@@ -107,14 +107,16 @@ public class OrderController {
 			model.addAttribute("deviceType", deviceType);
 			if("normal".equals(deviceType)) {
 				model.addAttribute("pageView", "order/orderPage_d");
+				return "common/template_d";
 			}else {
 				model.addAttribute("pageView", "order/orderPage");
+				return "common/template";
 			}
 		} catch (AException e) {
 
 		}
 	
-		return "common/template";
+		return null;
 	}
 
 	@PostMapping(value = "/order/cart")

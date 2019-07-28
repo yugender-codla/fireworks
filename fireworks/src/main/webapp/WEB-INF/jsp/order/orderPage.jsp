@@ -12,7 +12,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Order</title>
 
-
 <script type="text/javascript">
 
 
@@ -142,10 +141,16 @@
 								<input type="hidden" name="orderLineItems[${itemsCounter}].productId" value="${subItem.productId}">
 								
 								<input type="hidden" name="orderLineItems[${itemsCounter}].productName" value="${subItem.productName}">
-								<a href="#" class="view-button" id="${viewUrl}">
-							<h4 class="card-text">${nameParts[0]} ${nameParts[1]} ${nameParts[2]}<br> ${nameParts[3]}</h4>
-							</a>
+								
+							<h3 class="card-text">
+							<c:if test="${item.key == 'Combo'}">
+								<a href= "#"><i class="fa fa-info view-button" id="${viewUrl}" style="color:blue"></i></a> 
+							</c:if>
+							${nameParts[0]} 
+							</h3>
+							
 							<div style="font-size: 12px;">
+							${nameParts[1]} ${nameParts[2]} ${nameParts[3]} <br>
 								<span><i class="fa"	style="color: grey">&#xf156;</i> </span> <label class="price-class">${subItem.price}</label>
 							</div>
 						</div>

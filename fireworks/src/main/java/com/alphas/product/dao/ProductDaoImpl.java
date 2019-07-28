@@ -71,7 +71,7 @@ public class ProductDaoImpl implements ProductDao{
 		this.add(product);
 	}
 	
-	@Cacheable(value="products")
+
 	@Override
 	public List<Product> retrieveAvailableProducts(EntityManager entityManager) throws AException{
 		List<Product> result = new ArrayList<Product>();

@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.alphas.common.exception.AException;
@@ -60,6 +61,7 @@ public class ProductServiceImpl implements ProductService{
 		return dao.findAllNoLazy(entityManager);
 	}*/
 	
+	@Cacheable(value="products")
 	@Override
 	public List<Product> retrieveAvailableProducts() throws AException{
 		

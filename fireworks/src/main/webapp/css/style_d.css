@@ -82,6 +82,11 @@ width:200px;
     
 }
 
+.quantityBtnMinus1,.quantityBtnAdd1 {
+     padding: 7px ;
+    font-size: 10px;
+    
+}
 
 .card{
   padding: 0em;
@@ -211,12 +216,31 @@ table, .confimPgInputForm{
   background-color: #eceaeb;
 }
 
+.quantityBtnMinus1{
+  background-color: #ffffff;
+  color:red;
+}
+/* Darker background on mouse-over */
+.quantityBtnMinus1:hover {
+  background-color: #eceaeb;
+}
+
 .quantityBtnAdd{
   background-color: #ffffff;
   color:red;
 }
 /* Darker background on mouse-over */
 .quantityBtnAdd:hover {
+  background-color: #eceaeb;
+}
+
+
+.quantityBtnAdd1{
+  background-color: #ffffff;
+  color:red;
+}
+/* Darker background on mouse-over */
+.quantityBtnAdd1:hover {
   background-color: #eceaeb;
 }
 

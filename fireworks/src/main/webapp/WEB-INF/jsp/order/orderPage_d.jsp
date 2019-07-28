@@ -9,8 +9,10 @@
 
  <link rel="stylesheet" href="/css/style_d.css">
  
- 
 <head>
+<style>
+
+</style>
 <script type="text/javascript">
 
 
@@ -39,8 +41,8 @@
 
 			calculateQty();
 			
-			$("#orderForm").attr('action', '/fireworks/order/addToCart');
-			$("#orderForm").submit();
+			//$("#orderForm").attr('action', '/fireworks/order/addToCart');
+			//$("#orderForm").submit();
 		});
 
 		$(".quantityBtnMinus").click(function() {
@@ -51,8 +53,8 @@
 				parentTag.text(val);
 			}
 			calculateQty();
-			$("#orderForm").attr('action', '/fireworks/order/addToCart');
-			$("#orderForm").submit();
+			//$("#orderForm").attr('action', '/fireworks/order/addToCart');
+			//$("#orderForm").submit();
 		});
 
 		function calculateQty(){
@@ -81,8 +83,6 @@
 		
 		calculateQty();
 
-		
-		
 		
 		var infoModal = $('#myModal');
 		
@@ -119,8 +119,53 @@
 			 
 		 });
 		
+		 
+	
+		  $(".qtyPlusMinusBtn").click(function(){
+			  $(".cartItems").empty();
+				var totalPrice = 0;
+			  $(".qty-class").each(function(){
+					var parentTag = $(this).parent().children('label');
+					var mainTag = parentTag.parent();
+					var val = parseInt(parentTag.text());
+					
+					var cartItemsTbody = $(".cartItems");
+				
+					if(val > 0){
+						var lbl = mainTag.find('.hiddenLabel').text();
+			  			var qty = mainTag.find('.qty-class').text();
+		  				var price =  mainTag.find('.hiddenPrice').val();
+		  				var productId = mainTag.find('.hiddenProductId').text();
+						var lblElement = '<tr><td style="width:30%;font-size:11px;">'+lbl+'</td>';
+						
+						var qtyBtnElement = '<td style="width:9em;"><div	class="rounded border border-grey quantity-padding float-right"><button class="btn quantityBtnMinus1" type="button" onclick="javascript:cartItemPlusMinusFunction(this)" seq="btnMinus-'+productId+'">'
+							+ '<i class="fa fa-minus" aria-hidden="true" style="color: grey; cursor: hand"></i>	</button>'
+							+'<label class="" style="color: grey;" >'+qty+'</label>'
+							+'<button class="btn quantityBtnAdd1" type="button" onclick="javascript:cartItemPlusMinusFunction(this)" seq="btnAdd-'+productId+'">	<i class="fa fa-plus" aria-hidden="true" style="color: #F26522; cursor: hand"></i></button>'
+							+'</div></td>';
+									
+							
+						var priceElement = "<td class='priceCountOuputLbl' style='text-align: left;font-size:11px;'> <span><i class='fa' style='color: grey'>&#xf156;</i></span> "+parseInt(price * qty)+"  </td></tr>";
+						
+							
+							$(".cartItems").append(lblElement+qtyBtnElement+priceElement);
+							totalPrice = parseInt(totalPrice + (price * qty));
+							
+					}       
+					
+	                 
+			  });
+				$("#netPriceCountOuputLbl").html(totalPrice);
+		  });
+		 
+			
+			 
 		
 	});
+	
+	 function cartItemPlusMinusFunction(v){
+		 document.getElementById(v.getAttribute('seq')).click();
+	 }
 </script>
 
 <style>
@@ -229,20 +274,24 @@ padding-top:120px;
 												</span> <label class="price-class" style="color: grey">${subItem.price}</label>
 											</div>
 										</div>
-
+										
 										<div
 											class="rounded border border-grey quantity-padding float-right">
-											<button class="btn quantityBtnMinus" type="button">
+											<button class="btn quantityBtnMinus qtyPlusMinusBtn" type="button" id="btnMinus-${subItem.productId}">
 												<i class="fa fa-minus" aria-hidden="true"
 													style="color: grey; cursor: hand"></i>
 											</button>
+											<span style="display:none;" class="hiddenProductId">${subItem.productId}</span>
+											<span style="display:none;" class="hiddenLabel">
+											${nameParts[0]} <br>${nameParts[1]} ${nameParts[2]} ${nameParts[3]}
+											</span>
 											<input type="hidden" class="hiddenPrice"
 												name="orderLineItems[${itemsCounter}].price"
 												value="${subItem.price}"> <input type="hidden"
 												name="orderLineItems[${itemsCounter}].quantity"
 												class="hiddenQnty" value="${subItem.quantity}"> <label
 												class="qty-class" style="color: grey;" >${subItem.quantity}</label>
-											<button class="btn quantityBtnAdd" type="button">
+											<button class="btn quantityBtnAdd qtyPlusMinusBtn" type="button" id="btnAdd-${subItem.productId}" >
 												<i class="fa fa-plus" aria-hidden="true"
 													style="color: #F26522; cursor: hand"></i>
 											</button>
@@ -258,13 +307,11 @@ padding-top:120px;
 				</div>
 				</div>
 		<div class="col-xs-3 middleContent">
-		<c:if test="${fn:length(order.orderLineItems) eq 0}">
-			Cart Empty
-		</c:if>
-		<c:if test="${fn:length(order.orderLineItems) gt 0}">
+
+
 			<h2>Cart</h2>
 			<label id="cartItemsCountLbl">0</label> ITEMS
-		</c:if>
+
 		
 		<c:set var="netPrice" value="${0}" />
 			<div class="row row-padding">
@@ -272,52 +319,12 @@ padding-top:120px;
 					<div class="table-responsive-md ">
 						<table class="table tblTemplate">
 						<tbody class="cartItems">
-							<c:forEach var="item" items="${order.orderLineItems}"
-								varStatus="loop">
-								<c:set var="nameParts"
-									value="${fn:split(item.productName, ',')}" />
-								<tr>
-									<td style="width:40%">
-									${nameParts[0]}<br> ${nameParts[1]}
-										${nameParts[2]} ${nameParts[3]}
-									
-										</td>
-									<td style="width:9em;">
-									
-									<div
-											class="rounded border border-grey quantity-padding float-right">
-											<button class="btn quantityBtnMinus" type="button">
-												<i class="fa fa-minus" aria-hidden="true"
-													style="color: grey; cursor: hand"></i>
-											</button>
-											<%-- <input type="hidden" class="hiddenPrice"
-												name="orderLineItems[${itemsCounter}].price"
-												value="${subItem.price}"> <input type="hidden"
-												name="orderLineItems[${itemsCounter}].quantity"
-												class="hiddenQnty" value="${subItem.quantity}"> --%>
-												
-												 <label
-												class="qty-class1" style="color: grey;" >${item.quantity}</label>
-											<button class="btn quantityBtnAdd" type="button">
-												<i class="fa fa-plus" aria-hidden="true"
-													style="color: #F26522; cursor: hand"></i>
-											</button>
-										</div>
-										
-									</td>
-									
-									<td class="priceCountOuputLbl" style="text-align: left"> <span><i class="fa" style="color: grey">&#xf156;</i>
-												</span>  ${item.quantity * item.price}</td>
-									<c:set var="netPrice"
-										value="${netPrice + (item.quantity * item.price)}" />
-								  
-								</tr>
-							</c:forEach>
+							
 							</tbody>
 							<tfoot>
 								<tr>
 									<th colspan="2">Total</th>
-									<th colspan="1"><span class="rupeesymbol"><i class="fa" >&#xf156;</i></span> <span id="netPriceCountOuputLbl">${netPrice}</span> </th>
+									<th colspan="1"><span class="rupeesymbol"><i class="fa" >&#xf156;</i></span> <span id="netPriceCountOuputLbl">0</span> </th>
 								</tr>
 							</tfoot>
 						</table>
