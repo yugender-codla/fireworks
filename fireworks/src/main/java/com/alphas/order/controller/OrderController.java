@@ -78,15 +78,6 @@ public class OrderController {
 	public String ShowProducts(Device device, Model model) {
 		try {
 
-			String deviceType = "";
-			if(device.isMobile()) {
-				deviceType = "mobile";
-			}else if(device.isNormal()){
-				deviceType ="normal";
-			}else {
-				deviceType = "normal";
-			}
-			
 			List<Product> products = productService.retrieveAvailableProducts();
 
 			Map<String, List<OrderLineItem>> productsMap = new LinkedHashMap<String, List<OrderLineItem>>();
@@ -99,19 +90,16 @@ public class OrderController {
 				lineItem.setProductId(product.getId());
 				lineItem.setProductName(product.getName());
 				lineItem.setPrice(product.getPrice());
+				lineItem.setProductComboLineItems(product.getProductComboLineItems());
 				productsMap.get(product.getCategory()).add(lineItem);
 			}
 
 			model.addAttribute("productsMap", productsMap);
 			model.addAttribute("products", products);
-			model.addAttribute("deviceType", deviceType);
-			if("normal".equals(deviceType)) {
-				model.addAttribute("pageView", "order/orderPage_d");
-				return "common/template_d";
-			}else {
-				model.addAttribute("pageView", "order/orderPage");
-				return "common/template";
-			}
+			//model.addAttribute("deviceType", deviceType);
+			
+				model.addAttribute("pageView", "order/orderPage"+(device.isMobile() ? "":"_d"));
+				return "common/template"+(device.isMobile() ? "":"_d");
 		} catch (AException e) {
 
 		}
@@ -120,7 +108,7 @@ public class OrderController {
 	}
 
 	@PostMapping(value = "/order/cart")
-	public String showConfirmOrder(@ModelAttribute("order") Order order, BindingResult result, Model model,
+	public String showConfirmOrder(Device device, @ModelAttribute("order") Order order, BindingResult result, Model model,
 			final RedirectAttributes redirectAttributes) {
 
 		List<OrderLineItem> selectedLineItems = new ArrayList<OrderLineItem>();
@@ -173,7 +161,7 @@ try {
 	}
 	
 	@PostMapping("/order/back")
-	public String backToShowProducts(Order order, Model model) {
+	public String backToShowProducts(Device device,Order order, Model model) {
 		try {
 			List<Product> products = productService.retrieveAvailableProducts();
 			Map<String, List<OrderLineItem>> productsMap = orderService.populateOrder(order, products);
@@ -183,8 +171,8 @@ try {
 		} catch (AException e) {
 			
 		}
-		model.addAttribute("pageView", "order/orderPage");
-		return "common/template";
+		model.addAttribute("pageView", "order/orderPage"+(device.isMobile() ? "":"_d"));
+		return "common/template"+(device.isMobile() ? "":"_d");
 	}
 
 	

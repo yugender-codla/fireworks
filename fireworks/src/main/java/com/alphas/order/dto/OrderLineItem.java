@@ -1,8 +1,9 @@
 package com.alphas.order.dto;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,8 +12,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
+
+import com.alphas.product.dto.ProductComboLineItem;
 
 import lombok.Data;
 
@@ -37,12 +41,19 @@ public class OrderLineItem implements Serializable{
 	@Column(name="price")
 	private Long price;
 	
+	@Column(name="category")
+	private String category;
+	
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn
     private Order order;
 	
 	@Transient
 	private boolean checked;
+	
+	@Transient
+	private List<ProductComboLineItem> productComboLineItems;
 	
 	
 }

@@ -7,6 +7,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
+
  <link rel="stylesheet" href="/css/style_d.css">
  
 <head>
@@ -23,7 +24,7 @@
 	window.onload = init;
 	
 	$(document).ready(function() {
-		
+		  calculateQty(); 
 		$('#middleContentDiv').scroll(function () {
 			  //set scroll position in session storage
 			  sessionStorage.scrollPos = $('#middleContentDiv').scrollTop();
@@ -47,7 +48,9 @@
 
 		$(".quantityBtnMinus").click(function() {
 			var parentTag = $(this).parent().children('label');
+			
 			var val = parseInt(parentTag.text());
+			
 			if (val > 0) {
 				val = val - 1;
 				parentTag.text(val);
@@ -62,13 +65,26 @@
 			var price = 0;
 			var totalPrice = 0;
 			$(".qty-class").each(function() {
+				
 				qnty = qnty + parseInt($(this).text());
+				
 				price = $(this).parent().children(".hiddenPrice").val();
 				$(this).parent().children(".hiddenQnty").val(parseInt($(this).text()));
 				
 				totalPrice = totalPrice + parseInt($(this).text()) * parseFloat(price);
 				
+				
+				 $("#divQtyAddBtnPanel-"+this.id.substring(this.id.indexOf('-')+1,this.id.length)).hide();
+				 
+				if(parseInt($(this).text()) == parseInt(0)){
+					
+				 $("#divQtyBtnPanel-"+this.id.substring(this.id.indexOf('-')+1,this.id.length)).hide();
+				 $("#divQtyAddBtnPanel-"+this.id.substring(this.id.indexOf('-')+1,this.id.length)).show();
+				 
+				}
+				
 			});
+			
 			
 			$("#qntyCountInputTxt").val(qnty);
 			$("#qntyCountInputLbl").text(qnty);
@@ -81,14 +97,15 @@
 			$("#cartItemsCountLbl").text(qnty);
 		}
 		
-		calculateQty();
+		
 
 		
 		var infoModal = $('#myModal');
 		
 		 $(".view-button").click(function(event){
 			 event.preventDefault();
-			 var url = $(this).attr("id");
+			 var url = $(this).attr("seq");
+			 
 			 var htmlHeadString = "<div> <table class='table table-bordered'><tbody class='mdlTbody'>";
 			 var htmlFootString = "</tbody></table></div>";
 			 $.ajax({
@@ -119,9 +136,20 @@
 			 
 		 });
 		
+		 $(".divQtyAddBtnPanel").click(function(){
+			 $(this).hide();
+			 $("#divQtyBtnPanel-"+this.id.substring(this.id.indexOf('-')+1,this.id.length)).show(400);
+			 $("#btnAdd-"+this.id.substring(this.id.indexOf('-')+1,this.id.length)).click();
+		 });
 		 
 	
+		 
 		  $(".qtyPlusMinusBtn").click(function(){
+			  loadCartItems();
+		  });
+		 
+			
+		  function loadCartItems(){
 			  $(".cartItems").empty();
 				var totalPrice = 0;
 			  $(".qty-class").each(function(){
@@ -130,13 +158,22 @@
 					var val = parseInt(parentTag.text());
 					
 					var cartItemsTbody = $(".cartItems");
-				
+					
 					if(val > 0){
 						var lbl = mainTag.find('.hiddenLabel').text();
 			  			var qty = mainTag.find('.qty-class').text();
 		  				var price =  mainTag.find('.hiddenPrice').val();
 		  				var productId = mainTag.find('.hiddenProductId').text();
-						var lblElement = '<tr><td style="width:30%;font-size:11px;">'+lbl+'</td>';
+		  				var lblElement = '';
+		  				
+		  				if($(this).attr("key") == 'Combo'){
+		  					lblElement = '<tr><td style="width:30%;font-size:11px;">'+lbl+'</td>';
+		  				}else{
+		  					lblElement = '<tr><td style="width:30%;font-size:11px;">'+lbl+'</td>';	
+		  				}
+		  				 
+		  				
+						
 						
 						var qtyBtnElement = '<td style="width:9em;"><div	class="rounded border border-grey quantity-padding float-right"><button class="btn quantityBtnMinus1" type="button" onclick="javascript:cartItemPlusMinusFunction(this)" seq="btnMinus-'+productId+'">'
 							+ '<i class="fa fa-minus" aria-hidden="true" style="color: grey; cursor: hand"></i>	</button>'
@@ -147,7 +184,6 @@
 							
 						var priceElement = "<td class='priceCountOuputLbl' style='text-align: left;font-size:11px;'> <span><i class='fa' style='color: grey'>&#xf156;</i></span> "+parseInt(price * qty)+"  </td></tr>";
 						
-							
 							$(".cartItems").append(lblElement+qtyBtnElement+priceElement);
 							totalPrice = parseInt(totalPrice + (price * qty));
 							
@@ -156,16 +192,35 @@
 	                 
 			  });
 				$("#netPriceCountOuputLbl").html(totalPrice);
-		  });
-		 
-			
-			 
+		  }
+		  
+		  loadCartItems();  
+		
+			// Add minus icon for collapse element which is open by default
+	        $(".collapse.show").each(function(){
+	        	$(this).prev(".card-header").find(".fa").addClass("fa-minus").removeClass("fa-plus");
+	        });
+	        
+	        // Toggle plus minus icon on show hide of collapse element
+	        $(".collapse").on('show.bs.collapse', function(){
+	        	$(this).prev(".card-header").find(".fa").removeClass("fa-plus").addClass("fa-minus");
+	        }).on('hide.bs.collapse', function(){
+	        	$(this).prev(".card-header").find(".fa").removeClass("fa-minus").addClass("fa-plus");
+	        });
 		
 	});
+	
+	
+	  
+
 	
 	 function cartItemPlusMinusFunction(v){
 		 document.getElementById(v.getAttribute('seq')).click();
 	 }
+	 
+	 function cartItemComboViewFunction(v){
+		 document.getElementById('comboViewId-'+v.id.substring(v.id.indexOf('-')+1,v.id.length)).click();
+		}
 </script>
 
 <style>
@@ -193,7 +248,7 @@ padding-top:120px;
 <div class="container">
 	<div class="row">
 	
-			<div class="col-xs-3" style="width:250px;">
+			<div class="col-xs-3" style="width:20%;">
 <nav id="scrollspy" class ="navbar" >
 			<ul class="nav nav-pills nav-stacked flex-column mr-auto ml-auto">
 					<c:set var="categoryCounter" value="${0}" />
@@ -203,10 +258,10 @@ padding-top:120px;
 						<c:choose>
 							<c:when test="${categoryCounter eq 1}">
 								<li  class="nav-item"><a class="nav-link active"
-									href="#tab${categoryCounter}">${item.key}</a></li>
+									href="#tab${categoryCounter}">${item.key} (${fn:length(item.value)})</a></li>
 							</c:when>
 							<c:otherwise>
-								<li class="nav-item "><a class="nav-link"	href="#tab${categoryCounter}">${item.key}</a></li>
+								<li class="nav-item "><a class="nav-link"	href="#tab${categoryCounter}">${item.key} (${fn:length(item.value)})</a></li>
 							</c:otherwise>
 						</c:choose>
 
@@ -232,8 +287,8 @@ padding-top:120px;
 
 
 
-			<div class="col-xs-6 middleContent">
-			<div data-spy="scroll" data-target="#scrollspy" data-offset="0" style="overflow-y: scroll;height: 800px;position:relative;" id="middleContentDiv">				
+			<div class="col-xs-6 middleContent" style="width:50%">
+			<div data-spy="scroll" data-target="#scrollspy" data-offset="0" style="overflow-y: scroll;height: 700px;width:100%;position:relative;" id="middleContentDiv">				
 					<c:set var="itemsCounter" value="${0}" />
 					<c:set var="tabsCounter" value="${0}" />
 					<c:forEach var="item" items="${productsMap}" varStatus="toploop">
@@ -259,13 +314,53 @@ padding-top:120px;
 												value="${subItem.productId}"> <input type="hidden"
 												name="orderLineItems[${itemsCounter}].productName"
 												value="${subItem.productName}">
-										  
-											<h3 class="card-text">
-											<c:if test="${item.key == 'Combo'}">
-											<a href= "#"><i class="fa fa-info view-button" id="${viewUrl}" style="color:blue"></i></a> 
-											</c:if>
-											${nameParts[0]}
 												
+												 <input type="hidden"
+												name="orderLineItems[${itemsCounter}].category"
+												value="${item.key}">
+										
+											<h3 class="card-text ">
+										
+											<c:choose>
+												<c:when test="${item.key == 'Combo'}">
+											
+												<div class="accordion " id="accordionExample-${subItem.productId}">
+											        <div class="card " style="margin-left: 0px;padding-left: 0px;">
+											            <div class="card-header" id="headingOne-${subItem.productId}" style="background-color: #fff;border-color: #fff;padding-left: 0px;">
+											              		<span data-toggle="collapse" data-target="#collapseOne-${subItem.productId}"><i class="fa fa-plus"></i> ${nameParts[0]}
+											              		</span>
+											            </div>
+											            <div id="collapseOne-${subItem.productId}" class="collapse comboLineItemDiv" aria-labelledby="headingOne-${loop.index}" data-parent="#accordionExample-${subItem.productId}">
+											                <div class="card-body comboLineItemDiv">
+											                  <ul>
+											                    <c:forEach var="comboLineItem" items="${subItem.productComboLineItems}" varStatus="comboLoop">
+											                    <li>
+											                    ${comboLineItem.pid1Name} (${comboLineItem.pid1Qty}) 
+											                   
+											                    <c:if test = "${fn:length(comboLineItem.pid2Name) > 0}">
+											                    <br> (Or) ${comboLineItem.pid2Name} (${comboLineItem.pid2Qty}) 
+											                    </c:if>
+											                    
+											                    <c:if test = "${fn:length(comboLineItem.pid3Name) > 0}">
+											                    <br> (Or) ${comboLineItem.pid3Name} (${comboLineItem.pid3Qty})
+											                    </c:if>
+											                   
+											                  </li>
+											                    </c:forEach>
+											                   </ul>
+											                </div>
+											            </div>
+											        </div>
+      											  </div>
+											
+											
+											
+												</c:when>
+												<c:otherwise>
+												${nameParts[0]}
+												</c:otherwise>
+										</c:choose>
+											
 											</h3>
 
 											<div style="font-size: 12px;">
@@ -274,13 +369,16 @@ padding-top:120px;
 												</span> <label class="price-class" style="color: grey">${subItem.price}</label>
 											</div>
 										</div>
-										
 										<div
-											class="rounded border border-grey quantity-padding float-right">
-											<button class="btn quantityBtnMinus qtyPlusMinusBtn" type="button" id="btnMinus-${subItem.productId}">
+											class="rounded border border-grey quantity-label float-top float-right divQtyAddBtnPanel" style="width:70px;padding:9px;display:none;" id="divQtyAddBtnPanel-${subItem.productId}">
+										<div>ADD</div>	
+										</div>
+										 <div
+											class="rounded border border-grey quantity-padding float-top float-right" style="width:70px;" id="divQtyBtnPanel-${subItem.productId}">
+											 <button class="btn quantityBtnMinus qtyPlusMinusBtn" type="button" id="btnMinus-${subItem.productId}">
 												<i class="fa fa-minus" aria-hidden="true"
 													style="color: grey; cursor: hand"></i>
-											</button>
+											</button> 
 											<span style="display:none;" class="hiddenProductId">${subItem.productId}</span>
 											<span style="display:none;" class="hiddenLabel">
 											${nameParts[0]} <br>${nameParts[1]} ${nameParts[2]} ${nameParts[3]}
@@ -290,12 +388,13 @@ padding-top:120px;
 												value="${subItem.price}"> <input type="hidden"
 												name="orderLineItems[${itemsCounter}].quantity"
 												class="hiddenQnty" value="${subItem.quantity}"> <label
-												class="qty-class" style="color: grey;" >${subItem.quantity}</label>
-											<button class="btn quantityBtnAdd qtyPlusMinusBtn" type="button" id="btnAdd-${subItem.productId}" >
+												class="qty-class"  key = "${item.key}" style="color: grey;" id="qtyClass-${subItem.productId}" >${subItem.quantity}</label> 
+												
+										<button class="btn quantityBtnAdd qtyPlusMinusBtn" type="button" id="btnAdd-${subItem.productId}">
 												<i class="fa fa-plus" aria-hidden="true"
 													style="color: #F26522; cursor: hand"></i>
-											</button>
-										</div>
+											</button> 
+										</div> 
 
 									</div>
 								</div>
@@ -306,13 +405,13 @@ padding-top:120px;
 				</c:forEach>
 				</div>
 				</div>
-		<div class="col-xs-3 middleContent">
+		<div class="col-xs-3 middleContent" style="width:30%">
 
 
 			<h2>Cart</h2>
-			<label id="cartItemsCountLbl">0</label> ITEMS
+			<b><label id="cartItemsCountLbl">0</label></b> ITEMS | <b><span class="rupeesymbol"><i class="fa" >&#xf156;</i></span> <span id="netPriceCountOuputLbl">0</span></b> 
 
-		
+		<div style="overflow-y: auto;overflow-x:hidden;min-height:0px;max-height: 400px;position:relative;" id="cartItemsDiv">	
 		<c:set var="netPrice" value="${0}" />
 			<div class="row row-padding">
 				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
@@ -321,18 +420,18 @@ padding-top:120px;
 						<tbody class="cartItems">
 							
 							</tbody>
-							<tfoot>
-								<tr>
-									<th colspan="2">Total</th>
-									<th colspan="1"><span class="rupeesymbol"><i class="fa" >&#xf156;</i></span> <span id="netPriceCountOuputLbl">0</span> </th>
-								</tr>
-							</tfoot>
 						</table>
 					</div>
 				</div>
+				
 			</div>
 		
-		
+		</div>
+		<div class="row row-padding">
+				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
+				<button type="button" class="btn-success" style="width:200px" onclick = "javascript:$('form').submit()">Check Out</button>
+				</div>
+		</div>
 		</div>
 	</div>
 

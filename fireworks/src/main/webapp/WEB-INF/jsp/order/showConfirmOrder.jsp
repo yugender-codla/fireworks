@@ -10,55 +10,101 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Confirmation Page</title>
-
+<style>
+ .bs-example{
+        margin: 20px;
+    }
+    .accordion .fa{
+        margin-right: 0.5rem;
+    }
+</style>
 <script type="text/javascript">
 
     $(document).ready(function(){
     	
     	 $("#backButton").click(function(){
              document.confirmationForm.action = "<%=request.getContextPath()%>/fireworks/order/back";
+             document.confirmationForm.submit();
+										});
+
+						$(".quantityBtnAdd").click(function() {
+							var parentTag = $(this).parent().children('label');
+							var val = parseInt(parentTag.text());
+							val = val + 1;
+							parentTag.text(val);
+
+							calculateQty();
+						});
+
+						$(".quantityBtnMinus").click(function() {
+							var parentTag = $(this).parent().children('label');
+							var val = parseInt(parentTag.text());
+							if (val > 0) {
+								val = val - 1;
+								parentTag.text(val);
+							}
+
+							calculateQty();
+						});
+
+						function calculateQty() {
+							var qnty = 0;
+							var price = 0;
+							var totalPrice = 0;
+							$(".qty-class")
+									.each(
+											function() {
+												qnty = parseInt($(this).text());
+												price = $(this).parent()
+														.children(
+																".hiddenPrice")
+														.val();
+												$(this)
+														.parent()
+														.children(".hiddenQnty")
+														.val(
+																parseInt($(this)
+																		.text()));
+												$(this)
+														.parent()
+														.parent()
+														.parent()
+														.children(
+																".priceCountOuputLbl")
+														.text(
+																(qnty * parseFloat(price))
+																		.toFixed(2));
+												totalPrice = totalPrice
+														+ parseInt($(this)
+																.text())
+														* parseFloat(price);
+											});
+
+							$("#netPriceCountOuputLbl").text(
+									totalPrice.toFixed(2));
+						}
+						
+						
+						
+						
+						
+						// Add minus icon for collapse element which is open by default
+						        $(".collapse.show").each(function(){
+						        	$(this).prev(".card-header").find(".fa").addClass("fa-minus").removeClass("fa-plus");
+						        });
+						        
+						        // Toggle plus minus icon on show hide of collapse element
+						        $(".collapse").on('show.bs.collapse', function(){
+						        	$(this).prev(".card-header").find(".fa").removeClass("fa-plus").addClass("fa-minus");
+						        }).on('hide.bs.collapse', function(){
+						        	$(this).prev(".card-header").find(".fa").removeClass("fa-minus").addClass("fa-plus");
+						        });
+						  
+						
+
 					});
-    	 
-    	 
-    	 $(".quantityBtnAdd").click(function() {
- 			var parentTag = $(this).parent().children('label');
- 			var val = parseInt(parentTag.text());
- 			val = val + 1;
- 			parentTag.text(val);
-
- 			calculateQty();
- 		});
-
- 		$(".quantityBtnMinus").click(function() {
- 			var parentTag = $(this).parent().children('label');
- 			var val = parseInt(parentTag.text());
- 			if (val > 0) {
- 				val = val - 1;
- 				parentTag.text(val);
- 			}
- 			
- 			calculateQty();
- 		});
-    	 
- 		
- 		
- 		function calculateQty(){
-			var qnty = 0;
-			var price = 0;
-			var totalPrice = 0;
-			$(".qty-class").each(function() {
-				qnty = parseInt($(this).text());
-				price = $(this).parent().children(".hiddenPrice").val();
-				$(this).parent().children(".hiddenQnty").val(parseInt($(this).text()));
-				$(this).parent().parent().parent().children(".priceCountOuputLbl").text((qnty * parseFloat(price)).toFixed(2));
-				totalPrice = totalPrice + parseInt($(this).text()) * parseFloat(price);
-			});
-			
-			$("#netPriceCountOuputLbl").text(totalPrice.toFixed(2));			
-		}
- 		
-    	 
-		});
+    
+  
 </script>
 
 
@@ -81,10 +127,10 @@
 		<spring:url value="/fireworks/order/save" var="confirmOrderUrl" />
 		<form:form method="post" action="${confirmOrderUrl}"
 			modelAttribute="order" name="confirmationForm">
-			<input type="hidden" name="id" value ="${order.id}">
-			<input type="hidden" name="statusCode" value="${order.statusCode}"/>
-			<input type="hidden" name="orderNumber" value="${order.orderNumber}"/>
-			
+			<input type="hidden" name="id" value="${order.id}">
+			<input type="hidden" name="statusCode" value="${order.statusCode}" />
+			<input type="hidden" name="orderNumber" value="${order.orderNumber}" />
+
 			<c:set var="netPrice" value="${0}" />
 			<div class="row row-padding">
 				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
@@ -95,7 +141,7 @@
 									<th>Name</th>
 									<th>Qty</th>
 									<th>Total</th>
-									
+
 								</tr>
 							</thead>
 
@@ -104,37 +150,88 @@
 								<c:set var="nameParts"
 									value="${fn:split(item.productName, ',')}" />
 								<tr>
-									<td style="width:40%">${nameParts[0]}<br> ${nameParts[1]}
-										${nameParts[2]} ${nameParts[3]}</td>
-									<td style="width:9em;">
-										<div class="rounded border border-grey quantity-padding" >
+									
+								 	<c:choose>
+										<c:when test="${item.category == 'Combo'}">
+											<td style="width: 40%"><%-- <button type="button" class="accordion">${nameParts[0]}<br>
+												${nameParts[1]} ${nameParts[2]} ${nameParts[3]}</button>
+												<div class="panel">
+												<p>Lorem ipsum dolor sit amet, consectetur adipisicing
+													elit, sed do eiusmod tempor incididunt ut labore et dolore
+													magna aliqua. Ut enim ad minim veniam, quis nostrud
+													exercitation ullamco laboris nisi ut aliquip ex ea commodo
+													consequat.</p>
+												</div> --%>
+												
+												
+												
+	<div class="accordion" id="accordionExample-${loop.index}">
+        <div class="card" style="margin-left: 0px;padding-left: 0px;">
+            <div class="card-header" id="headingOne-${loop.index}" style="background-color: #fff;border-color: #fff;padding-left: 0px;">
+              		<span data-toggle="collapse" data-target="#collapseOne-${loop.index}"><i class="fa fa-plus"></i>${nameParts[0]}
+												${nameParts[1]} ${nameParts[2]} ${nameParts[3]}
+              		</span>
+            </div>
+            <div id="collapseOne-${loop.index}" class="collapse" aria-labelledby="headingOne-${loop.index}" data-parent="#accordionExample-${loop.index}">
+                <div class="card-body">
+                    <p>HTML stands for HyperText Markup Language. HTML is the standard markup language for describing the structure of web pages. <a href="https://www.tutorialrepublic.com/html-tutorial/" target="_blank">Learn more.</a></p>
+                </div>
+            </div>
+        </div>
+        </div>
+												
+											</td>
+										
+										</c:when>
+										<c:otherwise>
+											<td style="width: 40%">${item.category} ${nameParts[0]}
+												${nameParts[1]} ${nameParts[2]} ${nameParts[3]}
+											</td>
+										</c:otherwise>
+									</c:choose> 
+	<%-- <td style="width: 40%">${item.category} ${nameParts[0]}<br>
+												${nameParts[1]} ${nameParts[2]} ${nameParts[3]}
+											</td> --%>
+
+
+									<td style="width: 9em;">
+										<div class="rounded border border-grey quantity-padding">
 											<button class="btn quantityBtnMinus" type="button">
 												<i class="fa fa-minus qtyBtnGeneral" aria-hidden="true"
 													style="color: grey; cursor: hand"></i>
 											</button>
-												<input type="hidden" name="orderLineItems[${loop.index}].productId"	value="${item.productId}">
-												<input type="hidden" class="hiddenPrice" name="orderLineItems[${loop.index}].price"	value="${item.price}">
-												<input type="hidden" class="hiddenQnty" name="orderLineItems[${loop.index}].quantity"	value="${item.quantity}">
-												<input type="hidden" class="hiddenQnty" name="orderLineItems[${loop.index}].productName"	value="${item.productName}">
-												
-											<label class="qty-class qtyBtnGeneral">${item.quantity}</label>
+											<input type="hidden"
+												name="orderLineItems[${loop.index}].productId"
+												value="${item.productId}"> <input type="hidden"
+												class="hiddenPrice"
+												name="orderLineItems[${loop.index}].price"
+												value="${item.price}"> <input type="hidden"
+												class="hiddenQnty"
+												name="orderLineItems[${loop.index}].quantity"
+												value="${item.quantity}"> <input type="hidden"
+												class="hiddenQnty"
+												name="orderLineItems[${loop.index}].productName"
+												value="${item.productName}"> <label
+												class="qty-class qtyBtnGeneral">${item.quantity}</label>
 											<button class="btn quantityBtnAdd" type="button">
 												<i class="fa fa-plus qtyBtnGeneral" aria-hidden="true"
 													style="color: #F26522; cursor: hand;"></i>
 											</button>
 										</div>
 									</td>
-									
+
 									<td class="priceCountOuputLbl" style="text-align: left">${item.quantity * item.price}</td>
 									<c:set var="netPrice"
 										value="${netPrice + (item.quantity * item.price)}" />
-								  
+
 								</tr>
 							</c:forEach>
 							<tfoot>
 								<tr>
 									<th colspan="2">Total</th>
-									<th colspan="1"><span class="rupeesymbol"><i class="fa" >&#xf156;</i></span> <span id="netPriceCountOuputLbl">${netPrice}</span> </th>
+									<th colspan="1"><span class="rupeesymbol"><i
+											class="fa">&#xf156;</i></span> <span id="netPriceCountOuputLbl">${netPrice}</span>
+									</th>
 								</tr>
 							</tfoot>
 						</table>
@@ -176,7 +273,7 @@
 					<button type="submit" value="Confirm Order" class="btn btn-success"> Confirm Order</button>
 				</div>
 			</div> -->
-			
+
 			<%-- <label for="Phone Number">Phone No: </label>
 			<form:input path="phoneNumber" />
 			<label for="Email">Email: </label>
@@ -186,20 +283,20 @@
 			<br>
 			<br> --%>
 
-				
-				<h5>Register Form</h5>
- 				<hr>
+
+			<h5>Register Form</h5>
+			<hr>
 			<div class="row row-padding confimPgInputForm">
-				
+
 				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
 					<label class="" for="inputName">Name</label>
 				</div>
 				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
 					<!-- <input type="text" class="form-control " name="custName"> -->
-					<form:input path="custName" cssClass="form-control"/>
-					<form:errors path="custName" cssClass="error"/>  
+					<form:input path="custName" cssClass="form-control" />
+					<form:errors path="custName" cssClass="error" />
 				</div>
-			
+
 				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
 					<label class="" for="inputEmail">Email</label>
 				</div>
@@ -207,9 +304,9 @@
 				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
 					<!-- <input type="email" name="email" class="form-control"
 						id="inputEmail" > -->
-						
-						<form:input path="email" cssClass="form-control" id="inputEmail"/>
-						<form:errors path="email" cssClass="error"/>  
+
+					<form:input path="email" cssClass="form-control" id="inputEmail" />
+					<form:errors path="email" cssClass="error" />
 				</div>
 
 				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
@@ -218,8 +315,8 @@
 
 				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
 					<!-- <input type="tel" class="form-control " name="phoneNumber"> -->
-					<form:input path="phoneNumber" cssClass="form-control"/>
-					<form:errors path="phoneNumber" cssClass="error"/> 
+					<form:input path="phoneNumber" cssClass="form-control" />
+					<form:errors path="phoneNumber" cssClass="error" />
 				</div>
 
 				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
@@ -227,16 +324,19 @@
 				</div>
 
 				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
-					<input name="deliverBy" type="date" class="form-control" value="<fmt:formatDate pattern="yyyy-MM-dd" value="${order.deliverBy}" />">
-					
-					<form:errors path="deliverBy" cssClass="error"/> 
+					<input name="deliverBy" type="date" class="form-control"
+						value="<fmt:formatDate pattern="yyyy-MM-dd" value="${order.deliverBy}" />">
+
+					<form:errors path="deliverBy" cssClass="error" />
 				</div>
-				
+
 			</div>
 			<div class="row row-padding" style="text-align: center;">
 				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
-					<button type="submit" value="Back" id="backButton" class="btn btn-primary"><- Back</button>
-					<button type="submit" value="Confirm Order" class="btn btn-primary"> Confirm Order</button>
+					<button type="button" value="Back" id="backButton"
+						class="btn btn-primary"><- Back</button>
+					<button type="submit" value="Confirm Order" class="btn btn-primary">
+						Confirm Order</button>
 				</div>
 			</div>
 		</form:form>

@@ -96,6 +96,19 @@
 			 
 			 
 		 });
+		 
+		 
+		// Add minus icon for collapse element which is open by default
+	        $(".collapse.show").each(function(){
+	        	$(this).prev(".card-header").find(".fa").addClass("fa-minus").removeClass("fa-plus");
+	        });
+	        
+	        // Toggle plus minus icon on show hide of collapse element
+	        $(".collapse").on('show.bs.collapse', function(){
+	        	$(this).prev(".card-header").find(".fa").removeClass("fa-plus").addClass("fa-minus");
+	        }).on('hide.bs.collapse', function(){
+	        	$(this).prev(".card-header").find(".fa").removeClass("fa-minus").addClass("fa-plus");
+	        });
 	});
 </script>
 </head>
@@ -143,10 +156,45 @@
 								<input type="hidden" name="orderLineItems[${itemsCounter}].productName" value="${subItem.productName}">
 								
 							<h3 class="card-text">
-							<c:if test="${item.key == 'Combo'}">
-								<a href= "#"><i class="fa fa-info view-button" id="${viewUrl}" style="color:blue"></i></a> 
-							</c:if>
-							${nameParts[0]} 
+							<c:choose>
+												<c:when test="${item.key == 'Combo'}">
+											
+												<div class="accordion " id="accordionExample-${subItem.productId}">
+											        <div class="card " style="margin-left: 0px;padding-left: 0px;">
+											            <div class="card-header" id="headingOne-${subItem.productId}" style="background-color: #fff;border-color: #fff;padding-left: 0px;">
+											              		<span data-toggle="collapse" data-target="#collapseOne-${subItem.productId}"><i class="fa fa-plus"></i> ${nameParts[0]}
+											              		</span>
+											            </div>
+											            <div id="collapseOne-${subItem.productId}" class="collapse comboLineItemDiv" aria-labelledby="headingOne-${loop.index}" data-parent="#accordionExample-${subItem.productId}">
+											                <div class="card-body comboLineItemDiv">
+											                  <ul>
+											                    <c:forEach var="comboLineItem" items="${subItem.productComboLineItems}" varStatus="comboLoop">
+											                    <li>
+											                    ${comboLineItem.pid1Name} (${comboLineItem.pid1Qty}) 
+											                   
+											                    <c:if test = "${fn:length(comboLineItem.pid2Name) > 0}">
+											                    <br> (Or) ${comboLineItem.pid2Name} (${comboLineItem.pid2Qty}) 
+											                    </c:if>
+											                    
+											                    <c:if test = "${fn:length(comboLineItem.pid3Name) > 0}">
+											                    <br> (Or) ${comboLineItem.pid3Name} (${comboLineItem.pid3Qty})
+											                    </c:if>
+											                   
+											                  </li>
+											                    </c:forEach>
+											                   </ul>
+											                </div>
+											            </div>
+											        </div>
+      											  </div>
+											
+											
+											
+												</c:when>
+												<c:otherwise>
+												${nameParts[0]}
+												</c:otherwise>
+										</c:choose>
 							</h3>
 							
 							<div style="font-size: 12px;">

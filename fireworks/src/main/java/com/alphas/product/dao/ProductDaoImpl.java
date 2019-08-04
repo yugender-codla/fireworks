@@ -93,8 +93,8 @@ public class ProductDaoImpl implements ProductDao{
 	
 	
 	public List<ProductComboLineItem> retrieveComboByProductId(EntityManager em, Long productId) throws AException {
-		String queryString = "SELECT id, product_id,pid1,pid2,pid3,pid1Name,pid2Name,pid3Name  FROM product_combo_line_item "
-				+ " WHERE product_id = :productId";
+		String queryString = "SELECT id, product,pid1,pid2,pid3,pid1Name,pid2Name,pid3Name  FROM product_combo_line_item "
+				+ " WHERE product = :productId";
 
 		List<ProductComboLineItem> ooBj = null;
 		try {
