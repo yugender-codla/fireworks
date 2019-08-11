@@ -291,6 +291,8 @@ padding-top:120px;
 			<div data-spy="scroll" data-target="#scrollspy" data-offset="0" style="overflow-y: scroll;height: 700px;width:100%;position:relative;" id="middleContentDiv">				
 					<c:set var="itemsCounter" value="${0}" />
 					<c:set var="tabsCounter" value="${0}" />
+				
+					
 					<c:forEach var="item" items="${productsMap}" varStatus="toploop">
 						<c:set var="tabsCounter" value="${tabsCounter + 1}" />
 
@@ -301,6 +303,7 @@ padding-top:120px;
 						</div>
 						<c:forEach var="subItem" items="${item.value}" varStatus="loop">
 							<c:set var="itemsCounter" value="${itemsCounter + 1}" />
+								<c:set var="comboLineItemCounter" value="${0}" />
 						<spring:url value="/fireworks/${subItem.productId}/viewCombo" var="viewUrl" />
 							<div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
 								<div class="card">
@@ -319,35 +322,79 @@ padding-top:120px;
 												name="orderLineItems[${itemsCounter}].category"
 												value="${item.key}">
 										
-											<h3 class="card-text ">
+											<div class="card-text ">
 										
 											<c:choose>
 												<c:when test="${item.key == 'Combo'}">
 											
 												<div class="accordion " id="accordionExample-${subItem.productId}">
 											        <div class="card " style="margin-left: 0px;padding-left: 0px;">
-											            <div class="card-header" id="headingOne-${subItem.productId}" style="background-color: #fff;border-color: #fff;padding-left: 0px;">
+											            <div class="card-header" id="headingOne-${subItem.productId}" style="background-color: #fff;border-color: #fff;padding-left: 0px;color:#F26522">
 											              		<span data-toggle="collapse" data-target="#collapseOne-${subItem.productId}"><i class="fa fa-plus"></i> ${nameParts[0]}
 											              		</span>
 											            </div>
+											            <div style="font-size: 12px;">
+															${nameParts[1]} ${nameParts[2]} ${nameParts[3]} <br>
+															<span><i class="fa" style="color: grey">&#xf156;</i>
+															</span> <label class="price-class" style="color: grey">${subItem.price}</label>
+														</div>
+														
 											            <div id="collapseOne-${subItem.productId}" class="collapse comboLineItemDiv" aria-labelledby="headingOne-${loop.index}" data-parent="#accordionExample-${subItem.productId}">
 											                <div class="card-body comboLineItemDiv">
-											                  <ul>
+											                
 											                    <c:forEach var="comboLineItem" items="${subItem.productComboLineItems}" varStatus="comboLoop">
-											                    <li>
-											                    ${comboLineItem.pid1Name} (${comboLineItem.pid1Qty}) 
-											                   
-											                    <c:if test = "${fn:length(comboLineItem.pid2Name) > 0}">
-											                    <br> (Or) ${comboLineItem.pid2Name} (${comboLineItem.pid2Qty}) 
-											                    </c:if>
-											                    
-											                    <c:if test = "${fn:length(comboLineItem.pid3Name) > 0}">
-											                    <br> (Or) ${comboLineItem.pid3Name} (${comboLineItem.pid3Qty})
-											                    </c:if>
-											                   
-											                  </li>
+											                
+											                    <c:choose>
+																	<c:when test="${fn:length(comboLineItem.pid2Name) > 0}">
+																	<c:set var="orderComboLineItem1CheckedData" value="${comboLineItem.pid1}|${comboLineItem.pid1Name}|${comboLineItem.pid1Qty}"></c:set>
+																	 <c:choose>
+																	<c:when test = "${comboLineItem.pidCheckedData eq orderComboLineItem1CheckedData}">
+																		<input type="radio" name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" checked="checked" value="${comboLineItem.pid1}|${comboLineItem.pid1Name}|${comboLineItem.pid1Qty}">${comboLineItem.pid1Name} (${comboLineItem.pid1Qty})<br>
+																	</c:when>
+																	<c:otherwise>
+																		 <input type="radio" name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" checked="checked"  value="${comboLineItem.pid1}|${comboLineItem.pid1Name}|${comboLineItem.pid1Qty}">${comboLineItem.pid1Name} (${comboLineItem.pid1Qty})<br> 
+																	</c:otherwise>
+																		</c:choose>
+																		
+																		
+																		 <c:if test = "${fn:length(comboLineItem.pid2Name) > 0}">
+																		 <c:set var="orderComboLineItem2checkedData" value="${comboLineItem.pid2}|${comboLineItem.pid2Name}|${comboLineItem.pid2Qty}"></c:set>
+																		  <c:choose>
+																		 <c:when test = "${comboLineItem.pidCheckedData eq orderComboLineItem2checkedData}">
+											                    			<input type="radio"  name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" checked="checked" value="${comboLineItem.pid2}|${comboLineItem.pid2Name}|${comboLineItem.pid2Qty}">${comboLineItem.pid2Name} (${comboLineItem.pid2Qty}) <br>
+											                    		</c:when>
+											                    		<c:otherwise>
+											                    			<input type="radio"  name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" value="${comboLineItem.pid2}|${comboLineItem.pid2Name}|${comboLineItem.pid2Qty}">${comboLineItem.pid2Name} (${comboLineItem.pid2Qty}) <br>
+											                    		</c:otherwise>
+											                    			 </c:choose>
+											                    		 </c:if>
+											                    		
+											                    		
+																		
+																		
+																		
+																		 <c:if test = "${fn:length(comboLineItem.pid3Name) > 0}">
+																		 <c:set var="orderComboLineItem3heckedData" value="${comboLineItem.pid3}|${comboLineItem.pid3Name}|${comboLineItem.pid3Qty}"></c:set>
+																		  <c:choose>
+																		 <c:when test = "${comboLineItem.pidCheckedData eq orderComboLineItem3heckedData}">
+																		  	<input type="radio" name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" checked="checked"  value="${comboLineItem.pid3}|${comboLineItem.pid3Name}|${comboLineItem.pid3Qty}">${comboLineItem.pid3Name} (${comboLineItem.pid3Qty}) <br>
+											                    			</c:when>
+											                    			<c:otherwise>
+											                    			<input type="radio" name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" value="${comboLineItem.pid3}|${comboLineItem.pid3Name}|${comboLineItem.pid3Qty}">${comboLineItem.pid3Name} (${comboLineItem.pid3Qty}) <br>
+											                    			</c:otherwise>
+											                    			</c:choose>
+											                    		 </c:if>
+											                    		  
+																	</c:when>
+																	<c:otherwise>
+																		${comboLineItem.pid1Name} (${comboLineItem.pid1Qty}) 
+																		<input type="hidden" name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" value="${comboLineItem.pid1}|${comboLineItem.pid1Name}|${comboLineItem.pid1Qty}">
+																	</c:otherwise>
+																</c:choose>	
+											                  <hr>
+											                  <c:set var="comboLineItemCounter" value="${comboLineItemCounter + 1}" />
 											                    </c:forEach>
-											                   </ul>
+											                    
 											                </div>
 											            </div>
 											        </div>
@@ -361,13 +408,14 @@ padding-top:120px;
 												</c:otherwise>
 										</c:choose>
 											
-											</h3>
-
+											</div>
+											<c:if test="${item.key != 'Combo'}">
 											<div style="font-size: 12px;">
 											${nameParts[1]} ${nameParts[2]} ${nameParts[3]} <br>
 												<span><i class="fa" style="color: grey">&#xf156;</i>
 												</span> <label class="price-class" style="color: grey">${subItem.price}</label>
 											</div>
+											</c:if>
 										</div>
 										<div
 											class="rounded border border-grey quantity-label float-top float-right divQtyAddBtnPanel" style="width:70px;padding:9px;display:none;" id="divQtyAddBtnPanel-${subItem.productId}">

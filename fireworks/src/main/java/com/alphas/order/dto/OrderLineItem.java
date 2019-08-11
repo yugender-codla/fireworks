@@ -55,5 +55,7 @@ public class OrderLineItem implements Serializable{
 	@Transient
 	private List<ProductComboLineItem> productComboLineItems;
 	
+	@OneToMany(mappedBy="orderLineItem",cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
+	private List<OrderComboLineItem> orderComboLineItems;
 	
 }

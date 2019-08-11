@@ -79,6 +79,10 @@ public ProductComboLineItem() {}
 	@JoinColumn(name = "Product")
     private Product product;
 	
+	
+	@Transient
+	private String pidCheckedData;
+	
 	public ProductComboLineItem(Object... fields) {
 		super();
 		this.id = fields[0] == null ? null : ((java.math.BigInteger) fields[0]).longValue();

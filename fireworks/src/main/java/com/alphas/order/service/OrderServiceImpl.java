@@ -3,7 +3,6 @@ package com.alphas.order.service;
 import static java.util.stream.Collectors.toMap;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,8 +23,10 @@ import com.alphas.inventory.dto.Stock;
 import com.alphas.mail.SendMail;
 import com.alphas.order.dao.OrderDao;
 import com.alphas.order.dto.Order;
+import com.alphas.order.dto.OrderComboLineItem;
 import com.alphas.order.dto.OrderLineItem;
 import com.alphas.product.dto.Product;
+import com.alphas.product.dto.ProductComboLineItem;
 
 @Service
 public class OrderServiceImpl implements OrderService{
@@ -138,11 +139,23 @@ public class OrderServiceImpl implements OrderService{
 				lineItem.setChecked(true);
 				lineItem.setQuantity(orderLineItemMap.get(product.getId()).getQuantity());
 				lineItem.setPrice(orderLineItemMap.get(product.getId()).getPrice());
+				lineItem.setOrderComboLineItems(orderLineItemMap.get(product.getId()).getOrderComboLineItems());
+				
+				
+				for(int i=0;i<product.getProductComboLineItems().size();i++) {
+					if(product.getProductComboLineItems() != null && product.getProductComboLineItems().get(i) != null && lineItem.getOrderComboLineItems() != null &&
+							lineItem.getOrderComboLineItems().get(i) != null) {
+					product.getProductComboLineItems().get(i).setPidCheckedData(lineItem.getOrderComboLineItems().get(i).getProductComboLineItemData());
+					}
+				}
+		
 			}
 			lineItem.setProductId(product.getId());
 			lineItem.setProductName(product.getName());
 			lineItem.setPrice(product.getPrice());
 			// orderLineItems.add(lineItem);
+
+			lineItem.setProductComboLineItems(product.getProductComboLineItems());
 			productsMap.get(product.getCategory()).add(lineItem);
 		}
 		// order.setOrderLineItems(orderLineItems);

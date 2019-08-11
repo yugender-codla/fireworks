@@ -174,7 +174,17 @@
             </div>
             <div id="collapseOne-${loop.index}" class="collapse" aria-labelledby="headingOne-${loop.index}" data-parent="#accordionExample-${loop.index}">
                 <div class="card-body">
-                    <p>HTML stands for HyperText Markup Language. HTML is the standard markup language for describing the structure of web pages. <a href="https://www.tutorialrepublic.com/html-tutorial/" target="_blank">Learn more.</a></p>
+                     <p> 	<c:set var="comboLineItemCounter" value="${0}" />
+                     <c:forEach var="orderComboLineItem" items="${item.orderComboLineItems}" varStatus="comboLoop">
+                     	
+                     	<c:set var="comboNameParts"	value="${fn:split(orderComboLineItem.productComboLineItemData, '|')}" />
+                     	${comboNameParts[1]} (${comboNameParts[2]})
+                     	<input type="hidden" name="orderLineItems[${loop.index}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" value="${orderComboLineItem.productComboLineItemData}">
+                     	 <br>
+                     	  <c:set var="comboLineItemCounter" value="${comboLineItemCounter + 1}" />
+					 </c:forEach>
+                    
+                    
                 </div>
             </div>
         </div>
