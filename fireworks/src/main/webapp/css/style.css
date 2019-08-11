@@ -412,9 +412,19 @@ height:500px;
 }
 
 .comboLineItemDiv{
-	font-size:12px;
+	font-size:9px;
 	font-weight: normal;
 	font-family: 'Calibri';
+	padding-left: 0px;
+}
+
+.divQtyAddBtnPanel{
+	color:#F26522;
+	padding-left:10px;
+	text-align:center;
+	padding:4px;
+	font-size: 10px;
+	font-weight: 700;
 }
 /**************Accordian************************/
 

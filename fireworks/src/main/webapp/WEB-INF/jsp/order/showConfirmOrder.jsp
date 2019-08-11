@@ -172,13 +172,13 @@
 												${nameParts[1]} ${nameParts[2]} ${nameParts[3]}
               		</span>
             </div>
-            <div id="collapseOne-${loop.index}" class="collapse" aria-labelledby="headingOne-${loop.index}" data-parent="#accordionExample-${loop.index}">
-                <div class="card-body">
+            <div id="collapseOne-${loop.index}" class="collapse " aria-labelledby="headingOne-${loop.index}" data-parent="#accordionExample-${loop.index}">
+                <div class="card-body comboLineItemDiv" style="font-size:12px">
                      <p> 	<c:set var="comboLineItemCounter" value="${0}" />
                      <c:forEach var="orderComboLineItem" items="${item.orderComboLineItems}" varStatus="comboLoop">
                      	
                      	<c:set var="comboNameParts"	value="${fn:split(orderComboLineItem.productComboLineItemData, '|')}" />
-                     	${comboNameParts[1]} (${comboNameParts[2]})
+                     	${comboLineItemCounter+1}] ${comboNameParts[1]} (${comboNameParts[2]})
                      	<input type="hidden" name="orderLineItems[${loop.index}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" value="${orderComboLineItem.productComboLineItemData}">
                      	 <br>
                      	  <c:set var="comboLineItemCounter" value="${comboLineItemCounter + 1}" />
@@ -194,7 +194,7 @@
 										
 										</c:when>
 										<c:otherwise>
-											<td style="width: 40%">${item.category} ${nameParts[0]}
+											<td style="width: 40%">${nameParts[0]}
 												${nameParts[1]} ${nameParts[2]} ${nameParts[3]}
 											</td>
 										</c:otherwise>

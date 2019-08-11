@@ -333,11 +333,7 @@ padding-top:120px;
 											              		<span data-toggle="collapse" data-target="#collapseOne-${subItem.productId}"><i class="fa fa-plus"></i> ${nameParts[0]}
 											              		</span>
 											            </div>
-											            <div style="font-size: 12px;">
-															${nameParts[1]} ${nameParts[2]} ${nameParts[3]} <br>
-															<span><i class="fa" style="color: grey">&#xf156;</i>
-															</span> <label class="price-class" style="color: grey">${subItem.price}</label>
-														</div>
+											            
 														
 											            <div id="collapseOne-${subItem.productId}" class="collapse comboLineItemDiv" aria-labelledby="headingOne-${loop.index}" data-parent="#accordionExample-${subItem.productId}">
 											                <div class="card-body comboLineItemDiv">
@@ -409,13 +405,13 @@ padding-top:120px;
 										</c:choose>
 											
 											</div>
-											<c:if test="${item.key != 'Combo'}">
+										
 											<div style="font-size: 12px;">
-											${nameParts[1]} ${nameParts[2]} ${nameParts[3]} <br>
+											<b>${nameParts[1]} ${nameParts[2]} ${nameParts[3]} <br>
 												<span><i class="fa" style="color: grey">&#xf156;</i>
-												</span> <label class="price-class" style="color: grey">${subItem.price}</label>
+												</span> <label class="price-class" style="color: grey">${subItem.price}</label></b>
 											</div>
-											</c:if>
+										
 										</div>
 										<div
 											class="rounded border border-grey quantity-label float-top float-right divQtyAddBtnPanel" style="width:70px;padding:9px;display:none;" id="divQtyAddBtnPanel-${subItem.productId}">

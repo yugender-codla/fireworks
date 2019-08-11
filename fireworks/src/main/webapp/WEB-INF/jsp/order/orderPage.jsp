@@ -49,6 +49,14 @@
 				
 				totalPrice = totalPrice + parseInt($(this).text()) * parseFloat(price);
 				
+				 $("#divQtyAddBtnPanel-"+this.id.substring(this.id.indexOf('-')+1,this.id.length)).hide();
+				 
+					if(parseInt($(this).text()) == parseInt(0)){
+						
+					 $("#divQtyBtnPanel-"+this.id.substring(this.id.indexOf('-')+1,this.id.length)).hide();
+					 $("#divQtyAddBtnPanel-"+this.id.substring(this.id.indexOf('-')+1,this.id.length)).show();
+					 
+					}
 			});
 			
 			$("#qntyCountInputTxt").val(qnty);
@@ -98,6 +106,12 @@
 		 });
 		 
 		 
+		 $(".divQtyAddBtnPanel").click(function(){
+			 $(this).hide();
+			 $("#divQtyBtnPanel-"+this.id.substring(this.id.indexOf('-')+1,this.id.length)).show(400);
+			 $("#btnAdd-"+this.id.substring(this.id.indexOf('-')+1,this.id.length)).click();
+		 });
+		 
 		// Add minus icon for collapse element which is open by default
 	        $(".collapse.show").each(function(){
 	        	$(this).prev(".card-header").find(".fa").addClass("fa-minus").removeClass("fa-plus");
@@ -146,7 +160,7 @@
 			<c:set var="itemsCounter" value="${itemsCounter + 1}" />
 			<c:set var="comboLineItemCounter" value="${0}" />
 			<spring:url value="/firesupport/product/${subItem.productId}/viewCombo" var="viewUrl" />
-			<div class="col-12 col-sm-6 col-md-3 col-lg-3 ">
+			<div class="col-12 col-sm-6 col-md-3 col-lg-3 " style="padding-bottom:0px;">
 				<div class="card">
 					<div class="card-body">
 
@@ -166,11 +180,7 @@
 											              		<span data-toggle="collapse" data-target="#collapseOne-${subItem.productId}"><i class="fa fa-plus"></i> ${nameParts[0]}
 											              		</span>
 											            </div>
-											              <div style="font-size: 12px;">
-															${nameParts[1]} ${nameParts[2]} ${nameParts[3]} <br>
-															<span><i class="fa" style="color: grey">&#xf156;</i>
-															</span> <label class="price-class" style="color: grey">${subItem.price}</label>
-														</div>
+											              
 											             <div id="collapseOne-${subItem.productId}" class="collapse comboLineItemDiv" aria-labelledby="headingOne-${loop.index}" data-parent="#accordionExample-${subItem.productId}">
 											                <div class="card-body comboLineItemDiv">
 											                
@@ -240,28 +250,38 @@
 												</c:otherwise>
 										</c:choose>
 							</h3>
-							<c:if test="${item.key != 'Combo'}">
 							<div style="font-size: 12px;">
-							${nameParts[1]} ${nameParts[2]}  ${nameParts[3]} 
-								<span><i class="fa"	style="color: grey">&#xf156;</i> </span> <label class="price-class">${subItem.price}</label>
-							</div>
-							</c:if>
+											${nameParts[1]} ${nameParts[2]} ${nameParts[3]} <br>
+												<span><i class="fa" style="color: grey">&#xf156;</i>
+												</span> <label class="price-class" style="color: grey">${subItem.price}</label>
+											</div>
 						</div>
 
-						<div class="rounded border border-grey quantity-padding float-right" >
-							<button class="btn quantityBtnMinus" type="button">
-								<i class="fa fa-minus" aria-hidden="true"
-									style="color: grey; cursor: hand"></i>
-							</button>
-							<input type="hidden" class="hiddenPrice" name="orderLineItems[${itemsCounter}].price" value="${subItem.price}">
-							<input type="hidden" name="orderLineItems[${itemsCounter}].quantity" class="hiddenQnty" value="${subItem.quantity}">
-							
-							<label class="qty-class">${subItem.quantity}</label>
-							<button class="btn quantityBtnAdd" type="button">
-								<i class="fa fa-plus" aria-hidden="true"
-									style="color: #F26522; cursor: hand"></i>
-							</button>
-						</div>
+						<div class="rounded border border-grey quantity-label float-top float-right divQtyAddBtnPanel" style="width:70px;display:none;" id="divQtyAddBtnPanel-${subItem.productId}">
+										<div>ADD</div>	
+										</div>
+										 <div
+											class="rounded border border-grey quantity-padding float-top float-right" style="width:70px;" id="divQtyBtnPanel-${subItem.productId}">
+											 <button class="btn quantityBtnMinus qtyPlusMinusBtn" type="button" id="btnMinus-${subItem.productId}">
+												<i class="fa fa-minus" aria-hidden="true"
+													style="color: grey; cursor: hand"></i>
+											</button> 
+											<span style="display:none;" class="hiddenProductId">${subItem.productId}</span>
+											<span style="display:none;" class="hiddenLabel">
+											${nameParts[0]} <br>${nameParts[1]} ${nameParts[2]} ${nameParts[3]}
+											</span>
+											<input type="hidden" class="hiddenPrice"
+												name="orderLineItems[${itemsCounter}].price"
+												value="${subItem.price}"> <input type="hidden"
+												name="orderLineItems[${itemsCounter}].quantity"
+												class="hiddenQnty" value="${subItem.quantity}"> <label
+												class="qty-class"  key = "${item.key}" style="color: grey;" id="qtyClass-${subItem.productId}" >${subItem.quantity}</label> 
+												
+										<button class="btn quantityBtnAdd qtyPlusMinusBtn" type="button" id="btnAdd-${subItem.productId}">
+												<i class="fa fa-plus" aria-hidden="true"
+													style="color: #F26522; cursor: hand"></i>
+											</button> 
+										</div> 
 			
 					</div>
 				</div>
