@@ -112,12 +112,21 @@ public class OrderController {
 			final RedirectAttributes redirectAttributes) {
 
 		List<OrderLineItem> selectedLineItems = new ArrayList<OrderLineItem>();
+	
+		
+		
 		for (OrderLineItem orderLineItem : order.getOrderLineItems()) {
 			if (orderLineItem.getQuantity() != null && orderLineItem.getQuantity() > 0) {
 				selectedLineItems.add(orderLineItem);
 			}
 		}
 		order.setOrderLineItems(selectedLineItems);
+		
+		if(order.getOrderLineItems().isEmpty()){
+			redirectAttributes.addFlashAttribute("cartEmpty","Please add atleast one item to the cart");
+			return "redirect:/fireworks";
+		}
+		
 		model.addAttribute("order", order);
 		model.addAttribute("pageView", "order/showConfirmOrder");
 

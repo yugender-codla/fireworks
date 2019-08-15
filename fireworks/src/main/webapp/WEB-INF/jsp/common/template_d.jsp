@@ -5,7 +5,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html lang="en">
 <head>
- <meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0">
 <%-- <script type="text/javascript" src='<c:url value="/scripts/jquery-1.12.4.min.js"/>'></script>
 <script type="text/javascript" src='<c:url value="/scripts/bootstrap.min.js"/>'></script>
 <link rel="stylesheet" href="/css/bootstrap.min.css"> --%>

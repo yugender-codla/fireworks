@@ -153,22 +153,12 @@
 									
 								 	<c:choose>
 										<c:when test="${item.category == 'Combo'}">
-											<td style="width: 40%"><%-- <button type="button" class="accordion">${nameParts[0]}<br>
-												${nameParts[1]} ${nameParts[2]} ${nameParts[3]}</button>
-												<div class="panel">
-												<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-													elit, sed do eiusmod tempor incididunt ut labore et dolore
-													magna aliqua. Ut enim ad minim veniam, quis nostrud
-													exercitation ullamco laboris nisi ut aliquip ex ea commodo
-													consequat.</p>
-												</div> --%>
-												
-												
+											<td style="width: 40%">
 												
 	<div class="accordion" id="accordionExample-${loop.index}">
         <div class="card" style="margin-left: 0px;padding-left: 0px;">
             <div class="card-header" id="headingOne-${loop.index}" style="background-color: #fff;border-color: #fff;padding-left: 0px;">
-              		<span data-toggle="collapse" data-target="#collapseOne-${loop.index}"><i class="fa fa-plus"></i>${nameParts[0]}
+              		<span data-toggle="collapse" data-target="#collapseOne-${loop.index}" style="cursor: pointer;"><i class="fa fa-plus"></i>${nameParts[0]}
 												${nameParts[1]} ${nameParts[2]} ${nameParts[3]}
               		</span>
             </div>
@@ -199,13 +189,9 @@
 											</td>
 										</c:otherwise>
 									</c:choose> 
-	<%-- <td style="width: 40%">${item.category} ${nameParts[0]}<br>
-												${nameParts[1]} ${nameParts[2]} ${nameParts[3]}
-											</td> --%>
-
 
 									<td style="width: 9em;">
-										<div class="rounded border border-grey quantity-padding">
+										<div class="rounded border border-grey quantity-padding" style="width:70px;">
 											<button class="btn quantityBtnMinus" type="button">
 												<i class="fa fa-minus qtyBtnGeneral" aria-hidden="true"
 													style="color: grey; cursor: hand"></i>
@@ -248,50 +234,6 @@
 					</div>
 				</div>
 			</div>
-
-			<!-- <div class="row row-padding confimPgInputForm">
-				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
-					<label class="" for="inputEmail">Email</label>
-				</div>
-
-				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
-					<input type="email" name="email" class="form-control"
-						id="inputEmail" >
-				</div>
-
-				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
-					<label class="" for="Phone Number">Phone </label>
-				</div>
-
-				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
-					<input type="text" class="form-control " name="phoneNumber"
-						>
-				</div>
-
-				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
-					<label class="" for="Deliver by">Deliver by</label>
-				</div>
-
-				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
-					<input name="deliverBy" type="date" class="form-control">
-				</div>
-				
-			</div>
-			<div class="row row-padding" style="text-align: center;">
-				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
-					<button type="submit" value="Back" id="backButton" class="btn btn-secondary">Back</button>
-					<button type="submit" value="Confirm Order" class="btn btn-success"> Confirm Order</button>
-				</div>
-			</div> -->
-
-			<%-- <label for="Phone Number">Phone No: </label>
-			<form:input path="phoneNumber" />
-			<label for="Email">Email: </label>
-			<form:input path="email" />
-			<label for="date">Deliver by: </label>
-			<input name="deliverBy" type="date">
-			<br>
-			<br> --%>
 
 
 			<h5>Register Form</h5>
@@ -338,6 +280,15 @@
 						value="<fmt:formatDate pattern="yyyy-MM-dd" value="${order.deliverBy}" />">
 
 					<form:errors path="deliverBy" cssClass="error" />
+				</div>
+				
+				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
+					<label class="" for="Address">Address</label>
+				</div>
+
+				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
+					<form:textarea path="address" cssClass="form-control" id="inputAddress" />
+					<form:errors path="address" cssClass="error" />
 				</div>
 
 			</div>

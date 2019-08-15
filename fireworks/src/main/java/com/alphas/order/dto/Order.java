@@ -43,13 +43,11 @@ public class Order implements Serializable{
 	private Date deliverBy;
 	
 	@Column(name="phoneNumber")
-	@NotNull(message="required")
-	@Pattern(regexp = "[0-9]+",message = "Please enter only numbers")
-	@Size(min=10, max=10,message = "Please enter 10 digit phone number")
+	@NotNull(message="Please provide your contact number")
+	@Pattern(regexp = "[0-9]{10}",message = "Please enter 10 digit mobile number")
 	private String phoneNumber;
 	
 	@Column(name="email")
-	@NotNull
 	@Pattern(regexp ="^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$",message = "Please enter valid email id")
 	private String email;
 	
@@ -69,6 +67,11 @@ public class Order implements Serializable{
 	
 	@Column(name="modifiedFlag")
 	private String modifiedFlag;
+	
+	@Size(min=10,message="Please enter delivery address with atleast 10 characters")
+	@Column(name="address")
+	private String address;
+	
 	
 	@OneToMany(mappedBy="order",cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
 	private List<OrderLineItem> orderLineItems;

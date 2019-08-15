@@ -145,6 +145,7 @@
 	
 		 
 		  $(".qtyPlusMinusBtn").click(function(){
+			  $("#cartEmptyMsg").empty();
 			  loadCartItems();
 		  });
 		 
@@ -226,11 +227,11 @@
 <style>
 #scrollspy{
 position:fixed;
-top:100px;
+top:7em;
 }
 
 .middleContent{
-padding-top:120px;
+padding-top:7em;
 }
 </style>
 </head>
@@ -288,7 +289,7 @@ padding-top:120px;
 
 
 			<div class="col-xs-6 middleContent" style="width:50%">
-			<div data-spy="scroll" data-target="#scrollspy" data-offset="0" style="overflow-y: scroll;height: 700px;width:100%;position:relative;" id="middleContentDiv">				
+			<div data-spy="scroll" data-target="#scrollspy" data-offset="0" style="overflow-y:scroll;width:100%;position:relative;" id="middleContentDiv">				
 					<c:set var="itemsCounter" value="${0}" />
 					<c:set var="tabsCounter" value="${0}" />
 				
@@ -330,7 +331,7 @@ padding-top:120px;
 												<div class="accordion " id="accordionExample-${subItem.productId}">
 											        <div class="card " style="margin-left: 0px;padding-left: 0px;">
 											            <div class="card-header" id="headingOne-${subItem.productId}" style="background-color: #fff;border-color: #fff;padding-left: 0px;color:#F26522">
-											              		<span data-toggle="collapse" data-target="#collapseOne-${subItem.productId}"><i class="fa fa-plus"></i> ${nameParts[0]}
+											              		<span data-toggle="collapse" data-target="#collapseOne-${subItem.productId}" style="cursor: pointer;"><i class="fa fa-plus"></i> ${nameParts[0]}
 											              		</span>
 											            </div>
 											            
@@ -342,7 +343,7 @@ padding-top:120px;
 											                
 											                    <c:choose>
 																	<c:when test="${fn:length(comboLineItem.pid2Name) > 0}">
-																	<c:set var="orderComboLineItem1CheckedData" value="${comboLineItem.pid1}|${comboLineItem.pid1Name}|${comboLineItem.pid1Qty}"></c:set>
+																	<c:set var="orderComboLineItem1CheckedData" value=" ${comboLineItem.pid1}|${comboLineItem.pid1Name}|${comboLineItem.pid1Qty}"></c:set>
 																	 <c:choose>
 																	<c:when test = "${comboLineItem.pidCheckedData eq orderComboLineItem1CheckedData}">
 																		<input type="radio" name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" checked="checked" value="${comboLineItem.pid1}|${comboLineItem.pid1Name}|${comboLineItem.pid1Qty}">${comboLineItem.pid1Name} (${comboLineItem.pid1Qty})<br>
@@ -407,8 +408,15 @@ padding-top:120px;
 											</div>
 										
 											<div style="font-size: 12px;">
-											<b>${nameParts[1]} ${nameParts[2]} ${nameParts[3]} <br>
-												<span><i class="fa" style="color: grey">&#xf156;</i>
+											<c:choose>
+												<c:when test="${item.key == 'Combo'}">
+													<b> ${nameParts[1]} ${nameParts[2]} ${nameParts[3]} </b><br>
+												</c:when>
+											<c:otherwise>
+												${nameParts[1]} ${nameParts[2]} ${nameParts[3]} <br>
+											</c:otherwise>
+											</c:choose>
+												<b><span><i class="fa" style="color: grey">&#xf156;</i>
 												</span> <label class="price-class" style="color: grey">${subItem.price}</label></b>
 											</div>
 										
@@ -455,7 +463,7 @@ padding-top:120px;
 			<h2>Cart</h2>
 			<b><label id="cartItemsCountLbl">0</label></b> ITEMS | <b><span class="rupeesymbol"><i class="fa" >&#xf156;</i></span> <span id="netPriceCountOuputLbl">0</span></b> 
 
-		<div style="overflow-y: auto;overflow-x:hidden;min-height:0px;max-height: 400px;position:relative;" id="cartItemsDiv">	
+		<div style="overflow-y: auto;overflow-x:hidden;min-height:0px;position:relative;" id="cartItemsDiv">	
 		<c:set var="netPrice" value="${0}" />
 			<div class="row row-padding">
 				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
@@ -473,6 +481,7 @@ padding-top:120px;
 		</div>
 		<div class="row row-padding">
 				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
+				<h6 style="font-size: 13px;color:red"><span id="cartEmptyMsg">${cartEmpty}</span></h6>
 				<button type="button" class="btn-success" style="width:200px" onclick = "javascript:$('form').submit()">Check Out</button>
 				</div>
 		</div>

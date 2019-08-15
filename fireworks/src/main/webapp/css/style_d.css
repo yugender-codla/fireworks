@@ -37,14 +37,13 @@ table{
 
 
 .nav-pills .nav-link{
-  font-size: 0.9em !important;
   color:black;
   font-family: 'Open Sans';
-   
-     border-right: 1px #e3e4e6;
-	 border-right-style:solid;
-border-radius: 0;
-width:200px;
+   border-right: 1px #e3e4e6;
+   border-right-style:solid;
+	border-radius: 0;
+	width:200px;
+
 } 
 
 
@@ -56,11 +55,13 @@ width:200px;
 	border-width: 4px;
 	  border-color: #F26522;
 	   background-color: #fff;
+	padding:2px;
+	
 }
 
 
 .quantity-padding{
-  padding: .5px;
+  padding: 0px;
   font-size: 11px;
   text-align: center;
 
@@ -157,7 +158,18 @@ footer {
 	table, .confimPgInputForm{
 		font-size: .65em;
 	}
- 
+ #middleContentDiv{
+		height:400px;
+	}
+	
+	#cartItemsDiv{
+		max-height: 300px;
+	}
+	
+	.nav-pills .nav-link{
+		padding:3px;
+		font-size: 0.7em !important;
+	}
 
  }
 
@@ -170,7 +182,23 @@ footer {
 		font-size: .7em;
 	}
  
+ #middleContentDiv{
+		height:400px;
+	}
+	
+	#cartItemsDiv{
+		max-height: 300px;
+	}
+	
+	.nav-pills .nav-link{
+		padding:3px;
+		font-size: 0.7em !important;
+	}
 }
+
+
+
+
 
 @media (max-width: 768px) {
    .card-text{
@@ -179,31 +207,81 @@ footer {
   table, .confimPgInputForm{
 		font-size: .75em;
 	}
+	
+	#middleContentDiv{
+		height:400px;
+	}
+	
+	#cartItemsDiv{
+		max-height: 300px;
+	}
+	
+	.nav-pills .nav-link{
+		padding:4px;
+		font-size: 0.7em !important;
+	}
  
 }
 
-@media (max-width: 862px) {
-   .card-text{
-    font-size: .75em;
+/* For Laptop */
+/* For 1024 Resolution */
+@media only screen   
+and (min-device-width : 768px)   
+and (max-device-width : 1024px)  
+{ 
+	
+	 .card-text{
+    font-size: .9em;
   }
-  table, .confimPgInputForm{
-		font-size: .75em;
+  
+table, .confimPgInputForm{
+		font-size: .9em;
 	}
-
-}
-
-
-@media (max-width: 992px) {
-    .card-text{
-      font-size: .8em;
-    }
-   
-   table, .confimPgInputForm{
-		font-size: .8em;
+	
+	#middleContentDiv{
+		height:470px;
 	}
+	
+	#cartItemsDiv{
+		max-height: 320px;
+	}
+	
+	.nav-pills .nav-link{
+		padding:4px;
+		font-size: 0.8em !important;
+	}
+}  
+
+
+/* For 1366 Resolution */  
+@media only screen   
+and (min-width: 1030px)   
+and (max-width: 1366px)  
+{ 
+	 .card-text{
+    font-size: .9em;
   }
+  
+table, .confimPgInputForm{
+		font-size: .9em;
+	}
+	
+	#middleContentDiv{
+		height:500px;
+	}
+	
+	#cartItemsDiv{
+		max-height: 350px;
+	}
+	.nav-pills .nav-link{
+		padding:4px;
+		font-size: 0.8em !important;
+	}
+}  
 
-@media (min-width: 1200px) {
+
+
+@media (min-width: 1370px) {
   .card-text{
     font-size: .9em;
   }
@@ -211,6 +289,20 @@ footer {
 table, .confimPgInputForm{
 		font-size: .9em;
 	}
+	
+	#middleContentDiv{
+		height:700px;
+	}
+	
+	#cartItemsDiv{
+		max-height: 400px;
+	}
+	
+	.nav-pills .nav-link{
+		padding:6px;
+		font-size: 0.9em !important;
+	}
+	
 
 }
 
@@ -559,7 +651,4 @@ height:500px;
 	font-family: 'Calibri';
 }
 
-/**************Accordian************************/
 
-
-/********************************************/
