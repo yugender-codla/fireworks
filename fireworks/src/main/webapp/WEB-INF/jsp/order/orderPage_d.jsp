@@ -330,7 +330,7 @@ padding-top:7em;
 											
 												<div class="accordion " id="accordionExample-${subItem.productId}">
 											        <div class="card " style="margin-left: 0px;padding-left: 0px;">
-											            <div class="card-header" id="headingOne-${subItem.productId}" style="background-color: #fff;border-color: #fff;padding-left: 0px;color:#F26522">
+											            <div class="card-header" id="headingOne-${subItem.productId}" style="background-color: #fff;border-color: #fff;padding-left: 0px;color:#F26522;padding-top: 0px;min-height: 8px;">
 											              		<span data-toggle="collapse" data-target="#collapseOne-${subItem.productId}" style="cursor: pointer;"><i class="fa fa-plus"></i> ${nameParts[0]}
 											              		</span>
 											            </div>
