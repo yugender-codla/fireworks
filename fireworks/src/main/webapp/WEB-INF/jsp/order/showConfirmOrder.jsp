@@ -123,7 +123,7 @@
 			<c:set var="netPrice" value="${0}" />
 
 <div class="row" >			
-	<div class="col-5 col-sm-5 col-md-5 col-lg-5 middleContent" >
+	<div class="col-12 col-sm-12 col-md-5 col-lg-5 " >
 	<div >
 			<h2>Cart</h2>
 			
@@ -223,7 +223,7 @@
 			</div>
 		</div>
 		</div>
-		<div class="col-7 col-sm-7 col-md-7 col-lg-7" >
+		<div class="col-12 col-sm-12 col-md-7 col-lg-7" >
 		<h2 >Register Form</h2>
 			
 			<div class="row row-padding confimPgInputForm" >

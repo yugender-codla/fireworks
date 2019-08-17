@@ -449,7 +449,8 @@ height:500px;
     display: block;
     overflow-y: auto;
     overflow-x: hidden;
-    height:400px;
+    max-height:400px;
+    min-height:50px;
 }
 
 .showConfirmOrderCartItemsDiv tr {
