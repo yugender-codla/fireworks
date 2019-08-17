@@ -17,6 +17,10 @@
     .accordion .fa{
         margin-right: 0.5rem;
     }
+    
+    .bodypadding{
+    	margin-top: 1em;
+    }
 </style>
 <script type="text/javascript">
 
@@ -83,8 +87,19 @@
 						  
 						        calculateQty();
 
+						        
+							/*** Date Calendar Set up***/	        
+						        var MyDate = new Date();
+						        var MyDateString;
+						        MyDate.setDate(MyDate.getDate() + 3);
+
+						        MyDateString = MyDate.getFullYear()+ '-'
+						        			 + ('0' + (MyDate.getMonth()+1)).slice(-2) + '-'
+						        			 + ('0' + MyDate.getDate()).slice(-2);
+						        document.getElementById("deliverBy").setAttribute("min", MyDateString);
+						        
+
 					});
-    
     
     
     
@@ -106,8 +121,7 @@
 			</div>
 		</c:if>
 
-		<h5>Bill Details</h5>
-		<hr>
+		
 		<spring:url value="/fireworks/order/save" var="confirmOrderUrl" />
 		<form:form method="post" action="${confirmOrderUrl}"
 			modelAttribute="order" name="confirmationForm">
@@ -205,7 +219,7 @@
 										</div>
 									</td>
 
-									<td class="priceCountOuputLbl" style="text-align: left"><span><i class='fa' style='color: grey'>&#xf156;</i></span> ${item.quantity * item.price}</td>
+									<td class="priceCountOuputLbl" style="text-align: left;vertical-align: middle"><span><i class='fa' style='color: grey'>&#xf156;</i></span> ${item.quantity * item.price}</td>
 									<c:set var="netPrice"
 										value="${netPrice + (item.quantity * item.price)}" />
 
@@ -260,7 +274,7 @@
 				</div>
 
 				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
-					<input name="deliverBy" type="date" class="form-control" style="font-size:12px;"
+					<input id = "deliverBy" name="deliverBy" type="date" class="form-control" style="font-size:12px;"
 						value="<fmt:formatDate pattern="yyyy-MM-dd" value="${order.deliverBy}" />">
 
 					<form:errors path="deliverBy" cssClass="error" />
@@ -289,9 +303,10 @@
 			<div class="row row-padding" style="text-align: center;">
 				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
 					<button type="button" value="Back" id="backButton"
-						class="btn btn-primary"><- Back</button>
-					<button type="submit" value="Confirm Order" class="btn btn-primary">
-						Confirm Order</button>
+						class="btn btn-secondary">&laquo; Previous</button>
+					<button type="submit" value="Order Now" class="btn btn-success">
+						Order Now</button>
+					
 				</div>
 			
 			</div>

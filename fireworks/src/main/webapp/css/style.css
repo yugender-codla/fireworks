@@ -271,22 +271,6 @@ button:focus,
 
 
 
-.bodypadding{
-	padding-top:1em;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*---Firefox Bug Fix --*/
 .carousel-item {
@@ -474,22 +458,34 @@ height:500px;
 
 
 
+.table td, .table th {
+  
+    vertical-align: middle;
+  
+}
+
 
 
 /*---Media Queries --*/
 @media (max-width: 575.98px) { 
-   
+   .paddingTopContent{
+		padding-top:4em;
+	}
 
  }
 
 @media (max-width: 576px) {
-   
+   .paddingTopContent{
+		padding-top:4em;
+	}
 }
 
 
 @media (max-width: 768px) {
 
- 
+ .paddingTopContent{
+		padding-top:4em;
+	}
 }
 
 /* For Laptop */
@@ -510,6 +506,10 @@ and (max-device-width : 1024px)
 	 .showConfirmOrderCartItemsTbl{
 		border-right:1px solid #f3f3f3;
  	}
+ 	
+ 	.paddingTopContent{
+		padding-top:4em;
+	}
 }  
 
 
@@ -530,6 +530,10 @@ and (max-width: 1366px)
 	 .showConfirmOrderCartItemsTbl{
 		border-right:1px solid #f3f3f3;
  	}
+ 	
+ 	.paddingTopContent{
+		padding-top:4em;
+	}
 }  
 
 
@@ -548,4 +552,8 @@ and (max-width: 1366px)
 	 .showConfirmOrderCartItemsTbl{
 		border-right:1px solid #f3f3f3;
  	}
+ 	
+ 	.paddingTopContent{
+		padding-top:4em;
+	}
 }

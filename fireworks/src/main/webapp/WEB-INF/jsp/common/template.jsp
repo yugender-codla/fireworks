@@ -28,7 +28,7 @@
 <body>
 	 <!-- <nav class="navbar navbar-light navbar-expand-md sticky-top navigation-clean-button" id="mainNav" style="background-color: #3655a4;color:#ffffff"> -->
 	 <nav class="navbar navbar-light navbar-expand-md fixed-top" id="mainNav" style="background-color: #3655a4;color:#ffffff">
-		<div class="container-fluid">
+		<div class="container">
 			<a class="navbar-brand" href="/fireworks" style="color:#ffffff;"><i class="fa fa-shopping-bag"></i> &nbsp;4Alphas</a> 
 	<!-- 		<button class="navbar-toggler navbar-toggler-right" type="button"
 				data-toggle="collapse" data-target="#navbarResponsive"
@@ -37,7 +37,16 @@
 				<i class="fas fa-bars"></i>
 			</button> -->
 			 <button data-toggle="collapse" class="navbar-toggler" data-target="#navbarResponsive" ><span class="sr-only" >Toggle navigation</span><span class="navbar-toggler-icon" style="color:#ffffff;"></span></button>
-			<div class="collapse navbar-collapse" id="navbarResponsive">
+			<div 
+			
+			<%if(request.getHeader("User-Agent").indexOf("Mobile") != -1) { %>
+  			  class="collapse navbar-collapse" 
+  			<%} %> 
+			
+			
+			
+			
+			id="navbarResponsive">
 				<ul class="navbar-nav ml-auto navbar-right" >
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
 						href="#about" style="color:#ffffff;"><i class="fa fa-home"></i>&nbsp;Home</a></li>
@@ -107,8 +116,8 @@
     </div>
     </nav>
     </div> -->
-     
+     <div class="paddingTopContent">
     <jsp:include page="../${pageView}.jsp"/>
-
+	 </div>	
 </body>
 </html>

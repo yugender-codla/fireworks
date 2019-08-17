@@ -127,9 +127,7 @@
 </script>
 
 <style>
-.middleContent{
-padding-top:4em;
-}
+
 </style>
 </head>
 <body>
