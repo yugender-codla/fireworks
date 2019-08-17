@@ -98,8 +98,8 @@ public class OrderController {
 			model.addAttribute("products", products);
 			//model.addAttribute("deviceType", deviceType);
 			
-				model.addAttribute("pageView", "order/orderPage"+(device.isMobile() ? "":"_d"));
-				return "common/template"+(device.isMobile() ? "":"_d");
+				model.addAttribute("pageView", "order/orderPage"+(device.isMobile() || device.isTablet() ? "":"_d"));
+				return "common/template"+(device.isMobile() || device.isTablet() ? "":"_d");
 		} catch (AException e) {
 
 		}
@@ -180,8 +180,8 @@ try {
 		} catch (AException e) {
 			
 		}
-		model.addAttribute("pageView", "order/orderPage"+(device.isMobile() ? "":"_d"));
-		return "common/template"+(device.isMobile() ? "":"_d");
+		model.addAttribute("pageView", "order/orderPage"+(device.isMobile()|| device.isTablet() ? "":"_d"));
+		return "common/template"+(device.isMobile()|| device.isTablet() ? "":"_d");
 	}
 
 	

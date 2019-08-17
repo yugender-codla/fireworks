@@ -429,7 +429,7 @@ height:500px;
 }
 
 .showConfirmOrderCartItemsDiv{
-	font-size: 13px;
+	font-size: 14px;
 }
 
 
@@ -444,14 +444,7 @@ height:500px;
     flex: 0 0 auto;
 }
 
-.showConfirmOrderCartItemsDiv tbody {
-    flex: 1 1 auto;
-    display: block;
-    overflow-y: auto;
-    overflow-x: hidden;
-    max-height:400px;
-    min-height:50px;
-}
+
 
 .showConfirmOrderCartItemsDiv tr {
     width: 100%;
@@ -477,4 +470,82 @@ height:500px;
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
     background-color: #F5F5F5;
     
+}
+
+
+
+
+
+/*---Media Queries --*/
+@media (max-width: 575.98px) { 
+   
+
+ }
+
+@media (max-width: 576px) {
+   
+}
+
+
+@media (max-width: 768px) {
+
+ 
+}
+
+/* For Laptop */
+/* For 1024 Resolution */
+@media only screen   
+and (min-device-width : 768px)   
+and (max-device-width : 1024px)  
+{ 
+	.showConfirmOrderCartItemsDiv tbody {
+    flex: 1 1 auto;
+    display: block;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height:270px;
+    min-height:50px;
+	}
+	
+	 .showConfirmOrderCartItemsTbl{
+		border-right:1px solid #f3f3f3;
+ 	}
+}  
+
+
+/* For 1366 Resolution */  
+@media only screen   
+and (min-width: 1030px)   
+and (max-width: 1366px)  
+{ 
+	.showConfirmOrderCartItemsDiv tbody {
+    flex: 1 1 auto;
+    display: block;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height:300px;
+    min-height:50px;
+	}
+	
+	 .showConfirmOrderCartItemsTbl{
+		border-right:1px solid #f3f3f3;
+ 	}
+}  
+
+
+
+@media (min-width: 1370px) {
+
+.showConfirmOrderCartItemsDiv tbody {
+    flex: 1 1 auto;
+    display: block;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height:400px;
+    min-height:50px;
+	}
+	
+	 .showConfirmOrderCartItemsTbl{
+		border-right:1px solid #f3f3f3;
+ 	}
 }

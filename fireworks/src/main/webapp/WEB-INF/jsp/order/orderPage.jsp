@@ -125,6 +125,12 @@
 	        });
 	});
 </script>
+
+<style>
+.middleContent{
+padding-top:5em;
+}
+</style>
 </head>
 <body>
 
@@ -149,7 +155,7 @@
 	<input type="hidden" name="orderNumber" value="${order.orderNumber}"/>
 
 	<c:set var="itemsCounter" value="${0}"/>
-	<div class="container-fluid padding">
+	<div class="container-fluid padding middleContent">
 		<c:forEach var="item" items="${productsMap}" varStatus="toploop">
 		
 		<div class="pb-2 mt-4 mb-2 border-bottom">
@@ -160,7 +166,7 @@
 			<c:set var="itemsCounter" value="${itemsCounter + 1}" />
 			<c:set var="comboLineItemCounter" value="${0}" />
 			<spring:url value="/firesupport/product/${subItem.productId}/viewCombo" var="viewUrl" />
-			<div class="col-12 col-sm-6 col-md-3 col-lg-3 " style="padding-bottom:0px;">
+			<div class="col-12 col-sm-6 col-md-3 col-lg-3" style="padding-bottom:0px;">
 				<div class="card">
 					<div class="card-body">
 

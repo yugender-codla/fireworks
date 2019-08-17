@@ -346,10 +346,10 @@ padding-top:7em;
 																	<c:set var="orderComboLineItem1CheckedData" value=" ${comboLineItem.pid1}|${comboLineItem.pid1Name}|${comboLineItem.pid1Qty}"></c:set>
 																	 <c:choose>
 																	<c:when test = "${comboLineItem.pidCheckedData eq orderComboLineItem1CheckedData}">
-																		<input type="radio" name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" checked="checked" value="${comboLineItem.pid1}|${comboLineItem.pid1Name}|${comboLineItem.pid1Qty}">${comboLineItem.pid1Name} (${comboLineItem.pid1Qty})<br>
+																		<input type="radio" style="width:1em;" name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" checked="checked" value="${comboLineItem.pid1}|${comboLineItem.pid1Name}|${comboLineItem.pid1Qty}">${comboLineItem.pid1Name} (${comboLineItem.pid1Qty})<br>
 																	</c:when>
 																	<c:otherwise>
-																		 <input type="radio" name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" checked="checked"  value="${comboLineItem.pid1}|${comboLineItem.pid1Name}|${comboLineItem.pid1Qty}">${comboLineItem.pid1Name} (${comboLineItem.pid1Qty})<br> 
+																		 <input type="radio" style="width:1em;" name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" checked="checked"  value="${comboLineItem.pid1}|${comboLineItem.pid1Name}|${comboLineItem.pid1Qty}">${comboLineItem.pid1Name} (${comboLineItem.pid1Qty})<br> 
 																	</c:otherwise>
 																		</c:choose>
 																		
@@ -358,10 +358,10 @@ padding-top:7em;
 																		 <c:set var="orderComboLineItem2checkedData" value="${comboLineItem.pid2}|${comboLineItem.pid2Name}|${comboLineItem.pid2Qty}"></c:set>
 																		  <c:choose>
 																		 <c:when test = "${comboLineItem.pidCheckedData eq orderComboLineItem2checkedData}">
-											                    			<input type="radio"  name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" checked="checked" value="${comboLineItem.pid2}|${comboLineItem.pid2Name}|${comboLineItem.pid2Qty}">${comboLineItem.pid2Name} (${comboLineItem.pid2Qty}) <br>
+											                    			<input type="radio" style="width:1em;"   name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" checked="checked" value="${comboLineItem.pid2}|${comboLineItem.pid2Name}|${comboLineItem.pid2Qty}">${comboLineItem.pid2Name} (${comboLineItem.pid2Qty}) <br>
 											                    		</c:when>
 											                    		<c:otherwise>
-											                    			<input type="radio"  name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" value="${comboLineItem.pid2}|${comboLineItem.pid2Name}|${comboLineItem.pid2Qty}">${comboLineItem.pid2Name} (${comboLineItem.pid2Qty}) <br>
+											                    			<input type="radio" style="width:1em;"   name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" value="${comboLineItem.pid2}|${comboLineItem.pid2Name}|${comboLineItem.pid2Qty}">${comboLineItem.pid2Name} (${comboLineItem.pid2Qty}) <br>
 											                    		</c:otherwise>
 											                    			 </c:choose>
 											                    		 </c:if>
@@ -374,10 +374,10 @@ padding-top:7em;
 																		 <c:set var="orderComboLineItem3heckedData" value="${comboLineItem.pid3}|${comboLineItem.pid3Name}|${comboLineItem.pid3Qty}"></c:set>
 																		  <c:choose>
 																		 <c:when test = "${comboLineItem.pidCheckedData eq orderComboLineItem3heckedData}">
-																		  	<input type="radio" name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" checked="checked"  value="${comboLineItem.pid3}|${comboLineItem.pid3Name}|${comboLineItem.pid3Qty}">${comboLineItem.pid3Name} (${comboLineItem.pid3Qty}) <br>
+																		  	<input type="radio" style="width:1em;"  name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" checked="checked"  value="${comboLineItem.pid3}|${comboLineItem.pid3Name}|${comboLineItem.pid3Qty}">${comboLineItem.pid3Name} (${comboLineItem.pid3Qty}) <br>
 											                    			</c:when>
 											                    			<c:otherwise>
-											                    			<input type="radio" name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" value="${comboLineItem.pid3}|${comboLineItem.pid3Name}|${comboLineItem.pid3Qty}">${comboLineItem.pid3Name} (${comboLineItem.pid3Qty}) <br>
+											                    			<input type="radio" style="width:1em;"  name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" value="${comboLineItem.pid3}|${comboLineItem.pid3Name}|${comboLineItem.pid3Qty}">${comboLineItem.pid3Name} (${comboLineItem.pid3Qty}) <br>
 											                    			</c:otherwise>
 											                    			</c:choose>
 											                    		 </c:if>

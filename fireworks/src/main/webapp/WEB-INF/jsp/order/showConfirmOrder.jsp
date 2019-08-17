@@ -55,14 +55,9 @@
 									.each(
 											function() {
 												qnty = qnty + parseInt($(this).text());
-												price = $(this).parent().children(".hiddenPrice")
-														.val();
-												$(this).parent()
-														.children(".hiddenQnty")
-														.val(parseInt($(this).text()));
-												$(this).parent().parent()
-														.parent().children(".priceCountOuputLbl")
-														.html("<span><i class='fa' style='color: grey'>&#xf156;</i></span> "+(qnty * parseFloat(price)));
+												price = $(this).parent().children(".hiddenPrice").val();
+												$(this).parent().children(".hiddenQnty").val(parseInt($(this).text()));
+												$(this).parent().parent().parent().children(".priceCountOuputLbl").html("<span><i class='fa' style='color: grey'>&#xf156;</i></span> "+(parseInt($(this).text()) * parseInt(price)));
 												totalPrice = totalPrice + parseInt($(this).text()) * parseFloat(price);
 											});
 
@@ -133,7 +128,7 @@
 			<div class="row row-padding">
 				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
 					<div class="table-responsive showConfirmOrderCartItemsDiv">
-						<table class="table tblTemplate showConfirmOrderCartItemsTbl" style="border-right:1px solid #f3f3f3">
+						<table class="table tblTemplate showConfirmOrderCartItemsTbl">
 						<thead>
 								<tr>
 									<th  style="width: 50%">Name</th>
@@ -151,8 +146,8 @@
 									
 								 	<c:choose>
 										<c:when test="${item.category == 'Combo'}">
-											<td  style="width: 50%">
-												
+											<td  style="width: 50%;vertical-align: middle">
+												<input type="hidden" name="orderLineItems[${loop.index}].category" value="${item.category}">
 	<div class="accordion" id="accordionExample-${loop.index}">
         <div class="card" style="margin-left: 0px;padding-left: 0px;">
             <div class="card-header" id="headingOne-${loop.index}" style="background-color: #fff;border-color: #fff;padding-left: 0px;">
@@ -168,6 +163,7 @@
                      	<c:set var="comboNameParts"	value="${fn:split(orderComboLineItem.productComboLineItemData, '|')}" />
                      	${comboLineItemCounter+1}] ${comboNameParts[1]} (${comboNameParts[2]})
                      	<input type="hidden" name="orderLineItems[${loop.index}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" value="${orderComboLineItem.productComboLineItemData}">
+                     	 
                      	 <br>
                      	  <c:set var="comboLineItemCounter" value="${comboLineItemCounter + 1}" />
 					 </c:forEach>
@@ -182,8 +178,8 @@
 										
 										</c:when>
 										<c:otherwise>
-											<td style="width: 50%">${nameParts[0]}
-												${nameParts[1]} ${nameParts[2]} ${nameParts[3]} ab
+											<td style="width: 50%;vertical-align: middle">${nameParts[0]}
+												${nameParts[1]} ${nameParts[2]} ${nameParts[3]} 
 											</td>
 										</c:otherwise>
 									</c:choose> 
