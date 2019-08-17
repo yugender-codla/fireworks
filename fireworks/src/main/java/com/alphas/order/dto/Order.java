@@ -69,9 +69,14 @@ public class Order implements Serializable{
 	private String modifiedFlag;
 	
 	@Size(min=10,message="Please enter delivery address with atleast 10 characters")
+	@Size(max=500, message="Please do not exceed 500 chars")
 	@Column(name="address")
 	private String address;
 	
+	
+	@Size(max=500, message="Please do not exceed 500 chars")
+	@Column(name="notes")
+	private String notes;
 	
 	@OneToMany(mappedBy="order",cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
 	private List<OrderLineItem> orderLineItems;

@@ -54,34 +54,20 @@
 							$(".qty-class")
 									.each(
 											function() {
-												qnty = parseInt($(this).text());
-												price = $(this).parent()
-														.children(
-																".hiddenPrice")
+												qnty = qnty + parseInt($(this).text());
+												price = $(this).parent().children(".hiddenPrice")
 														.val();
-												$(this)
-														.parent()
+												$(this).parent()
 														.children(".hiddenQnty")
-														.val(
-																parseInt($(this)
-																		.text()));
-												$(this)
-														.parent()
-														.parent()
-														.parent()
-														.children(
-																".priceCountOuputLbl")
-														.text(
-																(qnty * parseFloat(price))
-																		.toFixed(2));
-												totalPrice = totalPrice
-														+ parseInt($(this)
-																.text())
-														* parseFloat(price);
+														.val(parseInt($(this).text()));
+												$(this).parent().parent()
+														.parent().children(".priceCountOuputLbl")
+														.html("<span><i class='fa' style='color: grey'>&#xf156;</i></span> "+(qnty * parseFloat(price)));
+												totalPrice = totalPrice + parseInt($(this).text()) * parseFloat(price);
 											});
 
-							$("#netPriceCountOuputLbl").text(
-									totalPrice.toFixed(2));
+							$("#netPriceCountOuputLbl").text(totalPrice);
+							$("#cartItemsCountLbl").text(qnty);
 						}
 						
 						
@@ -100,9 +86,12 @@
 						        	$(this).prev(".card-header").find(".fa").removeClass("fa-minus").addClass("fa-plus");
 						        });
 						  
-						
+						        calculateQty();
 
 					});
+    
+    
+    
     
   
 </script>
@@ -132,7 +121,194 @@
 			<input type="hidden" name="orderNumber" value="${order.orderNumber}" />
 
 			<c:set var="netPrice" value="${0}" />
+
+<div class="row" >			
+	<div class="col-5 col-sm-5 col-md-5 col-lg-5 middleContent" >
+	<div >
+			<h2>Cart</h2>
+			
+			<b><label id="cartItemsCountLbl">0</label></b> ITEMS | <b><span class="rupeesymbol"><i class="fa" >&#xf156;</i></span> <span id="netPriceCountOuputLbl">${netPrice}</span></b> 
+
+			
 			<div class="row row-padding">
+				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="table-responsive showConfirmOrderCartItemsDiv">
+						<table class="table tblTemplate showConfirmOrderCartItemsTbl" style="border-right:1px solid #f3f3f3">
+						<thead>
+								<tr>
+									<th  style="width: 50%">Name</th>
+									<th>Qty</th>
+									<th>Total</th>
+
+								</tr>
+							</thead>
+							<tbody class="cartItems">
+							<c:forEach var="item" items="${order.orderLineItems}"
+								varStatus="loop">
+								<c:set var="nameParts"
+									value="${fn:split(item.productName, ',')}" />
+								<tr>
+									
+								 	<c:choose>
+										<c:when test="${item.category == 'Combo'}">
+											<td  style="width: 50%">
+												
+	<div class="accordion" id="accordionExample-${loop.index}">
+        <div class="card" style="margin-left: 0px;padding-left: 0px;">
+            <div class="card-header" id="headingOne-${loop.index}" style="background-color: #fff;border-color: #fff;padding-left: 0px;">
+              		<span data-toggle="collapse" data-target="#collapseOne-${loop.index}" style="cursor: pointer;"><i class="fa fa-plus"></i>${nameParts[0]}
+												${nameParts[1]} ${nameParts[2]} ${nameParts[3]}
+              		</span>
+            </div>
+            <div id="collapseOne-${loop.index}" class="collapse " aria-labelledby="headingOne-${loop.index}" data-parent="#accordionExample-${loop.index}">
+                <div class="card-body comboLineItemDiv" style="font-size:12px">
+                     <p> 	<c:set var="comboLineItemCounter" value="${0}" />
+                     <c:forEach var="orderComboLineItem" items="${item.orderComboLineItems}" varStatus="comboLoop">
+                     	
+                     	<c:set var="comboNameParts"	value="${fn:split(orderComboLineItem.productComboLineItemData, '|')}" />
+                     	${comboLineItemCounter+1}] ${comboNameParts[1]} (${comboNameParts[2]})
+                     	<input type="hidden" name="orderLineItems[${loop.index}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" value="${orderComboLineItem.productComboLineItemData}">
+                     	 <br>
+                     	  <c:set var="comboLineItemCounter" value="${comboLineItemCounter + 1}" />
+					 </c:forEach>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        </div>
+												
+											</td>
+										
+										</c:when>
+										<c:otherwise>
+											<td style="width: 50%">${nameParts[0]}
+												${nameParts[1]} ${nameParts[2]} ${nameParts[3]} ab
+											</td>
+										</c:otherwise>
+									</c:choose> 
+
+									<td>
+										<div class="rounded border border-grey quantity-padding" style="width:70px;">
+											<button class="btn quantityBtnMinus" type="button">
+												<i class="fa fa-minus qtyBtnGeneral" aria-hidden="true"
+													style="color: grey; cursor: hand"></i>
+											</button>
+												<input type="hidden" name="orderLineItems[${loop.index}].productId" value="${item.productId}"> 
+												<input type="hidden" class="hiddenPrice" name="orderLineItems[${loop.index}].price" value="${item.price}"> 
+												<input type="hidden" class="hiddenQnty" name="orderLineItems[${loop.index}].quantity" value="${item.quantity}"> 
+												<input type="hidden" name="orderLineItems[${loop.index}].productName" value="${item.productName}"> 
+												
+												
+												<label
+												class="qty-class qtyBtnGeneral">${item.quantity}</label>
+											<button class="btn quantityBtnAdd" type="button">
+												<i class="fa fa-plus qtyBtnGeneral" aria-hidden="true"
+													style="color: #F26522; cursor: hand;"></i>
+											</button>
+										</div>
+									</td>
+
+									<td class="priceCountOuputLbl" style="text-align: left"><span><i class='fa' style='color: grey'>&#xf156;</i></span> ${item.quantity * item.price}</td>
+									<c:set var="netPrice"
+										value="${netPrice + (item.quantity * item.price)}" />
+
+								</tr>
+							</c:forEach>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		</div>
+		<div class="col-7 col-sm-7 col-md-7 col-lg-7" >
+		<h2 >Register Form</h2>
+			
+			<div class="row row-padding confimPgInputForm" >
+
+				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
+					<label class="" for="inputName">Name</label>
+				</div>
+				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
+					<!-- <input type="text" class="form-control " name="custName"> -->
+					<form:input path="custName" cssClass="form-control" />
+					<form:errors path="custName" cssClass="error" />
+				</div>
+
+				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
+					<label class="" for="inputEmail">Email</label>
+				</div>
+
+				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
+					<!-- <input type="email" name="email" class="form-control"
+						id="inputEmail" > -->
+
+					<form:input path="email" cssClass="form-control" id="inputEmail" />
+					<form:errors path="email" cssClass="error" />
+				</div>
+
+				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
+					<label class="" for="Phone Number">Phone </label>
+				</div>
+
+				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
+					<!-- <input type="tel" class="form-control " name="phoneNumber"> -->
+					<form:input path="phoneNumber" cssClass="form-control" />
+					<form:errors path="phoneNumber" cssClass="error" />
+				</div>
+
+				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
+					<label class="" for="Deliver by">Deliver by</label>
+				</div>
+
+				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
+					<input name="deliverBy" type="date" class="form-control" style="font-size:12px;"
+						value="<fmt:formatDate pattern="yyyy-MM-dd" value="${order.deliverBy}" />">
+
+					<form:errors path="deliverBy" cssClass="error" />
+				</div>
+				
+				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
+					<label class="" for="Address">Address</label>
+				</div>
+
+				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
+					<form:textarea path="address" cssClass="form-control" id="inputAddress" />
+					<form:errors path="address" cssClass="error" />
+				</div>
+				
+				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
+					<label class="" for="Notes">Notes to 4Alphas</label>
+				</div>
+
+				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
+					<form:textarea path="notes" cssClass="form-control" id="inputAddress" />
+					<form:errors path="notes" cssClass="error" />
+				</div>
+
+			</div>
+			
+			<div class="row row-padding" style="text-align: center;">
+				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
+					<button type="button" value="Back" id="backButton"
+						class="btn btn-primary"><- Back</button>
+					<button type="submit" value="Confirm Order" class="btn btn-primary">
+						Confirm Order</button>
+				</div>
+			
+			</div>
+			</div>
+			
+				</div>
+		</form:form>
+	</div>
+			
+			
+			
+			
+			<%-- <div class="row row-padding">
 				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
 					<div class="table-responsive-md">
 						<table class="table tblTemplate">
@@ -233,65 +409,10 @@
 						</table>
 					</div>
 				</div>
-			</div>
+			</div> --%>
 
 
-			<h5>Register Form</h5>
-			<hr>
-			<div class="row row-padding confimPgInputForm">
-
-				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
-					<label class="" for="inputName">Name</label>
-				</div>
-				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
-					<!-- <input type="text" class="form-control " name="custName"> -->
-					<form:input path="custName" cssClass="form-control" />
-					<form:errors path="custName" cssClass="error" />
-				</div>
-
-				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
-					<label class="" for="inputEmail">Email</label>
-				</div>
-
-				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
-					<!-- <input type="email" name="email" class="form-control"
-						id="inputEmail" > -->
-
-					<form:input path="email" cssClass="form-control" id="inputEmail" />
-					<form:errors path="email" cssClass="error" />
-				</div>
-
-				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
-					<label class="" for="Phone Number">Phone </label>
-				</div>
-
-				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
-					<!-- <input type="tel" class="form-control " name="phoneNumber"> -->
-					<form:input path="phoneNumber" cssClass="form-control" />
-					<form:errors path="phoneNumber" cssClass="error" />
-				</div>
-
-				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
-					<label class="" for="Deliver by">Deliver by</label>
-				</div>
-
-				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
-					<input name="deliverBy" type="date" class="form-control"
-						value="<fmt:formatDate pattern="yyyy-MM-dd" value="${order.deliverBy}" />">
-
-					<form:errors path="deliverBy" cssClass="error" />
-				</div>
-				
-				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
-					<label class="" for="Address">Address</label>
-				</div>
-
-				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
-					<form:textarea path="address" cssClass="form-control" id="inputAddress" />
-					<form:errors path="address" cssClass="error" />
-				</div>
-
-			</div>
+			<!-- 
 			<div class="row row-padding" style="text-align: center;">
 				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
 					<button type="button" value="Back" id="backButton"
@@ -299,9 +420,8 @@
 					<button type="submit" value="Confirm Order" class="btn btn-primary">
 						Confirm Order</button>
 				</div>
-			</div>
-		</form:form>
-	</div>
+			</div> -->
+		
 
 
 	<%-- <div class="form-inline ">

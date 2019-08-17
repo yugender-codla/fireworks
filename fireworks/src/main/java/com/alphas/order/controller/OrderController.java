@@ -123,7 +123,7 @@ public class OrderController {
 		order.setOrderLineItems(selectedLineItems);
 		
 		if(order.getOrderLineItems().isEmpty()){
-			redirectAttributes.addFlashAttribute("cartEmpty","Please add atleast one item to the cart");
+			redirectAttributes.addFlashAttribute("cartEmpty","Please drop something to the cart");
 			return "redirect:/fireworks";
 		}
 		
@@ -191,6 +191,7 @@ try {
 			final RedirectAttributes redirectAttributes) {
 		try {
 			if(result.hasErrors()) {
+				model.addAttribute("order", order);
 				model.addAttribute("pageView", "order/showConfirmOrder");
 				return "common/template";
 			}

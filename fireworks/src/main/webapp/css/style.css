@@ -409,6 +409,7 @@ height:500px;
 
 .error{
 	color:red;
+	font-size:9px;
 }
 
 .comboLineItemDiv{
@@ -426,8 +427,53 @@ height:500px;
 	font-size: 10px;
 	font-weight: 700;
 }
-/**************Accordian************************/
+
+.showConfirmOrderCartItemsDiv{
+	font-size: 13px;
+}
 
 
 
-/********************************************/
+.showConfirmOrderCartItemsDiv table {
+    display: flex;
+    flex-flow: column;
+    width: 100%;
+}
+
+.showConfirmOrderCartItemsDiv thead {
+    flex: 0 0 auto;
+}
+
+.showConfirmOrderCartItemsDiv tbody {
+    flex: 1 1 auto;
+    display: block;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height:400px;
+}
+
+.showConfirmOrderCartItemsDiv tr {
+    width: 100%;
+    display: table;
+    table-layout: fixed;
+}
+
+.showConfirmOrderCartItemsTbl{
+	width:100%;
+}
+
+
+.showConfirmOrderCartItemsDiv tbody::-webkit-scrollbar {
+    width: 2px;
+    background-color: #ffffff;
+}  
+
+.showConfirmOrderCartItemsDiv tbody::-webkit-scrollbar-thumb {
+    background-color: #F26522;
+}
+
+.showConfirmOrderCartItemsDiv tbody::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+    
+}
