@@ -19,7 +19,10 @@ table{
 }
 
 
-
+/**
+#218838 - Green
+#F26522 - Orange
+**/
 
 
 /* Change the link color on hover */
@@ -646,7 +649,7 @@ height:500px;
 
 
 .comboLineItemDiv{
-	font-size:12px;
+	font-size:14px;
 	font-weight: normal;
 	font-family: 'Calibri';
 }

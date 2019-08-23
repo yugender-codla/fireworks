@@ -299,8 +299,8 @@ padding-top:7em;
 
 					<div id="tab${tabsCounter}">
 						<div class="pb-2 mt-4 mb-2 border-bottom" >
-							<h2>${item.key}</h2> 
-							<h6>${fn:length(item.value)} ITEMS</h6>
+							<h2 style="color:#F26522">${item.key}</h2> 
+							<h6>&nbsp;${fn:length(item.value)} ITEMS</h6>
 						</div>
 						<c:forEach var="subItem" items="${item.value}" varStatus="loop">
 							<c:set var="itemsCounter" value="${itemsCounter + 1}" />
@@ -330,7 +330,7 @@ padding-top:7em;
 											
 												<div class="accordion " id="accordionExample-${subItem.productId}">
 											        <div class="card " style="margin-left: 0px;padding-left: 0px;">
-											            <div class="card-header" id="headingOne-${subItem.productId}" style="background-color: #fff;border-color: #fff;padding-left: 0px;color:#F26522;padding-top: 0px;min-height: 8px;">
+											            <div class="card-header" id="headingOne-${subItem.productId}" style="background-color: #fff;border-color: #fff;padding-left: 0px;padding-top: 0px;min-height: 8px;padding-bottom: 0px">
 											              		<span data-toggle="collapse" data-target="#collapseOne-${subItem.productId}" style="cursor: pointer;"><i class="fa fa-plus"></i> ${nameParts[0]}
 											              		</span>
 											            </div>
@@ -338,9 +338,9 @@ padding-top:7em;
 														
 											            <div id="collapseOne-${subItem.productId}" class="collapse comboLineItemDiv" aria-labelledby="headingOne-${loop.index}" data-parent="#accordionExample-${subItem.productId}">
 											                <div class="card-body comboLineItemDiv">
-											                
+											                	<ul>
 											                    <c:forEach var="comboLineItem" items="${subItem.productComboLineItems}" varStatus="comboLoop">
-											                
+											                	<li>
 											                    <c:choose>
 																	<c:when test="${fn:length(comboLineItem.pid2Name) > 0}">
 																	<c:set var="orderComboLineItem1CheckedData" value=" ${comboLineItem.pid1}|${comboLineItem.pid1Name}|${comboLineItem.pid1Qty}"></c:set>
@@ -388,10 +388,11 @@ padding-top:7em;
 																		<input type="hidden" name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" value="${comboLineItem.pid1}|${comboLineItem.pid1Name}|${comboLineItem.pid1Qty}">
 																	</c:otherwise>
 																</c:choose>	
-											                  <hr>
+											                
 											                  <c:set var="comboLineItemCounter" value="${comboLineItemCounter + 1}" />
+											                </li>
 											                    </c:forEach>
-											                    
+											                      </ul>
 											                </div>
 											            </div>
 											        </div>

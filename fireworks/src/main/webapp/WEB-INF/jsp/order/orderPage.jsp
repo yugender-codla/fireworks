@@ -157,7 +157,7 @@
 		<c:forEach var="item" items="${productsMap}" varStatus="toploop">
 		
 		<div class="pb-2 mt-4 mb-2 border-bottom">
-			<h5> ${item.key}</h5>
+			<h5 style="color:#F26522"> ${item.key}</h5>
 		</div>
 		<div class="row row-padding">
 		<c:forEach var="subItem" items="${item.value}"  varStatus="loop">
@@ -180,25 +180,25 @@
 											
 												<div class="accordion " id="accordionExample-${subItem.productId}" >
 											        <div class="card " style="margin-left: 0px;padding-left: 0px;">
-											            <div class="card-header" id="headingOne-${subItem.productId}" style="background-color: #fff;border-color: #fff;padding-left: 0px;color:#F26522;padding-top: 0px;min-height: 8px;">
+											            <div class="card-header" id="headingOne-${subItem.productId}" style="background-color: #fff;border-color: #fff;padding-left: 0px;padding-top: 0px;min-height: 8px;padding-bottom: 0px">
 											              		<span data-toggle="collapse" data-target="#collapseOne-${subItem.productId}" style="cursor: pointer;"><i class="fa fa-plus"></i> ${nameParts[0]}
 											              		</span>
 											            </div>
 											              
 											             <div id="collapseOne-${subItem.productId}" class="collapse comboLineItemDiv" aria-labelledby="headingOne-${loop.index}" data-parent="#accordionExample-${subItem.productId}">
 											                <div class="card-body comboLineItemDiv">
-											                
+											                	
 											                    <c:forEach var="comboLineItem" items="${subItem.productComboLineItems}" varStatus="comboLoop">
-											                
+											                ${comboLineItemCounter+1}] 
 											                    <c:choose>
 																	<c:when test="${fn:length(comboLineItem.pid2Name) > 0}">
 																	<c:set var="orderComboLineItem1CheckedData" value="${comboLineItem.pid1}|${comboLineItem.pid1Name}|${comboLineItem.pid1Qty}"></c:set>
 																	 <c:choose>
 																	<c:when test = "${comboLineItem.pidCheckedData eq orderComboLineItem1CheckedData}">
-																		<input type="radio" name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" checked="checked" value="${comboLineItem.pid1}|${comboLineItem.pid1Name}|${comboLineItem.pid1Qty}">${comboLineItem.pid1Name} (${comboLineItem.pid1Qty})<br>
+																		<br><input type="radio" name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" checked="checked" value="${comboLineItem.pid1}|${comboLineItem.pid1Name}|${comboLineItem.pid1Qty}">${comboLineItem.pid1Name} (${comboLineItem.pid1Qty})
 																	</c:when>
 																	<c:otherwise>
-																		 <input type="radio" name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" checked="checked"  value="${comboLineItem.pid1}|${comboLineItem.pid1Name}|${comboLineItem.pid1Qty}">${comboLineItem.pid1Name} (${comboLineItem.pid1Qty})<br> 
+																		 <br><input type="radio" name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" checked="checked"  value="${comboLineItem.pid1}|${comboLineItem.pid1Name}|${comboLineItem.pid1Qty}">${comboLineItem.pid1Name} (${comboLineItem.pid1Qty}) 
 																	</c:otherwise>
 																		</c:choose>
 																		
@@ -207,10 +207,10 @@
 																		 <c:set var="orderComboLineItem2checkedData" value="${comboLineItem.pid2}|${comboLineItem.pid2Name}|${comboLineItem.pid2Qty}"></c:set>
 																		  <c:choose>
 																		 <c:when test = "${comboLineItem.pidCheckedData eq orderComboLineItem2checkedData}">
-											                    			<input type="radio"  name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" checked="checked" value="${comboLineItem.pid2}|${comboLineItem.pid2Name}|${comboLineItem.pid2Qty}">${comboLineItem.pid2Name} (${comboLineItem.pid2Qty}) <br>
+											                    			<br><input type="radio"  name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" checked="checked" value="${comboLineItem.pid2}|${comboLineItem.pid2Name}|${comboLineItem.pid2Qty}">${comboLineItem.pid2Name} (${comboLineItem.pid2Qty}) 
 											                    		</c:when>
 											                    		<c:otherwise>
-											                    			<input type="radio"  name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" value="${comboLineItem.pid2}|${comboLineItem.pid2Name}|${comboLineItem.pid2Qty}">${comboLineItem.pid2Name} (${comboLineItem.pid2Qty}) <br>
+											                    			<br><input type="radio"  name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" value="${comboLineItem.pid2}|${comboLineItem.pid2Name}|${comboLineItem.pid2Qty}">${comboLineItem.pid2Name} (${comboLineItem.pid2Qty})
 											                    		</c:otherwise>
 											                    			 </c:choose>
 											                    		 </c:if>
@@ -223,10 +223,10 @@
 																		 <c:set var="orderComboLineItem3heckedData" value="${comboLineItem.pid3}|${comboLineItem.pid3Name}|${comboLineItem.pid3Qty}"></c:set>
 																		  <c:choose>
 																		 <c:when test = "${comboLineItem.pidCheckedData eq orderComboLineItem3heckedData}">
-																		  	<input type="radio" name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" checked="checked"  value="${comboLineItem.pid3}|${comboLineItem.pid3Name}|${comboLineItem.pid3Qty}">${comboLineItem.pid3Name} (${comboLineItem.pid3Qty}) <br>
+																		  	<br><input type="radio" name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" checked="checked"  value="${comboLineItem.pid3}|${comboLineItem.pid3Name}|${comboLineItem.pid3Qty}">${comboLineItem.pid3Name} (${comboLineItem.pid3Qty}) 
 											                    			</c:when>
 											                    			<c:otherwise>
-											                    			<input type="radio" name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" value="${comboLineItem.pid3}|${comboLineItem.pid3Name}|${comboLineItem.pid3Qty}">${comboLineItem.pid3Name} (${comboLineItem.pid3Qty}) <br>
+											                    			<br><input type="radio" name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" value="${comboLineItem.pid3}|${comboLineItem.pid3Name}|${comboLineItem.pid3Qty}">${comboLineItem.pid3Name} (${comboLineItem.pid3Qty})
 											                    			</c:otherwise>
 											                    			</c:choose>
 											                    		 </c:if>
@@ -237,10 +237,11 @@
 																		<input type="hidden" name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" value="${comboLineItem.pid1}|${comboLineItem.pid1Name}|${comboLineItem.pid1Qty}">
 																	</c:otherwise>
 																</c:choose>	
-											                  <hr>
 											                  <c:set var="comboLineItemCounter" value="${comboLineItemCounter + 1}" />
+											               
+											               <br>
 											                    </c:forEach>
-											                    
+											                 
 											                </div>
 											            </div>
 											        </div>
