@@ -151,7 +151,17 @@ $(document).ready(function(){
 										<c:forEach var="subItem" items="${item.orderLineItems}"
 											varStatus="subLoop">
 											<tr>
-												<td>${subItem.productName}</td>
+												<td>${subItem.productName}
+												<c:if test="${fn:length(subItem.orderComboLineItems) gt 0}">
+												<ul>
+												<c:forEach var="comboItem" items="${subItem.orderComboLineItems}" varStatus="comboLoop">
+												<c:set var="nameParts"
+												value="${fn:split(comboItem.productComboLineItemData, '|')}" />
+													 <li>${nameParts[1]} (${nameParts[2]})</li>
+												</c:forEach>
+												</ul>
+												</c:if>
+												</td>
 
 												<td>${subItem.quantity}</td>
 

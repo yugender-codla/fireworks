@@ -1,6 +1,7 @@
 package com.alphas.order.dto;
 
-import javax.persistence.Column;
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -9,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 import lombok.Data;
@@ -17,20 +17,19 @@ import lombok.Data;
 @Entity
 @Data
 @Table(name = "Order_Combo_Line_Item", uniqueConstraints = { @UniqueConstraint(columnNames = "id") })
-public class OrderComboLineItem {
-
+public class OrderComboLineItem implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
 	
-	@Transient	
+	private Long productComboLineItemId;
+	
 	private String productComboLineItemData;
 	
-	@Column(name = "productComboLineItemId")
-	public Long getProductComboLineItemId() {
-		return Long.valueOf(this.productComboLineItemData.split("|")[0].trim());
-	} 
+	private Long quantity;
 	
 
 	@ManyToOne(fetch = FetchType.LAZY)

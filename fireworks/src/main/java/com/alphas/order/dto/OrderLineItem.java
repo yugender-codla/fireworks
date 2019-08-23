@@ -58,4 +58,8 @@ public class OrderLineItem implements Serializable{
 	@OneToMany(mappedBy="orderLineItem",cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
 	private List<OrderComboLineItem> orderComboLineItems;
 	
+	public OrderLineItem() {
+		
+	}
+	
 }

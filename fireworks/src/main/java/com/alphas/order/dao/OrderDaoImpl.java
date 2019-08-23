@@ -9,7 +9,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
-import org.hibernate.transform.Transformers;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +20,7 @@ import com.alphas.common.dto.States;
 import com.alphas.common.exception.AException;
 import com.alphas.inventory.dto.Stock;
 import com.alphas.order.dto.Order;
+import com.alphas.order.dto.OrderComboLineItem;
 import com.alphas.order.dto.OrderLineItem;
 import com.alphas.order.dto.UserOrderLineItem;
 import com.alphas.product.dao.ProductDao;
@@ -55,6 +55,14 @@ public class OrderDaoImpl implements OrderDao{
 		long initTime = System.currentTimeMillis();
 		for(OrderLineItem item: order.getOrderLineItems()) {
 			item.setOrder(order);
+			if("Combo".equals(item.getCategory())) {
+				for(OrderComboLineItem comboLineItem : item.getOrderComboLineItems()) {
+					comboLineItem.setProductComboLineItemId((Long.valueOf(comboLineItem.getProductComboLineItemData().split("\\|")[0].trim())));
+					comboLineItem.setQuantity((Long.valueOf(comboLineItem.getProductComboLineItemData().split("\\|")[2].trim())));
+					comboLineItem.setOrderLineItem(item);
+				}
+			}
+			
 		}	
 
 		

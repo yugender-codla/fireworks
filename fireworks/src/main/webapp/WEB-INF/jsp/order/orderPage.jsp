@@ -153,7 +153,7 @@
 	<input type="hidden" name="orderNumber" value="${order.orderNumber}"/>
 
 	<c:set var="itemsCounter" value="${0}"/>
-	<div class="container-fluid padding middleContent">
+	<div class="container-fluid padding middleContent" style="margin-bottom: 50px">
 		<c:forEach var="item" items="${productsMap}" varStatus="toploop">
 		
 		<div class="pb-2 mt-4 mb-2 border-bottom">
