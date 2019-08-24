@@ -26,9 +26,32 @@
   <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css"> 
   <link rel="stylesheet" href="/css/style.css">
   
+  <script>
+  
+  function showSpinButton(){
+	  if(document.getElementById("spinButton")){
+	  document.getElementById("spinButton").style.visibility = "visible";
+  	}
+  }
+  
+  function checkLoad()
+	 {
+	    if(document.getElementById("bottom"))
+	    {
+	 	document.getElementById("preLoaderDiv").style.visibility = "hidden";
+	    }
+	 }
+	 
+	 setInterval("checkLoad()",100);
+  </script>
   
 </head>
+
 <body>
+<div id="preLoaderDiv">
+	<img id="preloaderAnimation" src="/images/loading.gif" width="50px" height="50px"/>
+</div>
+
 	 <!-- <nav class="navbar navbar-light navbar-expand-md sticky-top navigation-clean-button" id="mainNav" style="background-color: #3655a4;color:#ffffff"> -->
 	 <nav class="navbar navbar-light navbar-expand-md fixed-top" id="mainNav" style="background-color: #3655a4;color:#ffffff;float: right;" >
 		<div class="container" >
@@ -112,6 +135,6 @@
     </div> -->
      
     <jsp:include page="../${pageView}.jsp"/>
-
+<div id="bottom"></div>
 </body>
 </html>

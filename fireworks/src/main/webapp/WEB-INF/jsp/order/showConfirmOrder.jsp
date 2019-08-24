@@ -102,7 +102,12 @@
 					});
     
     
-    
+    function checkLoad()
+	 {
+	 	document.getElementById("spinButton").style.visibility = "hidden";
+	 }
+	 
+	 setInterval("checkLoad()",5000);
   
 </script>
 
@@ -160,7 +165,7 @@
 									
 								 	<c:choose>
 										<c:when test="${item.category == 'Combo'}">
-											<td  style="width: 50%;vertical-align: middle">
+											<td  style="width: 50%;vertical-align: top">
 												<input type="hidden" name="orderLineItems[${loop.index}].category" value="${item.category}">
 	<div class="accordion" id="accordionExample-${loop.index}">
         <div class="card" style="margin-left: 0px;padding-left: 0px;">
@@ -192,13 +197,13 @@
 										
 										</c:when>
 										<c:otherwise>
-											<td style="width: 50%;vertical-align: middle">${nameParts[0]}
+											<td style="width: 50%;vertical-align: top">${nameParts[0]}
 												${nameParts[1]} ${nameParts[2]} ${nameParts[3]} 
 											</td>
 										</c:otherwise>
 									</c:choose> 
 
-									<td>
+									<td style="vertical-align: top;padding-top:20px">
 										<div class="rounded border border-grey quantity-padding" style="width:70px;">
 											<button class="btn quantityBtnMinus" type="button">
 												<i class="fa fa-minus qtyBtnGeneral" aria-hidden="true"
@@ -219,7 +224,7 @@
 										</div>
 									</td>
 
-									<td class="priceCountOuputLbl" style="text-align: left;vertical-align: middle"><span><i class='fa' style='color: grey'>&#xf156;</i></span> ${item.quantity * item.price}</td>
+									<td class="priceCountOuputLbl" style="text-align: left;vertical-align: top;padding-top:30px"><span><i class='fa' style='color: grey'>&#xf156;</i></span> ${item.quantity * item.price}</td>
 									<c:set var="netPrice"
 										value="${netPrice + (item.quantity * item.price)}" />
 
@@ -280,6 +285,7 @@
 					<form:errors path="deliverBy" cssClass="error" />
 				</div>
 				
+				
 				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
 					<label class="" for="Address">Address</label>
 				</div>
@@ -297,14 +303,39 @@
 					<form:textarea path="notes" cssClass="form-control" id="inputAddress" />
 					<form:errors path="notes" cssClass="error" />
 				</div>
+				
+				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
+					<h5>Select a payment method</h5>
+				</div>
 
+				<div class="col-12 col-sm-12 col-md-6 col-lg-6">
+					<input type="radio" name="payment"> <img src="/images/Paytm_logo.png" style="width:100px;height:50px">
+					<img src="/images/paytmqrcode.png" style="width:50px;height:50px">
+				</div>
+				
+				<div class="col-12 col-sm-12 col-md-6 col-lg-6">
+					<input type="radio" name="payment"> <img src="/images/phone-pe.png" style="width:55px;">
+					<img src="/images/phonepeqrcode.png" style="width:50px;height:50px">
+				</div>
+				
+				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
+					<input type="radio" name="payment"> <img src="/images/gpaylogo.png" style="width:55px;">
+					<label class="" for="tez">9841363614</label>
+				</div>
+				
+				<div class="col-12 col-sm-12 col-md-6 col-lg-6">
+				<input type="radio" name="payment">  <img src="/images/bycash.png" style="width:55px;">
+					<label class="" for="tez"> Pay on Delivery (Cash/UPI) </label>
+				</div>
+				
 			</div>
 			
 			<div class="row row-padding" style="text-align: center;">
 				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
+				<i class="fa fa-refresh fa-spin" id="spinButton" style="visibility:hidden"></i>
 					<button type="button" value="Back" id="backButton"
-						class="btn btn-secondary">&laquo; Previous</button>
-					<button type="submit" value="Order Now" class="btn btn-success">
+						class="btn btn-secondary" onclick="showSpinButton()">&laquo; Previous</button>
+					<button type="submit" value="Order Now" class="btn btn-success" onclick="showSpinButton()">
 						Order Now</button>
 					
 				</div>
@@ -456,8 +487,6 @@
 					</div>
 				</div>
 			</div> --%>
-
-
 
 </body>
 </html>

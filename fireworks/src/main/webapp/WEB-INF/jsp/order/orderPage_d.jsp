@@ -222,6 +222,9 @@
 	 function cartItemComboViewFunction(v){
 		 document.getElementById('comboViewId-'+v.id.substring(v.id.indexOf('-')+1,v.id.length)).click();
 		}
+	 
+	
+
 </script>
 
 <style>
@@ -289,7 +292,7 @@ padding-top:7em;
 
 
 			<div class="col-xs-6 middleContent" style="width:50%">
-			<div data-spy="scroll" data-target="#scrollspy" data-offset="0" style="overflow-y:scroll;width:100%;position:relative;" id="middleContentDiv">				
+			<div data-spy="scroll" data-target="#scrollspy" data-offset="50" style="overflow-y:scroll;width:100%;position:relative;" id="middleContentDiv">				
 					<c:set var="itemsCounter" value="${0}" />
 					<c:set var="tabsCounter" value="${0}" />
 				
@@ -483,7 +486,7 @@ padding-top:7em;
 		<div class="row row-padding">
 				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
 				<h6 style="font-size: 13px;color:red"><span id="cartEmptyMsg">${cartEmpty}</span></h6>
-				<button type="button" class="btn-success" style="width:200px" onclick = "javascript:$('form').submit()">Check Out</button>
+				<button type="button" class="btn-success" style="width:200px" onclick = "javascript:showSpinButton();$('form').submit()">Check Out <i class="fa fa-refresh fa-spin" id="spinButton" style="visibility:hidden"></i></button>
 				</div>
 		</div>
 		</div>
@@ -516,4 +519,5 @@ padding-top:7em;
 		</div>
 		<!-- /.modal-dialog -->
 	</div>
+	
 	<!-- /.modal -->

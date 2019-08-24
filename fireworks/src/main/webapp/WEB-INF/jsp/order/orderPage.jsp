@@ -157,7 +157,7 @@
 		<c:forEach var="item" items="${productsMap}" varStatus="toploop">
 		
 		<div class="pb-2 mt-4 mb-2 border-bottom">
-			<h5 style="color:#F26522"> ${item.key}</h5>
+			<h5> ${item.key}</h5>
 		</div>
 		<div class="row row-padding">
 		<c:forEach var="subItem" items="${item.value}"  varStatus="loop">
@@ -284,7 +284,7 @@
 												
 										<button class="btn quantityBtnAdd qtyPlusMinusBtn" type="button" id="btnAdd-${subItem.productId}">
 												<i class="fa fa-plus" aria-hidden="true"
-													style="color: #F26522; cursor: hand"></i>
+													style="color: #4CAF50; cursor: hand"></i>
 											</button> 
 										</div> 
 			
@@ -311,9 +311,15 @@
 		</p>
 	</div>
 	<div class="float-right">
-		<a class="btn-success" href="javascript:$('form').submit()" role="button"><p>
+	<button type="button" class="viewCartBtn" onclick = "javascript:showSpinButton();$('form').submit();">
+  		<i class="fa fa-refresh fa-spin" id="spinButton" style="visibility:hidden"></i> View Cart
+	</button>
+	
+	
+		<!-- <a class="btn-success" href="javascript:showSpinButton();$('form').submit()" role="button" style="text-decoration: none;"><p>
+		<i class="fa fa-refresh fa-spin" id="spinButton" style="visibility:hidden"></i>
 				View Cart <i class="fa fa-shopping-cart"></i>
-			</p></a>
+			</p></a> -->
 	</div>
 </div>
 </form:form>

@@ -23,11 +23,21 @@
   <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css"> 
   <link rel="stylesheet" href="/css/style.css">
   
+   <script>
+   function showSpinButton(){
+		  if(document.getElementById("spinButton")){
+		  	document.getElementById("spinButton").style.visibility = "visible";
+	  	}
+	  }
+   
+ 
+  </script>
   
 </head>
 <body>
+
 	 <!-- <nav class="navbar navbar-light navbar-expand-md sticky-top navigation-clean-button" id="mainNav" style="background-color: #3655a4;color:#ffffff"> -->
-	 <nav class="navbar navbar-light navbar-expand-md fixed-top" id="mainNav" style="background-color: #3655a4;color:#ffffff">
+	 <nav class="navbar navbar-light navbar-expand-md fixed-top" id="mainNav" style="background-color: #4CAF50;color:#ffffff">
 		<div class="container">
 			<a class="navbar-brand" href="/fireworks" style="color:#ffffff;"><i class="fa fa-shopping-bag"></i> &nbsp;4Alphas</a> 
 	<!-- 		<button class="navbar-toggler navbar-toggler-right" type="button"
@@ -119,5 +129,6 @@
      <div class="paddingTopContent">
     <jsp:include page="../${pageView}.jsp"/>
 	 </div>	
+	 <div id="bottom"></div>
 </body>
 </html>

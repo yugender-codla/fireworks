@@ -27,15 +27,14 @@
         <hr>
         <p style="padding: 20px;padding-top: 0px;">We will reach you shortly.! Your order number has been e-mailed to you. <br>
          Track your order status under 'Track Order' menu.
-      		 <div style="text-align: center">
-      		 <!-- <img width="150px" src="/images/animatedBomb.gif"> -->
-      		 </div>    
+      		 <!-- <div style="text-align: center">
+      		 <img width="150px" src="/images/animatedBomb.gif"> 
+      		 </div> -->    
         </p>
           
       
     </div>
     </div>
-   
 </body>
 
 </html>
