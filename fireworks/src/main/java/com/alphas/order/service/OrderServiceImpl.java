@@ -13,6 +13,7 @@ import javax.persistence.EntityManagerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 
@@ -44,6 +45,9 @@ public class OrderServiceImpl implements OrderService{
 	
 	@Autowired
 	SendMail mailSender;
+	
+	@Value("${toMailAddress}")
+	private String toMailAddress;
 	
 	@Override
 	public Order addOrder(Order order) throws AException {
@@ -174,8 +178,30 @@ public class OrderServiceImpl implements OrderService{
                 + "\n\nThank you for shopping with us. Your Order Number is: "+order.getOrderNumber()+". \nWe will reach you shortly. In case of any queries - please call us at 9841008735"
                 + "\nYou can track the order under 'Track Order' menu.\nhttp://www.4alphas.in/fireworks/order/track?orderNumber="+order.getOrderNumber() +"\n\nRegards,\n4Alphas Team";
 		
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("\n\nItems:");
+		for(OrderLineItem lineItem:order.getOrderLineItems()) {
+			buffer.append("\n"+lineItem.getProductId() +": "+lineItem.getProductName() +":"+ lineItem.getQuantity());
+				if("Combo".equals(lineItem.getCategory())){
+					
+					for(OrderComboLineItem comboLineItem : lineItem.getOrderComboLineItems()) {
+						buffer.append("\n   "+comboLineItem.getProductComboLineItemData());
+					}
+				}
+		}
+		
+		StringBuffer mailingAddress = new StringBuffer();
+		mailingAddress.append("\n\nTo:");
+		mailingAddress.append("\n"+order.getCustName());
+		mailingAddress.append("\n"+order.getPhoneNumber());
+		mailingAddress.append("\n"+order.getAddress());
+		mailingAddress.append("\nPayment Type: "+order.getPaymentType());
+		
+		
 		//http://www.4alphas.in/fireworks/order/track?orderNumber=EUSHVRHF
 		mailSender.send(toAddress, subject,content);
+		
+		mailSender.send(toMailAddress, subject,content + buffer.toString() + mailingAddress.toString());
 		
 		LOGGER.info("Mail sent."+order.getOrderNumber());
 	}

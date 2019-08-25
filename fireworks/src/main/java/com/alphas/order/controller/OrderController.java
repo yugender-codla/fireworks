@@ -190,11 +190,11 @@ try {
 	public String saveOrder(@Valid @ModelAttribute("order") Order order, BindingResult result, Model model,
 			final RedirectAttributes redirectAttributes) {
 		try {
-			/*if(result.hasErrors()) {
+			if(result.hasErrors()) {
 				model.addAttribute("order", order);
 				model.addAttribute("pageView", "order/showConfirmOrder");
 				return "common/template";
-			}*/
+			}
 			order.setStatus("");
 			order = orderService.addOrder(order);
 

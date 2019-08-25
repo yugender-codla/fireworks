@@ -37,16 +37,21 @@
 <body>
 
 	 <!-- <nav class="navbar navbar-light navbar-expand-md sticky-top navigation-clean-button" id="mainNav" style="background-color: #3655a4;color:#ffffff"> -->
-	 <nav class="navbar navbar-light navbar-expand-md fixed-top" id="mainNav" style="background-color: #4CAF50;color:#ffffff">
+	 <nav class="navbar navbar-light navbar-expand-md fixed-top" id="mainNav" style="background-color: #231F20;color:#ffffff">
 		<div class="container">
-			<a class="navbar-brand" href="/fireworks" style="color:#ffffff;"><i class="fa fa-shopping-bag"></i> &nbsp;4Alphas</a> 
+			<a class="navbar-brand" href="/fireworks" style="max-width: 100%;padding:0px;"> 
+			<img src="/images/4alphas-Logo.png" style="height:100%;padding:0px;width: 100px;">
+			</a> 
 	<!-- 		<button class="navbar-toggler navbar-toggler-right" type="button"
 				data-toggle="collapse" data-target="#navbarResponsive"
 				aria-controls="navbarResponsive" aria-expanded="false"
 				aria-label="Toggle navigation">
 				<i class="fas fa-bars"></i>
 			</button> -->
-			 <button data-toggle="collapse" class="navbar-toggler" data-target="#navbarResponsive" ><span class="sr-only" >Toggle navigation</span><span class="navbar-toggler-icon" style="color:#ffffff;"></span></button>
+			 <button data-toggle="collapse" class="navbar-toggler" data-target="#navbarResponsive" ><span class="sr-only" >Toggle navigation</span>
+			 <span style="color:#ffffff;">
+			  <i class="fa fa-navicon"></i>
+			 </span></button>
 			<div 
 			
 			<%if(request.getHeader("User-Agent").indexOf("Mobile") != -1) { %>
@@ -57,11 +62,15 @@
 			
 			
 			id="navbarResponsive">
-				<ul class="navbar-nav ml-auto navbar-right" >
+				<ul class="navbar-nav ml-auto navbar-right" style="float: right;font-family: Open Sans;font-size:13px;">
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
 						href="#about" style="color:#ffffff;"><i class="fa fa-home"></i>&nbsp;Home</a></li>
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
-						href="/fireworks" style="color:#ffffff;"><i class="fa fa-first-order"></i>&nbsp;Order</a></li>
+						href="/fireworks" style="color:#ffffff;"><i class="fa fa-bolt"></i>&nbsp;Order</a></li>
+					
+					<li class="nav-item"><a class="nav-link js-scroll-trigger"
+						href="/" style="color:#ffffff;"><i class="fa fa-sitemap"></i>&nbsp;4Alphas</a></li>
+					
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
 						href="/fireworks/order/trackview" style="color:#ffffff;"><i class="fa fa-wpexplorer"></i>&nbsp;Track Order</a></li>
 							

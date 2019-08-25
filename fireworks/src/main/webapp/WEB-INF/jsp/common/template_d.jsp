@@ -53,9 +53,10 @@
 </div>
 
 	 <!-- <nav class="navbar navbar-light navbar-expand-md sticky-top navigation-clean-button" id="mainNav" style="background-color: #3655a4;color:#ffffff"> -->
-	 <nav class="navbar navbar-light navbar-expand-md fixed-top" id="mainNav" style="background-color: #3655a4;color:#ffffff;float: right;" >
+	 <nav class="navbar navbar-light navbar-expand-md fixed-top" id="mainNav" style="background-color: #231F20;color:#ffffff;float: right;" >
 		<div class="container" >
-			<a class="navbar-brand" href="/fireworks" style="color:#ffffff;"><i class="fa fa-shopping-bag"></i> &nbsp;4Alphas</a> 
+			<a class="navbar-brand" href="/fireworks" style="max-width: 100%;padding:0px;"> 
+			<img src="/images/4alphas-Logo.png" style="height:100%;padding:0px;width: 100px;"></a> 
 	<!-- 		<button class="navbar-toggler navbar-toggler-right" type="button"
 				data-toggle="collapse" data-target="#navbarResponsive"
 				aria-controls="navbarResponsive" aria-expanded="false"
@@ -63,12 +64,17 @@
 				<i class="fas fa-bars"></i>
 			</button> -->
 			 <button data-toggle="collapse" class="navbar-toggler" data-target="#navbarResponsive" ><span class="sr-only" >Toggle navigation</span><span class="navbar-toggler-icon" style="color:#ffffff;"></span></button>
-			<div class="" id="navbarResponsive" style="float: right;">
+			<div class="" id="navbarResponsive" style="float: right;font-family: Open Sans;font-size:13px;">
 				<ul class="nav navbar-nav ml-auto navbar-right" >
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
 						href="#about" style="color:#ffffff;"><i class="fa fa-home"></i>&nbsp;Home</a></li>
+						
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
 						href="/fireworks" style="color:#ffffff;"><i class="fa fa-first-order"></i>&nbsp;Order</a></li>
+						
+					<li class="nav-item"><a class="nav-link js-scroll-trigger" href="www.4alphas.com" 
+						style="color:#ffffff;"><i class="fa fa-first-order"></i>&nbsp;4Alphas</a></li>
+						
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
 						href="/fireworks/order/trackview" style="color:#ffffff;"><i class="fa fa-wpexplorer"></i>&nbsp;Track Order</a></li>
 							

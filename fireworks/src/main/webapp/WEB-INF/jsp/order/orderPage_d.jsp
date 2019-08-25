@@ -234,7 +234,7 @@ top:7em;
 }
 
 .middleContent{
-padding-top:7em;
+padding-top:5em;
 }
 </style>
 </head>
@@ -334,7 +334,7 @@ padding-top:7em;
 												<div class="accordion " id="accordionExample-${subItem.productId}">
 											        <div class="card " style="margin-left: 0px;padding-left: 0px;">
 											            <div class="card-header" id="headingOne-${subItem.productId}" style="background-color: #fff;border-color: #fff;padding-left: 0px;padding-top: 0px;min-height: 8px;padding-bottom: 0px">
-											              		<span data-toggle="collapse" data-target="#collapseOne-${subItem.productId}" style="cursor: pointer;"><i class="fa fa-plus"></i> ${nameParts[0]}
+											              		<span data-toggle="collapse" data-target="#collapseOne-${subItem.productId}" style="cursor: pointer;"><i class="fa fa-plus"></i> ${nameParts[0]} <span style="font-weight:normal">(${fn:length(subItem.productComboLineItems)} items)</span>
 											              		</span>
 											            </div>
 											            
@@ -411,15 +411,10 @@ padding-top:7em;
 											
 											</div>
 										
-											<div style="font-size: 12px;">
-											<c:choose>
-												<c:when test="${item.key == 'Combo'}">
-													<b> ${nameParts[1]} ${nameParts[2]} ${nameParts[3]} </b><br>
-												</c:when>
-											<c:otherwise>
+											<div style="font-size: 12px;padding-top:10px;">
+											<c:if test="${item.key ne 'Combo'}">
 												${nameParts[1]} ${nameParts[2]} ${nameParts[3]} <br>
-											</c:otherwise>
-											</c:choose>
+											</c:if>
 												<b><span><i class="fa" style="color: grey">&#xf156;</i>
 												</span> <label class="price-class" style="color: grey">${subItem.price}</label></b>
 											</div>
@@ -486,7 +481,7 @@ padding-top:7em;
 		<div class="row row-padding">
 				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
 				<h6 style="font-size: 13px;color:red"><span id="cartEmptyMsg">${cartEmpty}</span></h6>
-				<button type="button" class="btn-success" style="width:200px" onclick = "javascript:showSpinButton();$('form').submit()">Check Out <i class="fa fa-refresh fa-spin" id="spinButton" style="visibility:hidden"></i></button>
+				<button type="button" class="btn btn-success" style="width:200px;padding:7px;border-radius: 12px;"  onclick = "javascript:showSpinButton();$('form').submit()">Check Out <i class="fa fa-refresh fa-spin" id="spinButton" style="visibility:hidden"></i></button>
 				</div>
 		</div>
 		</div>

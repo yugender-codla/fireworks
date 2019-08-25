@@ -157,7 +157,7 @@
 		<c:forEach var="item" items="${productsMap}" varStatus="toploop">
 		
 		<div class="pb-2 mt-4 mb-2 border-bottom">
-			<h5> ${item.key}</h5>
+			<h5 style="color:#ED5B23"> ${item.key}</h5>
 		</div>
 		<div class="row row-padding">
 		<c:forEach var="subItem" items="${item.value}"  varStatus="loop">
@@ -181,15 +181,15 @@
 												<div class="accordion " id="accordionExample-${subItem.productId}" >
 											        <div class="card " style="margin-left: 0px;padding-left: 0px;">
 											            <div class="card-header" id="headingOne-${subItem.productId}" style="background-color: #fff;border-color: #fff;padding-left: 0px;padding-top: 0px;min-height: 8px;padding-bottom: 0px">
-											              		<span data-toggle="collapse" data-target="#collapseOne-${subItem.productId}" style="cursor: pointer;"><i class="fa fa-plus"></i> ${nameParts[0]}
+											              		<span data-toggle="collapse" data-target="#collapseOne-${subItem.productId}" style="cursor: pointer;"><i class="fa fa-plus"></i> ${nameParts[0]} <span style="font-weight:normal">(${fn:length(subItem.productComboLineItems)} items)</span>
 											              		</span>
 											            </div>
 											              
 											             <div id="collapseOne-${subItem.productId}" class="collapse comboLineItemDiv" aria-labelledby="headingOne-${loop.index}" data-parent="#accordionExample-${subItem.productId}">
 											                <div class="card-body comboLineItemDiv">
-											                	
+											               <ul style="padding-left: 1.3em;"> 	
 											                    <c:forEach var="comboLineItem" items="${subItem.productComboLineItems}" varStatus="comboLoop">
-											                ${comboLineItemCounter+1}] 
+											               		<li>
 											                    <c:choose>
 																	<c:when test="${fn:length(comboLineItem.pid2Name) > 0}">
 																	<c:set var="orderComboLineItem1CheckedData" value="${comboLineItem.pid1}|${comboLineItem.pid1Name}|${comboLineItem.pid1Qty}"></c:set>
@@ -239,9 +239,9 @@
 																</c:choose>	
 											                  <c:set var="comboLineItemCounter" value="${comboLineItemCounter + 1}" />
 											               
-											               <br>
+											               </li>
 											                    </c:forEach>
-											                 
+											                 </ul>
 											                </div>
 											            </div>
 											        </div>
@@ -256,7 +256,9 @@
 										</c:choose>
 							</h3>
 							<div style="font-size: 12px;">
-											${nameParts[1]} ${nameParts[2]} ${nameParts[3]} <br>
+											<c:if test="${item.key ne 'Combo'}">
+												${nameParts[1]} ${nameParts[2]} ${nameParts[3]} <br>
+											</c:if>
 												<span><i class="fa" style="color: grey">&#xf156;</i>
 												</span> <label class="price-class" style="color: grey">${subItem.price}</label>
 											</div>
@@ -284,7 +286,7 @@
 												
 										<button class="btn quantityBtnAdd qtyPlusMinusBtn" type="button" id="btnAdd-${subItem.productId}">
 												<i class="fa fa-plus" aria-hidden="true"
-													style="color: #4CAF50; cursor: hand"></i>
+													style="color: #ED5B23; cursor: hand"></i>
 											</button> 
 										</div> 
 			

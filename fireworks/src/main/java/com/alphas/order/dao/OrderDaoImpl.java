@@ -70,11 +70,11 @@ public class OrderDaoImpl implements OrderDao{
 		
 		order = repository.save(order);
 		List<UserOrderLineItem> orderLineItems = this.addUserOrder(order);
-		System.out.println("Order main Time:=======: "+(System.currentTimeMillis()-initTime)+" milliseconds");
+		//System.out.println("Order main Time:=======: "+(System.currentTimeMillis()-initTime)+" milliseconds");
 		userOrderLineItemRepository.saveAll(orderLineItems);
 		
 		long endTime = System.currentTimeMillis();
-		System.out.println("Total Time:=======: "+(endTime-initTime)+" milliseconds");
+		//System.out.println("Total Time:=======: "+(endTime-initTime)+" milliseconds");
 		}catch(Exception exception) {
 			throw new AException(exception);
 		}

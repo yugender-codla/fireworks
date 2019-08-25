@@ -39,7 +39,7 @@ public class Order implements Serializable{
 	
 	@Column(name="deliverBy")
 	@DateTimeFormat(pattern="yyyy-MM-dd")
-	@NotNull(message="required")
+	@NotNull(message="Greater than 3 days from today")
 	private Date deliverBy;
 	
 	@Column(name="phoneNumber")
@@ -77,6 +77,9 @@ public class Order implements Serializable{
 	@Size(max=500, message="Please do not exceed 500 chars")
 	@Column(name="notes")
 	private String notes;
+	
+	@Column(name="paymentType")
+	private String paymentType;
 	
 	@OneToMany(mappedBy="order",cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
 	private List<OrderLineItem> orderLineItems;
