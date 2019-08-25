@@ -70,10 +70,10 @@
 						href="#about" style="color:#ffffff;"><i class="fa fa-home"></i>&nbsp;Home</a></li>
 						
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
-						href="/fireworks" style="color:#ffffff;"><i class="fa fa-first-order"></i>&nbsp;Order</a></li>
+						href="/fireworks" style="color:#ffffff;"><i class="fa fa-bolt"></i>&nbsp;Order</a></li>
 						
-					<li class="nav-item"><a class="nav-link js-scroll-trigger" href="www.4alphas.com" 
-						style="color:#ffffff;"><i class="fa fa-first-order"></i>&nbsp;4Alphas</a></li>
+					<li class="nav-item"><a class="nav-link js-scroll-trigger" href="http://www.4alphas.com" 
+						style="color:#ffffff;"><i class="fa fa-sitemap"></i>&nbsp;4Alphas</a></li>
 						
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
 						href="/fireworks/order/trackview" style="color:#ffffff;"><i class="fa fa-wpexplorer"></i>&nbsp;Track Order</a></li>

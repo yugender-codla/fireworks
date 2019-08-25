@@ -309,22 +309,22 @@
 				</div>
 
 				<div class="col-12 col-sm-12 col-md-6 col-lg-6">
-					<input type="radio" name="payment"> <img src="/images/Paytm_logo.png" style="width:100px;height:50px">
+					<input type="radio" name="paymentType" value="payTM"> <img src="/images/Paytm_logo.png" style="width:100px;height:50px">
 					<img src="/images/paytmqrcode.png" style="width:50px;height:50px">
 				</div>
 				
 				<div class="col-12 col-sm-12 col-md-6 col-lg-6">
-					<input type="radio" name="payment"> <img src="/images/phone-pe.png" style="width:55px;">
+					<input type="radio" name="paymentType" value="phonepe"> <img src="/images/phone-pe.png" style="width:55px;">
 					<img src="/images/phonepeqrcode.png" style="width:50px;height:50px">
 				</div>
 				
 				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
-					<input type="radio" name="payment"> <img src="/images/gpaylogo.png" style="width:55px;">
+					<input type="radio" name="paymentType" value="tez"> <img src="/images/gpaylogo.png" style="width:55px;">
 					<label class="" for="tez">9841363614</label>
 				</div>
 				
 				<div class="col-12 col-sm-12 col-md-6 col-lg-6">
-				<input type="radio" name="payment">  <img src="/images/bycash.png" style="width:55px;">
+				<input type="radio" name="paymentType" value="cash">  <img src="/images/bycash.png" style="width:55px;">
 					<label class="" for="tez"> Pay on Delivery (Cash/UPI) </label>
 				</div>
 				

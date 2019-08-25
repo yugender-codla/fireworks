@@ -150,6 +150,20 @@
 		  });
 		 
 			
+		  
+		  function setComboCounts(){
+				
+				$(".comboLineItemTotalQuantityCounter").each(function() {
+					 $("#comboLineItemTotalQuantityCounterSpan-"+this.id.substring(this.id.indexOf('-')+1,this.id.length)).html('('+$(this).val() +' items)');
+				});
+				
+			}
+			
+			
+		  setComboCounts();
+		  
+		  
+		  
 		  function loadCartItems(){
 			  $(".cartItems").empty();
 				var totalPrice = 0;
@@ -330,11 +344,11 @@ padding-top:5em;
 										
 											<c:choose>
 												<c:when test="${item.key == 'Combo'}">
-											
+											<c:set var="comboLineItemTotalQuantityCounter" value="${0}" />
 												<div class="accordion " id="accordionExample-${subItem.productId}">
 											        <div class="card " style="margin-left: 0px;padding-left: 0px;">
 											            <div class="card-header" id="headingOne-${subItem.productId}" style="background-color: #fff;border-color: #fff;padding-left: 0px;padding-top: 0px;min-height: 8px;padding-bottom: 0px">
-											              		<span data-toggle="collapse" data-target="#collapseOne-${subItem.productId}" style="cursor: pointer;"><i class="fa fa-plus"></i> ${nameParts[0]} <span style="font-weight:normal">(${fn:length(subItem.productComboLineItems)} items)</span>
+											              		<span data-toggle="collapse" data-target="#collapseOne-${subItem.productId}" style="cursor: pointer;"><i class="fa fa-plus"></i> ${nameParts[0]} <span style="font-weight:normal" id="comboLineItemTotalQuantityCounterSpan-${subItem.productId}"> </span>
 											              		</span>
 											            </div>
 											            
@@ -346,6 +360,7 @@ padding-top:5em;
 											                	<li>
 											                    <c:choose>
 																	<c:when test="${fn:length(comboLineItem.pid2Name) > 0}">
+																	<c:set var="comboLineItemTotalQuantityCounter" value="${comboLineItemTotalQuantityCounter + comboLineItem.pid1Qty}" />
 																	<c:set var="orderComboLineItem1CheckedData" value=" ${comboLineItem.pid1}|${comboLineItem.pid1Name}|${comboLineItem.pid1Qty}"></c:set>
 																	 <c:choose>
 																	<c:when test = "${comboLineItem.pidCheckedData eq orderComboLineItem1CheckedData}">
@@ -388,6 +403,7 @@ padding-top:5em;
 																	</c:when>
 																	<c:otherwise>
 																		${comboLineItem.pid1Name} (${comboLineItem.pid1Qty}) 
+																		<c:set var="comboLineItemTotalQuantityCounter" value="${comboLineItemTotalQuantityCounter + comboLineItem.pid1Qty}" />
 																		<input type="hidden" name="orderLineItems[${itemsCounter}].orderComboLineItems[${comboLineItemCounter}].productComboLineItemData" value="${comboLineItem.pid1}|${comboLineItem.pid1Name}|${comboLineItem.pid1Qty}">
 																	</c:otherwise>
 																</c:choose>	
@@ -396,6 +412,7 @@ padding-top:5em;
 											                </li>
 											                    </c:forEach>
 											                      </ul>
+											                       <input type="hidden" value="${comboLineItemTotalQuantityCounter}" id="comboLineItemTotalQuantityCounter-${subItem.productId}" class="comboLineItemTotalQuantityCounter">
 											                </div>
 											            </div>
 											        </div>
@@ -481,7 +498,7 @@ padding-top:5em;
 		<div class="row row-padding">
 				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
 				<h6 style="font-size: 13px;color:red"><span id="cartEmptyMsg">${cartEmpty}</span></h6>
-				<button type="button" class="btn btn-success" style="width:200px;padding:7px;border-radius: 12px;"  onclick = "javascript:showSpinButton();$('form').submit()">Check Out <i class="fa fa-refresh fa-spin" id="spinButton" style="visibility:hidden"></i></button>
+				<button type="button" class="btn btn-success"  style="width:200px;padding:7px;border-radius: 6px;"  onclick = "javascript:showSpinButton();$('form').submit()">Check Out <i class="fa fa-refresh fa-spin" id="spinButton" style="visibility:hidden"></i></button>
 				</div>
 		</div>
 		</div>
