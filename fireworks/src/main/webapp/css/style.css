@@ -510,6 +510,10 @@ and (max-device-width : 1024px)
  	.paddingTopContent{
 		padding-top:4em;
 	}
+	
+	.paymentInputTxtBox{
+		margin-top: 20px;
+	}
 }  
 
 
@@ -534,6 +538,10 @@ and (max-width: 1366px)
  	.paddingTopContent{
 		padding-top:4em;
 	}
+	
+	.paymentInputTxtBox{
+		margin-top: 20px;
+	}
 }  
 
 
@@ -556,6 +564,10 @@ and (max-width: 1366px)
  	.paddingTopContent{
 		padding-top:4em;
 	}
+	
+	.paymentInputTxtBox{
+		margin-top: 20px;
+	}
 }
 
 
@@ -567,7 +579,13 @@ and (max-width: 1366px)
   font-size: 16px; /* Set a font-size */
 }
 
-.required:before{
+.required:after{
   content:"*";
-  font-weight:bold;
+  color:red;
+  
+}
+
+/** Home page data***/
+.border-feature{
+	border-color: #f26522!important;
 }

@@ -1,6 +1,7 @@
 package com.alphas.order.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -11,6 +12,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +30,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alphas.common.dto.Event;
 import com.alphas.common.exception.AException;
+import com.alphas.common.util.CommonUtil;
 import com.alphas.inventory.dto.Stock;
 import com.alphas.order.dto.Order;
 import com.alphas.order.dto.OrderLineItem;
@@ -47,7 +50,11 @@ public class OrderController {
 	@Autowired
 	private OrderService orderService;
 	
-
+	@Value("${minimumValueToOrder}")
+	private Long minimumValueToOrder;
+	
+	@Autowired
+	private CommonUtil commonUtil;
 
 /*	@GetMapping("/showProducts")
 	public String ShowProducts(Model model) {
@@ -126,7 +133,7 @@ public class OrderController {
 			redirectAttributes.addFlashAttribute("cartEmpty","Please drop something to the cart");
 			return "redirect:/fireworks";
 		}
-		
+		order.setDeliverBy(commonUtil.getDeliverDate());
 		model.addAttribute("order", order);
 		model.addAttribute("pageView", "order/showConfirmOrder");
 
@@ -190,12 +197,27 @@ try {
 	public String saveOrder(@Valid @ModelAttribute("order") Order order, BindingResult result, Model model,
 			final RedirectAttributes redirectAttributes) {
 		try {
-			if(result.hasErrors()) {
+			
+			Long netPrice = 0L;
+			if(order != null && order.getOrderLineItems() != null && !order.getOrderLineItems().isEmpty()) {
+				for(OrderLineItem lineItem : order.getOrderLineItems()) {
+					netPrice = netPrice + (lineItem.getQuantity() * lineItem.getPrice());
+				}
+			}
+			
+			if(netPrice < minimumValueToOrder) {
+				model.addAttribute("minimumValueOrderMessage", "We accept orders with minimum value of Rs:"+minimumValueToOrder+"<br>");
+			}
+			
+			
+			if(result.hasErrors() || (netPrice < minimumValueToOrder)) {
 				model.addAttribute("order", order);
 				model.addAttribute("pageView", "order/showConfirmOrder");
 				return "common/template";
 			}
 			order.setStatus("");
+			order.setOrderDate(new Date());
+			order.setNetPrice(netPrice);
 			order = orderService.addOrder(order);
 
 		} catch (AException exception) {
@@ -304,4 +326,7 @@ try {
 			
 			return "common/template";
 	}
+	
+	
+	
 }

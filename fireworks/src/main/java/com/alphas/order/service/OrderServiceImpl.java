@@ -174,34 +174,47 @@ public class OrderServiceImpl implements OrderService{
 		
 		String subject = "4Alphas - Fireworks - Order Number: "+order.getOrderNumber();
 		String toAddress = order.getEmail();
-		String content = "Dear Sir/Madam,"
-                + "\n\nThank you for shopping with us. Your Order Number is: "+order.getOrderNumber()+". \nWe will reach you shortly. In case of any queries - please call us at 9841008735"
-                + "\nYou can track the order under 'Track Order' menu.\nhttp://www.4alphas.in/fireworks/order/track?orderNumber="+order.getOrderNumber() +"\n\nRegards,\n4Alphas Team";
+		
+		
+		
+		
+		String content = "<span style='color:#CC6600;font-size:18px'>Hello "+order.getCustName() +",</span><br>"
+                + "Thank you for shopping with us. <br>We will reach you shortly. In case of any queries - please call us at 8610924248, 7305309353"
+                + "<br>You can track the order under 'Track Order' menu.<br>http://www.4alphas.in/fireworks/order/track?orderNumber="+order.getOrderNumber() +"<br><br>Regards,<br>4Alphas Team";
+		
+		StringBuffer orderDetails = new StringBuffer();
+		
+		orderDetails.append("<br><br><span style='color:#CC6600;font-size:20px;font-weight:bold'>Order Confirmation</span><br>");
+		orderDetails.append("<span style='color:#CC6600;font-size:16px;font-weight:bold'>Order #: "+order.getOrderNumber()+"</span>");  
+		orderDetails.append("<br><br><table style='width:30%;border-collapse: collapse;'>");
+		orderDetails.append("<tr><th colspan='2' style='text-align:center;border: 1px solid black;'><h2>Order Details</h2></th></tr>");
+		orderDetails.append("<tr><th style='border: 1px solid black;text-align:left;'>Order Date</th><td style='border: 1px solid black;'> "+commonUtil.convertDateToUI(order.getOrderDate())+"</td></tr>");
+		orderDetails.append("<tr><th style='border: 1px solid black;text-align:left;'>Deliver by</th><td style='border: 1px solid black;'> "+commonUtil.convertDateToUI(order.getDeliverBy())+"</td></tr>");
+		orderDetails.append("<tr><th style='border: 1px solid black;text-align:left;'> Delivery Address</th><td style='border: 1px solid black;'> "+order.getCustName()+" <br> "+order.getAddress()+"</td></tr>");
+		orderDetails.append("<tr><th style='border: 1px solid black;text-align:left;'>Phone </th><td style='border: 1px solid black;'> "+order.getPhoneNumber()+"</td></tr>");
+		orderDetails.append("<tr><th style='border: 1px solid black;text-align:left;'>Order Total</th><td style='border: 1px solid black;'> Rs."+order.getNetPrice()+"</td></tr>");
+		orderDetails.append("<tr><th style='border: 1px solid black;text-align:left;'>Payment Method</th><td style='border: 1px solid black;'> "+order.getPaymentType()+" "+order.getCustomerPaymentCode()+"</td></tr>");
+		orderDetails.append("</table>");
+		
 		
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("\n\nItems:");
+		buffer.append("<br><br>Items:");
 		for(OrderLineItem lineItem:order.getOrderLineItems()) {
-			buffer.append("\n"+lineItem.getProductId() +": "+lineItem.getProductName() +":"+ lineItem.getQuantity());
+			buffer.append("<br>"+lineItem.getProductId() +": "+lineItem.getProductName() +":"+ lineItem.getQuantity());
 				if("Combo".equals(lineItem.getCategory())){
 					
 					for(OrderComboLineItem comboLineItem : lineItem.getOrderComboLineItems()) {
-						buffer.append("\n   "+comboLineItem.getProductComboLineItemData());
+						buffer.append("<br>   "+comboLineItem.getProductComboLineItemData());
 					}
 				}
 		}
 		
-		StringBuffer mailingAddress = new StringBuffer();
-		mailingAddress.append("\n\nTo:");
-		mailingAddress.append("\n"+order.getCustName());
-		mailingAddress.append("\n"+order.getPhoneNumber());
-		mailingAddress.append("\n"+order.getAddress());
-		mailingAddress.append("\nPayment Type: "+order.getPaymentType());
-		
+	
 		
 		//http://www.4alphas.in/fireworks/order/track?orderNumber=EUSHVRHF
-		mailSender.send(toAddress, subject,content);
+		mailSender.send(toAddress, subject,content + orderDetails.toString());
 		
-		mailSender.send(toMailAddress, subject,content + buffer.toString() + mailingAddress.toString());
+		mailSender.send(toMailAddress, subject,content + orderDetails.toString() + buffer.toString());
 		
 		LOGGER.info("Mail sent."+order.getOrderNumber());
 	}

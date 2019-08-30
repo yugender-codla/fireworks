@@ -52,7 +52,30 @@
 
 							calculateQty();
 						});
-
+						
+						
+						$(".paymentRadioClass").click(function() {
+							var paymentImage = $(this).attr("lbl");
+							$('.paymentImg').show();
+							showOne(paymentImage);
+						});
+						
+						function showOne(id) {
+						   $('.paymentImg').not('#' + id).hide();
+						   if(id=='yourUpiId'){
+							   $('#defaultPayMsg').show(); 
+						   }
+						}
+						
+						  $('#completeOrder').click(function() {
+							    if (confirm('Are you sure that you want to submit the order?')) {
+							    	showSpinButton();
+							    }else{
+							    	return false;
+							    }
+							});
+						
+						
 						function calculateQty() {
 							var qnty = 0;
 							var price = 0;
@@ -142,9 +165,6 @@
 	<div class="col-12 col-sm-12 col-md-5 col-lg-5 " >
 	<div >
 			<h2>Cart</h2>
-			
-			<b><label id="cartItemsCountLbl">0</label></b> ITEMS | <b><span class="rupeesymbol"><i class="fa" >&#xf156;</i></span> <span id="netPriceCountOuputLbl">${netPrice}</span></b> 
-
 			
 			<div class="row row-padding">
 				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
@@ -238,6 +258,9 @@
 				</div>
 				
 			</div>
+			<div class="col-12 col-sm-12 col-md-12 col-lg-12" style="text-align:center;padding-top:0px;">
+			Total: <b> <label id="cartItemsCountLbl">0</label></b> ITEMS | <b><span class="rupeesymbol"><i class="fa" >&#xf156;</i></span> <span id="netPriceCountOuputLbl">${netPrice}</span></b>
+			</div> 
 		</div>
 		</div>
 		<div class="col-12 col-sm-12 col-md-7 col-lg-7" >
@@ -277,7 +300,7 @@
 				</div>
 
 				<div class="col-4 col-sm-4 col-md-2 col-lg-2 " style="white-space:nowrap">
-					<label class="" for="Deliver by" required>Deliver By</label>
+					<label class="" for="Deliver by" required>Deliver By</label><br> <span style="font-size:10px">(mm/dd/yyyy)</span>
 				</div>
 
 				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
@@ -298,7 +321,7 @@
 				</div>
 				
 				<div class="col-4 col-sm-4 col-md-2 col-lg-2 ">
-					<label class="" for="Notes">Note</label>
+					<label class="" for="Notes">Notes</label>
 				</div>
 
 				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
@@ -306,43 +329,80 @@
 					<form:errors path="notes" cssClass="error" />
 				</div>
 				
-				<div class="col-12 col-sm-12 col-md-12 col-lg-12" style="text-align:center">
-					<h5>Select a payment method</h5>
+				<div class="col-12 col-sm-12 col-md-12 col-lg-12" style="text-align:center;padding-top:10px;padding-bottom:0px;">
+					<h4>Select a payment method</h4>
+					<form:errors path="paymentType" cssClass="error" />
 				</div>
 
-				<div class="col-12 col-sm-12 col-md-6 col-lg-6">
-					<input type="radio" name="paymentType" value="payTM"> <img src="/images/Paytm_logo.png" style="width:50px;height:20px">
-					<img src="/images/paytmqrcode.png" style="width:50px;height:50px">
+
+				<div class="col-12 col-sm-12 col-md-4 col-lg-4" style="padding-bottom:0px">
+				
+				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
+					<form:radiobutton path="paymentType" value="payTM" lbl="payTmImg" cssClass="paymentRadioClass"/> <img src="/images/Paytm_logo.png" style="width:50px;height:20px">
+				</div>
+				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
+					<form:radiobutton path="paymentType" value="phonepe" lbl="phonePayImg" cssClass="paymentRadioClass"/> <img src="/images/phonepeicon.jpeg" style="width:80px;height:30px">
+				</div>
+				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
+					<form:radiobutton path="paymentType" value="tez" lbl="tezImg" cssClass="paymentRadioClass"/> <img src="/images/gpayLogo1.png" style="width:50px;height:20px">
+				</div>
+				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
+					<form:radiobutton path="paymentType" value="cash" lbl="defaultPayMsg" cssClass="paymentRadioClass"/><label class="" for="byCash"> By Cash</label>
+				</div>
+				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
+					<form:radiobutton path="paymentType" value="upi" lbl="yourUpiId" cssClass="paymentRadioClass"/><label class="" for="upi"> Your UPI ID</label>
+				</div>
 				</div>
 				
-				<div class="col-12 col-sm-12 col-md-6 col-lg-6">
-					<input type="radio" name="paymentType" value="phonepe"> <img src="/images/phone-pe.png" style="width:25px;">
-					<img src="/images/phonepeqrcode.png" style="width:50px;height:50px">
+				<div class="col-12 col-sm-12 col-md-8 col-lg-8" style="height:270px;valign:middle;">
+				<div class="paymentInputTxtBox"><span id="yourUpiId" class="paymentImg" style="display:none;"><form:input path="customerPaymentCode" cssClass="form-control" cssStyle="width:150px"/> (for payment request)</span></div>
+				<span id="payTmImg" class="paymentImg" style="display:none"><img src="/images/paytm.jpeg" style="width:200px;height:200px"> <br><b>9841363614@paytm</b> </span>
+					<span id="phonePayImg" class="paymentImg" style="display:none"><img src="/images/phonepeqrCode.jpeg" style="width:200px;height:200px"> <br><b>9841363614@ybl</b> </span>
+					<span id="tezImg" class="paymentImg" style="display:none"><img src="/images/Gpay.jpeg" style="width:200px;height:200px"> <br><b>dilipindia6@okaxis</b> </span>
+				<span id="defaultPayMsg" class="paymentImg" ><img src="/images/secure-payments.png" style="width:230px;height:200px"> </span>
+				
+				
 				</div>
 				
-				<div class="col-12 col-sm-12 col-md-6 col-lg-6">
-					<input type="radio" name="paymentType" value="tez"> <img src="/images/gpayLogo1.png" style="width:50px;height:20px">
-					<label class="" for="tez">9841363614</label>
+				<%-- <div class="col-3 col-sm-3 col-md-3 col-lg-3">
+					<form:radiobutton path="paymentType" value="payTM" lbl="payTmImg" cssClass="paymentRadioClass"/> <img src="/images/Paytm_logo.png" style="width:50px;height:20px">
 				</div>
 				
-				<div class="col-12 col-sm-12 col-md-6 col-lg-6">
-				<input type="radio" name="paymentType" value="cash">  <img src="/images/bycash.png" style="width:20px;">
-					<label class="" for="byCash"> Pay on Delivery (Cash) </label>
+				<div class="col-3 col-sm-3 col-md-3 col-lg-3">
+					<form:radiobutton path="paymentType" value="phonepe" lbl="phonePayImg" cssClass="paymentRadioClass"/> <img src="/images/phonePayLogo.png" style="width:80px;">
+	
 				</div>
 				
+				<div class="col-3 col-sm-3 col-md-3 col-lg-3">
+					<form:radiobutton path="paymentType" value="tez" lbl="tezImg" cssClass="paymentRadioClass"/> <img src="/images/gpayLogo1.png" style="width:50px;height:20px">
+				</div>
+				
+				<div class="col-3 col-sm-3 col-md-3 col-lg-3">
+				<form:radiobutton path="paymentType" value="cash" lbl="cash" cssClass="paymentRadioClass"/><label class="" for="byCash"> By Cash</label>
+				</div>
+				
+				<div class="col-12 col-sm-12 col-md-12 col-lg-12" style="text-align:center;height:100px;valign:middle;padding-top:5px;padding-bottom: 40px;font-family: Open Sans">
+					<span id="payTmImg" class="paymentImg" style="display:none"><img src="/images/paytm.jpeg" style="width:200px;height:200px"> OR <b>9841363614@paytm</b> OR </span>
+					<span id="phonePayImg" class="paymentImg" style="display:none"><img src="/images/phonepeqrCode.jpeg" style="width:200px;height:200px"> OR <b>9841363614@ybl</b> OR </span>
+					<span id="tezImg" class="paymentImg" style="display:none"><img src="/images/Gpay.jpeg" style="width:200px;height:200px"> OR <b>dilipindia6@okaxis</b> OR </span>
+					
+				</div> 
+				</div>--%>
+								
 			</div>
 			
-			<div class="row row-padding" style="text-align: center;">
+			 <div class="row row-padding" style="text-align: center;padding-top:0px">
 				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
+				<span style="color:red;font-size:10px"> ${minimumValueOrderMessage}</span>
 				<i class="fa fa-refresh fa-spin" id="spinButton" style="visibility:hidden"></i>
 					<button type="button" value="Back" id="backButton"
 						class="btn btn-secondary" onclick="showSpinButton()">&laquo; Previous</button>
-					<button type="submit" value="Order Now" class="btn btn-success" onclick="showSpinButton()">
+					<button id="completeOrder" type="submit" value="Order Now" class="btn btn-success">
 						Complete Order</button>
 					
 				</div>
 			
-			</div>
+			</div> 
 			</div>
 			
 				</div>

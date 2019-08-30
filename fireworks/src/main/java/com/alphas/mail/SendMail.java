@@ -66,8 +66,7 @@ public class SendMail implements Runnable{
 			message.setFrom(new InternetAddress(fromAddress));
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(this.aToAddress +","+fromAddress));
 			message.setSubject(this.aSubject);
-			message.setText(this.aContent);
-
+			message.setContent(this.aContent, "text/html");
 			Transport.send(message);
 		} catch (MessagingException e) {
 			LOGGER.error(e.getMessage(), e);

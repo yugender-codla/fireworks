@@ -69,7 +69,7 @@ public class Order implements Serializable{
 	private String modifiedFlag;
 	
 	@Size(min=10,message="Please enter delivery address with atleast 10 characters")
-	@Size(max=150, message="Please do not exceed 100 chars")
+	@Size(max=150, message="Please do not exceed 150 chars")
 	@Column(name="address")
 	private String address;
 	
@@ -78,8 +78,23 @@ public class Order implements Serializable{
 	@Column(name="notes")
 	private String notes;
 	
+	@NotNull(message="Please choose a payment type")
 	@Column(name="paymentType")
 	private String paymentType;
+	
+	@Column(name="companyComments")
+	private String companyComments;
+	
+	@Column(name="orderDate")
+	private Date orderDate;
+	
+	@Column(name="netPrice")
+	private Long netPrice;
+	
+	@Size(max=50, message="Please enter code with less than 50 chars")
+	@Column(name="customerPaymentCode")
+	private String customerPaymentCode;
+	
 	
 	@OneToMany(mappedBy="order",cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
 	private List<OrderLineItem> orderLineItems;
