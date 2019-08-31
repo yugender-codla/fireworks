@@ -65,9 +65,12 @@
 			</button> -->
 			 <button data-toggle="collapse" class="navbar-toggler" data-target="#navbarResponsive" ><span class="sr-only" >Toggle navigation</span><span class="navbar-toggler-icon" style="color:#ffffff;"></span></button>
 			<div class="" id="navbarResponsive" style="float: right;font-family: Open Sans;font-size:13px;">
+			
 				<ul class="nav navbar-nav ml-auto navbar-right" >
+
+						
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
-						href="#about" style="color:#ffffff;"><i class="fa fa-home"></i>&nbsp;Home</a></li>
+						href="/fireworks/home" style="color:#ffffff;"><i class="fa fa-home"></i>&nbsp;Home</a></li>
 						
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
 						href="/fireworks" style="color:#ffffff;"><i class="fa fa-bolt"></i>&nbsp;Order</a></li>

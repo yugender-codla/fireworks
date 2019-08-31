@@ -283,7 +283,7 @@
 											</div>
 						</div>
 
-						<div class="rounded border border-grey quantity-label float-top float-right divQtyAddBtnPanel" style="width:70px;display:none;" id="divQtyAddBtnPanel-${subItem.productId}">
+						<div class="rounded border border-grey quantity-label float-top float-right divQtyAddBtnPanel" style="width:70px;padding:8px;display:none;" id="divQtyAddBtnPanel-${subItem.productId}">
 										<div>ADD</div>	
 										</div>
 										 <div

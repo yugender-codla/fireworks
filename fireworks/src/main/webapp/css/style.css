@@ -566,3 +566,8 @@ and (max-width: 1366px)
   color: white; /* White text */
   font-size: 16px; /* Set a font-size */
 }
+
+.required:before{
+  content:"*";
+  font-weight:bold;
+}

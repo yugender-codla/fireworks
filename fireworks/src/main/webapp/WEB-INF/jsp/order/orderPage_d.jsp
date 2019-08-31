@@ -242,9 +242,16 @@
 </script>
 
 <style>
+
+#standardImage{
+position:fixed;
+top:6em;
+text-align: center;
+}
+
 #scrollspy{
 position:fixed;
-top:7em;
+top:8em;
 }
 
 .middleContent{
@@ -266,8 +273,12 @@ padding-top:5em;
 <div class="container">
 	<div class="row">
 	
-			<div class="col-xs-3" style="width:20%;">
+<div class="col-xs-3" style="width:20%;">
+	<div id="standardImage">
+	<img src="/images/Standard-01.png" style="width: 100px;">
+	</div>	
 <nav id="scrollspy" class ="navbar" >
+	
 			<ul class="nav nav-pills nav-stacked flex-column mr-auto ml-auto">
 					<c:set var="categoryCounter" value="${0}" />
 					<c:forEach var="item" items="${productsMap}" varStatus="toploop">
@@ -438,7 +449,7 @@ padding-top:5em;
 										
 										</div>
 										<div
-											class="rounded border border-grey quantity-label float-top float-right divQtyAddBtnPanel" style="width:70px;padding:9px;display:none;" id="divQtyAddBtnPanel-${subItem.productId}">
+											class="rounded border border-grey quantity-label float-top float-right divQtyAddBtnPanel" style="width:70px;padding:8px;display:none;" id="divQtyAddBtnPanel-${subItem.productId}">
 										<div>ADD</div>	
 										</div>
 										 <div
@@ -498,9 +509,17 @@ padding-top:5em;
 		<div class="row row-padding">
 				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
 				<h6 style="font-size: 13px;color:red"><span id="cartEmptyMsg">${cartEmpty}</span></h6>
-				<button type="button" class="btn btn-success"  style="width:200px;padding:7px;border-radius: 6px;"  onclick = "javascript:showSpinButton();$('form').submit()">Check Out <i class="fa fa-refresh fa-spin" id="spinButton" style="visibility:hidden"></i></button>
+				<button type="button" class="btn"  style="width:95%;padding:7px;border-radius: 6px;background-color: #F26522;color:#ffffff"  onclick = "javascript:showSpinButton();$('form').submit()">Check Out <i class="fa fa-refresh fa-spin" id="spinButton" style="visibility:hidden"></i></button>
+				
+				
 				</div>
 		</div>
+		
+		<!-- <div class="row row-padding">
+				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
+					<img src="/images/standard.png" style="width">				
+				</div>
+		</div> -->
 		</div>
 	</div>
 

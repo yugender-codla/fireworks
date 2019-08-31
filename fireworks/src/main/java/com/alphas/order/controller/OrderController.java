@@ -295,4 +295,13 @@ try {
 	}
 	
 	
+	
+	@GetMapping("/home")
+	public String goToHome(
+			Model model, final RedirectAttributes redirectAttributes) {
+	
+			model.addAttribute("pageView", "order/home");
+			
+			return "common/template";
+	}
 }

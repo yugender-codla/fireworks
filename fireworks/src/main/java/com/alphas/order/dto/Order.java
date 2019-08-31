@@ -18,7 +18,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.alphas.common.dto.StateMap;
@@ -63,18 +62,19 @@ public class Order implements Serializable{
 	@Column(name="custName")
 	@NotNull(message="Name is required")
 	@Size(min=1,message="Name is required")
+	@Size(max=25,message="Please enter less than 25 characters")
 	private String custName;
 	
 	@Column(name="modifiedFlag")
 	private String modifiedFlag;
 	
 	@Size(min=10,message="Please enter delivery address with atleast 10 characters")
-	@Size(max=500, message="Please do not exceed 500 chars")
+	@Size(max=150, message="Please do not exceed 100 chars")
 	@Column(name="address")
 	private String address;
 	
 	
-	@Size(max=500, message="Please do not exceed 500 chars")
+	@Size(max=100, message="Please do not exceed 100 chars")
 	@Column(name="notes")
 	private String notes;
 	
@@ -88,6 +88,11 @@ public class Order implements Serializable{
 		
 	public Order() {
 		//orderLineItems = new ArrayList<OrderLineItem>();
+	}
+	
+	
+	public void setEmail(String email) {
+	    this.email = email.trim();
 	}
 	
 	public BigDecimal getPriceOfTheOrder() {

@@ -41,17 +41,17 @@
 		<div class="container">
 			<a class="navbar-brand" href="/fireworks" style="max-width: 100%;padding:0px;"> 
 			<img src="/images/4alphas-Logo.png" style="height:100%;padding:0px;width: 100px;">
+			
+			
 			</a> 
-	<!-- 		<button class="navbar-toggler navbar-toggler-right" type="button"
-				data-toggle="collapse" data-target="#navbarResponsive"
-				aria-controls="navbarResponsive" aria-expanded="false"
-				aria-label="Toggle navigation">
-				<i class="fas fa-bars"></i>
-			</button> -->
+		<img src="/images/standard.png" style="height:100%;padding:0px;width: 100px;">
+			
+			
 			 <button data-toggle="collapse" class="navbar-toggler" data-target="#navbarResponsive" ><span class="sr-only" >Toggle navigation</span>
 			 <span style="color:#ffffff;">
 			  <i class="fa fa-navicon"></i>
 			 </span></button>
+			
 			<div 
 			
 			<%if(request.getHeader("User-Agent").indexOf("Mobile") != -1) { %>
@@ -64,7 +64,7 @@
 			id="navbarResponsive">
 				<ul class="navbar-nav ml-auto navbar-right" style="float: right;font-family: Open Sans;font-size:13px;">
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
-						href="#about" style="color:#ffffff;"><i class="fa fa-home"></i>&nbsp;Home</a></li>
+						href="/fireworks/home" style="color:#ffffff;"><i class="fa fa-home"></i>&nbsp;Home</a></li>
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
 						href="/fireworks" style="color:#ffffff;"><i class="fa fa-bolt"></i>&nbsp;Order</a></li>
 					
@@ -138,6 +138,6 @@
      <div class="paddingTopContent">
     <jsp:include page="../${pageView}.jsp"/>
 	 </div>	
-	 <div id="bottom"></div>
+	 <div id="bottom" style="height:60px;">&nbsp;</div>
 </body>
 </html>

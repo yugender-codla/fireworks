@@ -26,6 +26,8 @@
 
     $(document).ready(function(){
     	
+    	 $("label[required]").addClass("required");
+
     	 $("#backButton").click(function(){
              document.confirmationForm.action = "<%=request.getContextPath()%>/fireworks/order/back";
              document.confirmationForm.submit();
@@ -243,8 +245,8 @@
 			
 			<div class="row row-padding confimPgInputForm" >
 
-				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
-					<label class="" for="inputName">Name</label>
+				<div class="col-4 col-sm-4 col-md-2 col-lg-2 ">
+					<label class="" for="inputName" required>Name</label>
 				</div>
 				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
 					<!-- <input type="text" class="form-control " name="custName"> -->
@@ -252,8 +254,8 @@
 					<form:errors path="custName" cssClass="error" />
 				</div>
 
-				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
-					<label class="" for="inputEmail">Email</label>
+				<div class="col-4 col-sm-4 col-md-2 col-lg-2 ">
+					<label class="" for="inputEmail" required>Email</label>
 				</div>
 
 				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
@@ -264,8 +266,8 @@
 					<form:errors path="email" cssClass="error" />
 				</div>
 
-				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
-					<label class="" for="Phone Number">Phone </label>
+				<div class="col-4 col-sm-4 col-md-2 col-lg-2 ">
+					<label class="" for="Phone Number" required>Phone </label>
 				</div>
 
 				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
@@ -274,8 +276,8 @@
 					<form:errors path="phoneNumber" cssClass="error" />
 				</div>
 
-				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
-					<label class="" for="Deliver by">Deliver by</label>
+				<div class="col-4 col-sm-4 col-md-2 col-lg-2 " style="white-space:nowrap">
+					<label class="" for="Deliver by" required>Deliver By</label>
 				</div>
 
 				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
@@ -286,8 +288,8 @@
 				</div>
 				
 				
-				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
-					<label class="" for="Address">Address</label>
+				<div class="col-4 col-sm-4 col-md-2 col-lg-2 ">
+					<label class="" for="Address" required>Address</label>
 				</div>
 
 				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
@@ -295,8 +297,8 @@
 					<form:errors path="address" cssClass="error" />
 				</div>
 				
-				<div class="col-4 col-sm-4 col-md-2 col-lg-2 align-right">
-					<label class="" for="Notes">Notes to 4Alphas</label>
+				<div class="col-4 col-sm-4 col-md-2 col-lg-2 ">
+					<label class="" for="Notes">Note</label>
 				</div>
 
 				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
@@ -304,28 +306,28 @@
 					<form:errors path="notes" cssClass="error" />
 				</div>
 				
-				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="col-12 col-sm-12 col-md-12 col-lg-12" style="text-align:center">
 					<h5>Select a payment method</h5>
 				</div>
 
 				<div class="col-12 col-sm-12 col-md-6 col-lg-6">
-					<input type="radio" name="paymentType" value="payTM"> <img src="/images/Paytm_logo.png" style="width:100px;height:50px">
+					<input type="radio" name="paymentType" value="payTM"> <img src="/images/Paytm_logo.png" style="width:50px;height:20px">
 					<img src="/images/paytmqrcode.png" style="width:50px;height:50px">
 				</div>
 				
 				<div class="col-12 col-sm-12 col-md-6 col-lg-6">
-					<input type="radio" name="paymentType" value="phonepe"> <img src="/images/phone-pe.png" style="width:55px;">
+					<input type="radio" name="paymentType" value="phonepe"> <img src="/images/phone-pe.png" style="width:25px;">
 					<img src="/images/phonepeqrcode.png" style="width:50px;height:50px">
 				</div>
 				
-				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
-					<input type="radio" name="paymentType" value="tez"> <img src="/images/gpaylogo.png" style="width:55px;">
+				<div class="col-12 col-sm-12 col-md-6 col-lg-6">
+					<input type="radio" name="paymentType" value="tez"> <img src="/images/gpayLogo1.png" style="width:50px;height:20px">
 					<label class="" for="tez">9841363614</label>
 				</div>
 				
 				<div class="col-12 col-sm-12 col-md-6 col-lg-6">
-				<input type="radio" name="paymentType" value="cash">  <img src="/images/bycash.png" style="width:55px;">
-					<label class="" for="tez"> Pay on Delivery (Cash/UPI) </label>
+				<input type="radio" name="paymentType" value="cash">  <img src="/images/bycash.png" style="width:20px;">
+					<label class="" for="byCash"> Pay on Delivery (Cash) </label>
 				</div>
 				
 			</div>
@@ -336,7 +338,7 @@
 					<button type="button" value="Back" id="backButton"
 						class="btn btn-secondary" onclick="showSpinButton()">&laquo; Previous</button>
 					<button type="submit" value="Order Now" class="btn btn-success" onclick="showSpinButton()">
-						Order Now</button>
+						Complete Order</button>
 					
 				</div>
 			
