@@ -27,10 +27,18 @@
             <div class="form-group"><button class="btn btn-primary" type="submit">send </button>
                 <hr>
             </div>
-            <div class="form-row" style="padding: 0px;">
-                <div class="col-2 align-self-center"><i class="fa fa-phone-square" style="font-size: 32px;color: rgb(61,134,220);"></i></div>
-                <div class="col text-left align-self-center" style="padding: 0px;">
-                    <p style="font-size: 16px;">9841008735<br>9841363614<br></p>
+            <div class="row">
+                <div class="col-2" style="padding-top:0px;">
+                <div class="">
+                <i class="fa fa-phone-square" style="font-size: 25px;color: rgb(61,134,220);"></i>
+                </div>
+                </div>
+                <div class="col-10 float-left" style="padding: 0px;">
+                    <p style="font-size: 16px;">8610924248, 7305309353</p>
+                </div>
+                <div class="col-23 float-center">
+                <img src="/images/Kayfarm01.png" style="width:90px;">  
+                <p style="font-size:12px;padding-bottom:0px;">&#169; Developed by <a href="http://www.kayfarm.com" target="_blank"> www.kayfarm.com</a></p>
                 </div>
             </div>
             <h5 style="font-size: 15px;color:green">${msg}</h5>

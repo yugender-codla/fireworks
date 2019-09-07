@@ -28,7 +28,10 @@
     	
     	 $("label[required]").addClass("required");
 
-    	 $("#backButton").click(function(){
+    	 $(".backButton").click(function(){
+ 	
+    		 showSpinButton();
+    		 
              document.confirmationForm.action = "<%=request.getContextPath()%>/fireworks/order/back";
              document.confirmationForm.submit();
 										});
@@ -62,9 +65,9 @@
 						
 						function showOne(id) {
 						   $('.paymentImg').not('#' + id).hide();
-						   if(id=='yourUpiId'){
+						    if(id=='yourUpiId'){
 							   $('#defaultPayMsg').show(); 
-						   }
+						   } 
 						}
 						
 						  $('#completeOrder').click(function() {
@@ -132,6 +135,15 @@
 	 	document.getElementById("spinButton").style.visibility = "hidden";
 	 }
 	 
+    function showSpinButton(){
+  	  if(document.getElementById("spinButton")){
+  	  		document.getElementById("spinButton").style.visibility = "visible";
+    		}
+  	  if(document.getElementById("spinButtonDown")){
+  	  		document.getElementById("spinButtonDown").style.visibility = "visible";
+  		}
+    }
+    
 	 setInterval("checkLoad()",5000);
   
 </script>
@@ -153,8 +165,7 @@
 
 		
 		<spring:url value="/fireworks/order/save" var="confirmOrderUrl" />
-		<form:form method="post" action="${confirmOrderUrl}"
-			modelAttribute="order" name="confirmationForm">
+		<form:form method="post" action="${confirmOrderUrl}" modelAttribute="order" name="confirmationForm">
 			<input type="hidden" name="id" value="${order.id}">
 			<input type="hidden" name="statusCode" value="${order.statusCode}" />
 			<input type="hidden" name="orderNumber" value="${order.orderNumber}" />
@@ -163,8 +174,22 @@
 
 <div class="row" >			
 	<div class="col-12 col-sm-12 col-md-5 col-lg-5 " >
-	<div >
-			<h2>Cart</h2>
+	<div>
+		 <div class="row">
+	    	<div class="col-6"><h2>Cart</h2></div>
+	    	<div class="col-6">
+	    	 <div class="float-right">
+	    	 <%if(request.getHeader("User-Agent").indexOf("Mobile") != -1) { %>
+	    	  <i class="fa fa-refresh fa-spin" id="spinButton" style="visibility:hidden"></i>
+		    	 <a href="#" class="previous round backButton" style = "text-decoration: none;display: inline-block;padding: 8px 16px;">&#8249;</a>
+	    	 <%} %>
+	    	<!-- <button type="button" value="Back" id="backButtonTop"
+						class="btn btn-secondary backButton">&laquo; Previous</button>
+						-->
+						</div> 
+						</div>
+	 	 </div>
+			
 			
 			<div class="row row-padding">
 				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
@@ -264,7 +289,7 @@
 		</div>
 		</div>
 		<div class="col-12 col-sm-12 col-md-7 col-lg-7" >
-		<h2 >Register Form</h2>
+		<h2 >Register Form  </span></h2>
 			
 			<div class="row row-padding confimPgInputForm" >
 
@@ -273,7 +298,7 @@
 				</div>
 				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
 					<!-- <input type="text" class="form-control " name="custName"> -->
-					<form:input path="custName" cssClass="form-control" />
+					<form:input path="custName" cssClass="form-control" maxlength="25"/>
 					<form:errors path="custName" cssClass="error" />
 				</div>
 
@@ -285,7 +310,7 @@
 					<!-- <input type="email" name="email" class="form-control"
 						id="inputEmail" > -->
 
-					<form:input path="email" cssClass="form-control" id="inputEmail" />
+					<form:input path="email" cssClass="form-control" id="inputEmail" maxlength="50"/>
 					<form:errors path="email" cssClass="error" />
 				</div>
 
@@ -295,7 +320,7 @@
 
 				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
 					<!-- <input type="tel" class="form-control " name="phoneNumber"> -->
-					<form:input path="phoneNumber" cssClass="form-control" />
+					<form:input path="phoneNumber" cssClass="form-control" maxlength="10"/>
 					<form:errors path="phoneNumber" cssClass="error" />
 				</div>
 
@@ -316,7 +341,7 @@
 				</div>
 
 				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
-					<form:textarea path="address" cssClass="form-control" id="inputAddress" />
+					<form:textarea path="address" cssClass="form-control" id="inputAddress" maxlength="150" />
 					<form:errors path="address" cssClass="error" />
 				</div>
 				
@@ -325,41 +350,44 @@
 				</div>
 
 				<div class="col-8 col-sm-8 col-md-4 col-lg-4">
-					<form:textarea path="notes" cssClass="form-control" id="inputAddress" />
+					<form:textarea path="notes" cssClass="form-control" id="inputAddress"  maxlength="150"/>
 					<form:errors path="notes" cssClass="error" />
 				</div>
 				
 				<div class="col-12 col-sm-12 col-md-12 col-lg-12" style="text-align:center;padding-top:10px;padding-bottom:0px;">
-					<h4>Select a payment method</h4>
+					<h4>Select a payment method <br></h4>
 					<form:errors path="paymentType" cssClass="error" />
 				</div>
 
 
-				<div class="col-12 col-sm-12 col-md-4 col-lg-4" style="padding-bottom:0px">
-				
-				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="col-12 col-sm-12 col-md-3 col-lg-3" style="padding-bottom:0px;padding-right:5px;">
+				<div class="row">
+				<div class="col-6 col-sm-6 col-md-12 col-lg-12"  style="padding-bottom:0px">
 					<form:radiobutton path="paymentType" value="payTM" lbl="payTmImg" cssClass="paymentRadioClass"/> <img src="/images/Paytm_logo.png" style="width:50px;height:20px">
 				</div>
-				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="col-6 col-sm-6 col-md-12 col-lg-12"  style="padding-bottom:0px">
 					<form:radiobutton path="paymentType" value="phonepe" lbl="phonePayImg" cssClass="paymentRadioClass"/> <img src="/images/phonepeicon.jpeg" style="width:80px;height:30px">
 				</div>
-				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="col-6 col-sm-6 col-md-12 col-lg-12"  style="padding-bottom:0px">
 					<form:radiobutton path="paymentType" value="tez" lbl="tezImg" cssClass="paymentRadioClass"/> <img src="/images/gpayLogo1.png" style="width:50px;height:20px">
 				</div>
-				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="col-6 col-sm-6 col-md-12 col-lg-12"  style="padding-bottom:0px">
 					<form:radiobutton path="paymentType" value="cash" lbl="defaultPayMsg" cssClass="paymentRadioClass"/><label class="" for="byCash"> By Cash</label>
 				</div>
-				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="col-6 col-sm-6 col-md-12 col-lg-12"  style="padding-bottom:0px">
 					<form:radiobutton path="paymentType" value="upi" lbl="yourUpiId" cssClass="paymentRadioClass"/><label class="" for="upi"> Your UPI ID</label>
 				</div>
 				</div>
+				</div>
 				
-				<div class="col-12 col-sm-12 col-md-8 col-lg-8" style="height:270px;valign:middle;">
-				<div class="paymentInputTxtBox"><span id="yourUpiId" class="paymentImg" style="display:none;"><form:input path="customerPaymentCode" cssClass="form-control" cssStyle="width:150px"/> (for payment request)</span></div>
+				<div class="col-12 col-sm-12 col-md-9 col-lg-9" style="valign:middle;text-align: left;align-content: left;padding-left:0px;padding-bottom:0px;">
+				<div class="paymentInputTxtBox float-center"><span id="yourUpiId" class="paymentImg" style="display:none;"><form:input path="customerPaymentCode" cssClass="form-control" cssStyle="width:150px;font-size:14px" maxlength="25" placeholder="Enter your UPI ID"/> (We will send you<br>a payment request)</span></div>
 				<span id="payTmImg" class="paymentImg" style="display:none"><img src="/images/paytm.jpeg" style="width:200px;height:200px"> <br><b>9841363614@paytm</b> </span>
 					<span id="phonePayImg" class="paymentImg" style="display:none"><img src="/images/phonepeqrCode.jpeg" style="width:200px;height:200px"> <br><b>9841363614@ybl</b> </span>
 					<span id="tezImg" class="paymentImg" style="display:none"><img src="/images/Gpay.jpeg" style="width:200px;height:200px"> <br><b>dilipindia6@okaxis</b> </span>
-				<span id="defaultPayMsg" class="paymentImg" ><img src="/images/secure-payments.png" style="width:230px;height:200px"> </span>
+				<span id="defaultPayMsg" class="paymentImg" >
+				<img src="/images/secure-payments.png" style="width:100px;height:100px">
+				</span>
 				
 				
 				</div>
@@ -394,10 +422,10 @@
 			 <div class="row row-padding" style="text-align: center;padding-top:0px">
 				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
 				<span style="color:red;font-size:10px"> ${minimumValueOrderMessage}</span>
-				<i class="fa fa-refresh fa-spin" id="spinButton" style="visibility:hidden"></i>
+				<i class="fa fa-refresh fa-spin" id="spinButtonDown" style="visibility:hidden"></i>
 					<button type="button" value="Back" id="backButton"
-						class="btn btn-secondary" onclick="showSpinButton()">&laquo; Previous</button>
-					<button id="completeOrder" type="submit" value="Order Now" class="btn btn-success">
+						class="btn btn-secondary backButton">&laquo; Previous</button>
+					<button id="completeOrder" type="submit" value="Order Now" class="btn" style="padding:7px;border-radius: 6px;background-color: #F26522;color:#ffffff" ">
 						Complete Order</button>
 					
 				</div>

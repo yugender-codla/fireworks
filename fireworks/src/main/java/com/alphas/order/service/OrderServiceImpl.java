@@ -186,7 +186,7 @@ public class OrderServiceImpl implements OrderService{
 		
 		orderDetails.append("<br><br><span style='color:#CC6600;font-size:20px;font-weight:bold'>Order Confirmation</span><br>");
 		orderDetails.append("<span style='color:#CC6600;font-size:16px;font-weight:bold'>Order #: "+order.getOrderNumber()+"</span>");  
-		orderDetails.append("<br><br><table style='width:30%;border-collapse: collapse;'>");
+		orderDetails.append("<br><br><table style='width:40%;border-collapse: collapse;'>");
 		orderDetails.append("<tr><th colspan='2' style='text-align:center;border: 1px solid black;'><h2>Order Details</h2></th></tr>");
 		orderDetails.append("<tr><th style='border: 1px solid black;text-align:left;'>Order Date</th><td style='border: 1px solid black;'> "+commonUtil.convertDateToUI(order.getOrderDate())+"</td></tr>");
 		orderDetails.append("<tr><th style='border: 1px solid black;text-align:left;'>Deliver by</th><td style='border: 1px solid black;'> "+commonUtil.convertDateToUI(order.getDeliverBy())+"</td></tr>");
@@ -194,6 +194,7 @@ public class OrderServiceImpl implements OrderService{
 		orderDetails.append("<tr><th style='border: 1px solid black;text-align:left;'>Phone </th><td style='border: 1px solid black;'> "+order.getPhoneNumber()+"</td></tr>");
 		orderDetails.append("<tr><th style='border: 1px solid black;text-align:left;'>Order Total</th><td style='border: 1px solid black;'> Rs."+order.getNetPrice()+"</td></tr>");
 		orderDetails.append("<tr><th style='border: 1px solid black;text-align:left;'>Payment Method</th><td style='border: 1px solid black;'> "+order.getPaymentType()+" "+order.getCustomerPaymentCode()+"</td></tr>");
+		orderDetails.append("<tr><th style='border: 1px solid black;text-align:left;'>Notes</th><td style='border: 1px solid black;'> "+order.getNotes()+"</td></tr>");
 		orderDetails.append("</table>");
 		
 		

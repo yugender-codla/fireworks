@@ -30,8 +30,11 @@
   
   function showSpinButton(){
 	  if(document.getElementById("spinButton")){
-	  document.getElementById("spinButton").style.visibility = "visible";
-  	}
+	  		document.getElementById("spinButton").style.visibility = "visible";
+  		}
+	  if(document.getElementById("spinButtonDown")){
+	  		document.getElementById("spinButtonDown").style.visibility = "visible";
+		}
   }
   
   function checkLoad()
@@ -75,8 +78,8 @@
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
 						href="/fireworks" style="color:#ffffff;"><i class="fa fa-bolt"></i>&nbsp;Order</a></li>
 						
-					<li class="nav-item"><a class="nav-link js-scroll-trigger" href="http://www.4alphas.com" 
-						style="color:#ffffff;"><i class="fa fa-sitemap"></i>&nbsp;4Alphas</a></li>
+	<!-- 				<li class="nav-item"><a class="nav-link js-scroll-trigger" href="http://www.4alphas.com" 
+						style="color:#ffffff;"><i class="fa fa-sitemap"></i>&nbsp;4Alphas</a></li> -->
 						
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
 						href="/fireworks/order/trackview" style="color:#ffffff;"><i class="fa fa-wpexplorer"></i>&nbsp;Track Order</a></li>
@@ -145,5 +148,6 @@
      
     <jsp:include page="../${pageView}.jsp"/>
 <div id="bottom"></div>
+
 </body>
 </html>

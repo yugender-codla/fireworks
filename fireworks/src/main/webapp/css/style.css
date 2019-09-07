@@ -589,3 +589,13 @@ and (max-width: 1366px)
 .border-feature{
 	border-color: #f26522!important;
 }
+
+
+.previous {
+  background-color: #f1f1f1;
+  color: black;
+}
+
+.round {
+  border-radius: 50%;
+}

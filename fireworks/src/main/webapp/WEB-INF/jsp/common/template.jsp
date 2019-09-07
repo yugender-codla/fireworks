@@ -68,8 +68,8 @@
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
 						href="/fireworks" style="color:#ffffff;"><i class="fa fa-bolt"></i>&nbsp;Order</a></li>
 					
-					<li class="nav-item"><a class="nav-link js-scroll-trigger"
-						href="/" style="color:#ffffff;"><i class="fa fa-sitemap"></i>&nbsp;4Alphas</a></li>
+			<!-- 		<li class="nav-item"><a class="nav-link js-scroll-trigger"
+						href="/" style="color:#ffffff;"><i class="fa fa-sitemap"></i>&nbsp;4Alphas</a></li> -->
 					
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
 						href="/fireworks/order/trackview" style="color:#ffffff;"><i class="fa fa-wpexplorer"></i>&nbsp;Track Order</a></li>

@@ -117,32 +117,32 @@
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-5 col-lg-4 item" >
-                    <div class="border rounded border-primary shadow box"><i class="fa fa-truck icon" style="color: rgb(242,101,34);"></i>
+                    <div class="border rounded border-feature shadow box"><i class="fa fa-truck icon" style="color: rgb(242,101,34);"></i>
                         <h3 class="name"><strong>Transport &amp; Delivery</strong></h3>
                         <p class="text-justify description">We suffice logistics needs primarily for goods transportation. Our clientele include diversified sectors ranging from FMCG, Pharmaceuticals and Mechanical industries. &nbsp;&nbsp;</p>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-5 col-lg-4 item" >
-                    <div class="border rounded border-primary shadow box"><i class="fa fa-book icon" style="color: rgb(242,101,34);"></i>
+                    <div class="border rounded border-feature shadow box"><i class="fa fa-book icon" style="color: rgb(242,101,34);"></i>
                         <h3 class="name"><strong>Academic and Office Needs</strong></h3>
                         <p class="text-justify description">We provide customized solution for all your ultimate stationary needs and tailor made utility requirements. &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                             &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-5 col-lg-4 item" >
-                    <div class="border rounded border-primary shadow box"><i class="fa fa-print icon" style="color: rgb(242,101,34);"></i>
+                    <div class="border rounded border-feature shadow box"><i class="fa fa-print icon" style="color: rgb(242,101,34);"></i>
                         <h3 class="name"><strong>Digital and Offset Printing</strong></h3>
                         <p class="text-justify description">We render multimodal catalogue printing, product packaging, signage boards, diaries and calendar printing, corporate design (logos and branding) and web designing.</p>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-5 col-lg-4 item" >
-                    <div class="border rounded border-primary shadow box"><i class="fa fa-question icon" style="color: rgb(242,101,34);"></i>
+                    <div class="border rounded border-feature shadow box"><i class="fa fa-question icon" style="color: rgb(242,101,34);"></i>
                         <h3 class="name"><strong>How we do it</strong></h3>
                         <p class="text-justify description">We identify the demand scale, research on the requirements, develop our capacity to deliver beyond demand and route a way to serve in future.&nbsp;<br></p>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-5 col-lg-4 item" >
-                    <div class="border rounded border-primary shadow box"><i class="fa fa-certificate icon" style="color: rgb(242,101,34);"></i>
+                    <div class="border rounded border-feature shadow box"><i class="fa fa-certificate icon" style="color: rgb(242,101,34);"></i>
                         <h3 class="name"><strong>Our values</strong><br></h3>
                         <p class="text-justify description">Client focused service, affordable equitable access to products, continuous quality improvement, demand based supply and service motivated research.</p>
                     </div>
