@@ -175,10 +175,10 @@
 <div class="row" >			
 	<div class="col-12 col-sm-12 col-md-5 col-lg-5 " >
 	<div>
-		 <div class="row">
-	    	<div class="col-6"><h2>Cart</h2></div>
-	    	<div class="col-6">
-	    	 <div class="float-right">
+		 <div class="row" style="padding-top:0px">
+	    	<div class="col-6" style="padding-top:0px"><h2>Cart</h2></div>
+	    	<div class="col-6" style="padding-top:0px">
+	    	 <div class="float-right" >
 	    	 <%if(request.getHeader("User-Agent").indexOf("Mobile") != -1) { %>
 	    	  <i class="fa fa-refresh fa-spin" id="spinButton" style="visibility:hidden"></i>
 		    	 <a href="#" class="previous round backButton" style = "text-decoration: none;display: inline-block;padding: 8px 16px;">&#8249;</a>
@@ -289,7 +289,7 @@
 		</div>
 		</div>
 		<div class="col-12 col-sm-12 col-md-7 col-lg-7" >
-		<h2 >Register Form  </span></h2>
+		<h2 >Contact</h2>
 			
 			<div class="row row-padding confimPgInputForm" >
 
@@ -325,7 +325,7 @@
 				</div>
 
 				<div class="col-4 col-sm-4 col-md-2 col-lg-2 " style="white-space:nowrap">
-					<label class="" for="Deliver by" required>Deliver By</label><br> <span style="font-size:10px">(mm/dd/yyyy)</span>
+					<label class="" for="Deliver by" required>Deliver By</label>
 				</div>
 
 				<div class="col-8 col-sm-8 col-md-4 col-lg-4">

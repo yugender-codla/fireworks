@@ -68,7 +68,7 @@ public class Order implements Serializable{
 	@Column(name="modifiedFlag")
 	private String modifiedFlag;
 	
-	@Size(min=10,message="Please enter delivery address with atleast 10 characters")
+	@Size(min=5,message="Please enter delivery address with atleast 5 characters")
 	@Size(max=150, message="Please do not exceed 150 chars")
 	@Column(name="address")
 	private String address;

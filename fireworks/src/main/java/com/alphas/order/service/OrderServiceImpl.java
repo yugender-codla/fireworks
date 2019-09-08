@@ -180,13 +180,13 @@ public class OrderServiceImpl implements OrderService{
 		
 		String content = "<span style='color:#CC6600;font-size:18px'>Hello "+order.getCustName() +",</span><br>"
                 + "Thank you for shopping with us. <br>We will reach you shortly. In case of any queries - please call us at 8610924248, 7305309353"
-                + "<br>You can track the order under 'Track Order' menu.<br>http://www.4alphas.in/fireworks/order/track?orderNumber="+order.getOrderNumber() +"<br><br>Regards,<br>4Alphas Team";
+                + "<br>You can track the order under 'Track Order' menu.<br>https://www.4alphas.in/fireworks/order/track?orderNumber="+order.getOrderNumber() +"<br><br>Regards,<br>4Alphas Team";
 		
 		StringBuffer orderDetails = new StringBuffer();
 		
 		orderDetails.append("<br><br><span style='color:#CC6600;font-size:20px;font-weight:bold'>Order Confirmation</span><br>");
 		orderDetails.append("<span style='color:#CC6600;font-size:16px;font-weight:bold'>Order #: "+order.getOrderNumber()+"</span>");  
-		orderDetails.append("<br><br><table style='width:40%;border-collapse: collapse;'>");
+		orderDetails.append("<br><br><table style='width:300px;border-collapse: collapse;'>");
 		orderDetails.append("<tr><th colspan='2' style='text-align:center;border: 1px solid black;'><h2>Order Details</h2></th></tr>");
 		orderDetails.append("<tr><th style='border: 1px solid black;text-align:left;'>Order Date</th><td style='border: 1px solid black;'> "+commonUtil.convertDateToUI(order.getOrderDate())+"</td></tr>");
 		orderDetails.append("<tr><th style='border: 1px solid black;text-align:left;'>Deliver by</th><td style='border: 1px solid black;'> "+commonUtil.convertDateToUI(order.getDeliverBy())+"</td></tr>");

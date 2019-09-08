@@ -19,9 +19,15 @@ import org.springframework.stereotype.Component;
 public class SendMail implements Runnable{
 	
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
-	final String username = "yugender.codla@gmail.com";
+/*	final String username = "yugender.codla@gmail.com";
     final String password = "zcyahufaehiqzgly";
-    final String fromAddress = "yugender.codla@gmail.com";
+    final String fromAddress = "yugender.codla@gmail.com";*/
+	
+	
+	final String username = "4alphas.Diwali@gmail.com";
+    final String password = "ukivsdyovyiaxbxm";
+    final String fromAddress = "4alphas.Diwali@gmail.com";
+	
     static Properties prop = null;
     Session session = null;
     
