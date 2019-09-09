@@ -237,7 +237,10 @@
 		 document.getElementById('comboViewId-'+v.id.substring(v.id.indexOf('-')+1,v.id.length)).click();
 		}
 	 
-	
+		
+		function showLoad(){
+		 	document.getElementById("preLoaderDiv").style.visibility = "visible";
+		}
 
 </script>
 
@@ -525,6 +528,8 @@ padding-top:5em;
 
 </div>
 </form:form>
+
+
 
 <div class="modal fade" id="myModal">
 		<div class="modal-dialog">

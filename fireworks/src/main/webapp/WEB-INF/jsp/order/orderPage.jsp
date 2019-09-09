@@ -16,6 +16,8 @@
 
 
 	$(document).ready(function() {
+		
+		
 		$("#qntyCountInputTxt").val(0);
 		$("#qntyCountInputLbl").text(0);
 

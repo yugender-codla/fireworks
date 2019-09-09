@@ -136,6 +136,7 @@
 	 }
 	 
     function showSpinButton(){
+    	 showLoad();
   	  if(document.getElementById("spinButton")){
   	  		document.getElementById("spinButton").style.visibility = "visible";
     		}

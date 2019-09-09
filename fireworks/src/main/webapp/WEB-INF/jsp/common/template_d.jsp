@@ -29,6 +29,7 @@
   <script>
   
   function showSpinButton(){
+	  showLoad();
 	  if(document.getElementById("spinButton")){
 	  		document.getElementById("spinButton").style.visibility = "visible";
   		}
@@ -41,11 +42,16 @@
 	 {
 	    if(document.getElementById("bottom"))
 	    {
-	 	document.getElementById("preLoaderDiv").style.visibility = "hidden";
+		 	document.getElementById("preLoaderDiv").style.visibility = "hidden";
 	    }
 	 }
 	 
-	 setInterval("checkLoad()",100);
+	setInterval("checkLoad()",1000);	
+	
+	function showLoad(){
+	 	document.getElementById("preLoaderDiv").style.visibility = "visible";
+	}
+	
   </script>
   
 </head>

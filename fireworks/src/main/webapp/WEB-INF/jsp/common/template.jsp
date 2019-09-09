@@ -25,16 +25,35 @@
   
    <script>
    function showSpinButton(){
+	   showLoad();
 		  if(document.getElementById("spinButton")){
 		  	document.getElementById("spinButton").style.visibility = "visible";
 	  	}
 	  }
    
  
+   function checkLoader()
+	 {
+	    if(document.getElementById("bottomTemplate"))
+	    {
+		 	document.getElementById("preLoaderDiv").style.visibility = "hidden";
+	    }
+	 }
+	 
+	setInterval("checkLoader()",1000); 	
+	
+	function showLoad(){
+	 	document.getElementById("preLoaderDiv").style.visibility = "visible";
+	}
+   
+   
   </script>
   
 </head>
 <body>
+<div id="preLoaderDiv">
+	<img id="preloaderAnimation" src="/images/loading.gif" width="50px" height="50px"/>
+</div>
 
 	 <!-- <nav class="navbar navbar-light navbar-expand-md sticky-top navigation-clean-button" id="mainNav" style="background-color: #3655a4;color:#ffffff"> -->
 	 <nav class="navbar navbar-light navbar-expand-md fixed-top" id="mainNav" style="background-color: #231F20;color:#ffffff">
@@ -138,6 +157,6 @@
      <div class="paddingTopContent">
     <jsp:include page="../${pageView}.jsp"/>
 	 </div>	
-	 <div id="bottom" style="height:60px;">&nbsp;</div>
+	 <div id="bottomTemplate" style="height:60px;">&nbsp;</div>
 </body>
 </html>
