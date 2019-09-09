@@ -289,7 +289,7 @@
 		</div>
 		</div>
 		<div class="col-12 col-sm-12 col-md-7 col-lg-7" >
-		<h2 >Contact</h2>
+		<h2 >Order Form</h2>
 			
 			<div class="row row-padding confimPgInputForm" >
 
