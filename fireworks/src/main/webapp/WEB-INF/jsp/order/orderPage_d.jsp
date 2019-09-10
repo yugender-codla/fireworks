@@ -268,6 +268,12 @@ padding-top:5em;
 <spring:url value="/fireworks/order/cart" var="showConfirmOrderUrl" />
  <form:form method="post" action="${showConfirmOrderUrl}" modelAttribute="order" id="orderForm">
 
+<input type="hidden" name="custName" value="${order.custName}"/>
+<input type="hidden" name="address" value="${order.address}"/>
+<input type="hidden" name="customerPaymentCode" value="${order.customerPaymentCode}"/>
+<input type="hidden" name="paymentType" value="${order.paymentType}"/>
+
+
  	<input type="hidden" name="phoneNumber" value="${order.phoneNumber}"/> 
     <input type="hidden" name="email" value="${order.email}"/> 
     <input type="hidden" name="id" value="${order.id}"/>

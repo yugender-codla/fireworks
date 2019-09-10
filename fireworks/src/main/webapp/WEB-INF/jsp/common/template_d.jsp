@@ -46,7 +46,7 @@
 	    }
 	 }
 	 
-	setInterval("checkLoad()",1000);	
+	//setInterval("checkLoad()",1000);	
 	
 	function showLoad(){
 	 	document.getElementById("preLoaderDiv").style.visibility = "visible";
@@ -57,8 +57,9 @@
 </head>
 
 <body>
-<div id="preLoaderDiv">
-	<img id="preloaderAnimation" src="/images/loading.gif" width="50px" height="50px"/>
+<div id="preLoaderDiv" style="visibility:hidden">
+	<!-- <img id="preloaderAnimation" src="/images/loading.gif" width="50px" height="50px"/> -->
+	<i class="fa fa-refresh fa-5x fa-spin" ></i>
 </div>
 
 	 <!-- <nav class="navbar navbar-light navbar-expand-md sticky-top navigation-clean-button" id="mainNav" style="background-color: #3655a4;color:#ffffff"> -->
