@@ -40,10 +40,10 @@
 	    }
 	 }
 	 
-	//setInterval("checkLoader()",1000); 	
+	setInterval("checkLoader()",1000); 	
 	
 	function showLoad(){
-	 	document.getElementById("preLoaderDiv").style.visibility = "visible";
+	 	document.getElementById("loaderDiv").style.visibility = "visible";
 	}
    
    
@@ -51,11 +51,13 @@
   
 </head>
 <body>
-<div id="preLoaderDiv" style="visibility:hidden">
-	<!-- <img id="preloaderAnimation" src="/images/loading.gif" width="50px" height="50px"/> -->
-	<i class="fa fa-refresh fa-5x fa-spin" ></i>
+<div id="loaderDiv" style="visibility:hidden">
+	<i class="fa fa-refresh fa-4x fa-spin" ></i>
 </div>
 
+<div id="preLoaderDiv" >
+	<i class="fa fa-refresh fa-4x fa-spin" ></i>
+</div>
 	 <!-- <nav class="navbar navbar-light navbar-expand-md sticky-top navigation-clean-button" id="mainNav" style="background-color: #3655a4;color:#ffffff"> -->
 	 <nav class="navbar navbar-light navbar-expand-md fixed-top" id="mainNav" style="background-color: #231F20;color:#ffffff">
 		<div class="container">
@@ -87,6 +89,8 @@
 						href="/fireworks/home" style="color:#ffffff;"><i class="fa fa-home"></i>&nbsp;Home</a></li>
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
 						href="/fireworks" style="color:#ffffff;"><i class="fa fa-bolt"></i>&nbsp;Order</a></li>
+					<li class="nav-item"><a class="nav-link js-scroll-trigger"
+						href="/fireworks/payment" style="color:#ffffff;"><i class="fa fa-inr"></i>&nbsp;Payment</a></li>						
 					
 			<!-- 		<li class="nav-item"><a class="nav-link js-scroll-trigger"
 						href="/" style="color:#ffffff;"><i class="fa fa-sitemap"></i>&nbsp;4Alphas</a></li> -->
@@ -96,6 +100,10 @@
 							
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
 						href="/fireworks/contactUs" style="color:#ffffff;"><i class="fa fa-bullhorn"></i>&nbsp;Contact Us</a></li>
+						
+											
+
+							
 					<!-- <li class="nav-item"><a class="nav-link js-scroll-trigger"
 						href="/product/add">Add Product</a></li>
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"

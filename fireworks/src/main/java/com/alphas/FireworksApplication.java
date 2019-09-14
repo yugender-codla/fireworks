@@ -1,10 +1,15 @@
 package com.alphas;
 
 import java.util.List;
+import java.util.TimeZone;
+
+import javax.annotation.PostConstruct;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.mobile.device.DeviceHandlerMethodArgumentResolver;
 import org.springframework.mobile.device.DeviceResolverHandlerInterceptor;
@@ -20,6 +25,14 @@ public class FireworksApplication extends WebMvcConfigurerAdapter{
 	public static void main(String[] args) {
 		SpringApplication.run(FireworksApplication.class, args);
 	}
+	
+	
+	@PostConstruct
+	  public void init(){
+	    // Setting Spring Boot SetTimeZone
+	    TimeZone.setDefault(TimeZone.getTimeZone("IST"));
+	  }
+	
 
 	private int MAX_UPLOAD_SIZE = 5 * 1024 * 1024; 
 	@Bean(name = "multipartResolver")
@@ -30,7 +43,10 @@ public class FireworksApplication extends WebMvcConfigurerAdapter{
 	}
 	
 	
-	
+	 @Bean
+	 public CacheManager cacheManager() {
+	        return new ConcurrentMapCacheManager("products");
+	    }
 	
 	/** Configuration to detect device **/ 
 	 

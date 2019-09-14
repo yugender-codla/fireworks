@@ -15,15 +15,21 @@
 
 
 <script>
-function callAction(id,obj){
-	document.getElementById("orderId").value=id;
-	document.getElementById("event").value=obj.value;
-	document.getElementById("statusCode").value = document.getElementById("inputSelect").options[document.getElementById("inputSelect").selectedIndex].value;
+function callAction(id,obj,custName){
+	 if (confirm('Move: '+custName+ ' to: '+obj.value +'. Sure ?')) {
+		 	document.getElementById("orderId").value=id;
+			document.getElementById("event").value=obj.value;
+			document.getElementById("statusCode").value = document.getElementById("inputSelect").options[document.getElementById("inputSelect").selectedIndex].value;
+			
+			if(obj.value == "MODIFY_ORDER"){
+				document.forms[1].action = "/firesupport/order/"+id+"/retrieve";	
+			}
+			document.forms[1].submit();
+	    }else{
+	    	return false;
+	    }
 	
-	if(obj.value == "MODIFY_ORDER"){
-		document.forms[1].action = "/firesupport/order/"+id+"/retrieve";	
-	}
-	document.forms[1].submit();
+	
 }
 
 $(document).ready(function(){
@@ -48,7 +54,6 @@ $(document).ready(function(){
 	            	for(var i=0;i<lineItemsLength;i++){
 	            		qty1 = "-";
 	            		qty2 = "-";
-	            		
 	            		if(output[i].qty1 != null){
 	            			qty1 = output[i].qty1;
 	            		}
@@ -179,20 +184,26 @@ $(document).ready(function(){
 				<tr style="height:45px;">
 					<th>#ID</th>
 					<th>Name</th>
+					<th>Price</th>
 					<th>Status</th>
 					<!-- <th>Phone</th> -->
-					<th>Action</th>
+					<th>Move To</th>
 				</tr>
 			</thead>
 			
 
 			<c:forEach var="item" items="${orders}">
+						<spring:url value="/firesupport/order/${item.id}/view" var="viewUrl" />
+				<spring:url value="/fireworks/order/${item.id}/review" var="reviewUrl" />
 			    <tr>
 				<td>
-					${item.orderNumber}
+					<a href="#" class="view-button"  id="${viewUrl}" itemPrice="${item.priceOfTheOrder}" fn="view" itemDeliverBy ="<fmt:formatDate value="${item.deliverBy}" pattern="dd-MM-yyyy" />" style="font-size:10px;width:25px" title="View"> ${item.orderNumber} </a>
 				</td>
 				<td>
 					${item.custName}
+				</td>
+				<td>
+					${item.priceOfTheOrder}
 				</td>
 					<td>${item.status} </td>
 				<%-- <td>
@@ -202,12 +213,11 @@ $(document).ready(function(){
 				<%-- <td>${item.priceOfTheOrder}</td> --%>
 			
 			<td style="padding:1px;">
-				<spring:url value="/firesupport/order/${item.id}/view" var="viewUrl" />
-				<spring:url value="/fireworks/order/${item.id}/review" var="reviewUrl" />
+	
 				 <c:forEach var="events" items="${item.events}">
-				  <button style="font-size:10px;width:25px" type="button" value ="${events}" onclick ="callAction(${item.id},this)" title="${events}" >${fn:substring(events, 0, 1)}</button>
+				  <button style="font-size:10px;" type="button" value ="${events}" onclick ="callAction('${item.id}',this,'${item.custName}')" title="${events}" ><%-- ${fn:substring(events, 0, 1)} --%>${events}</button>
 				  </c:forEach>
-				  <button class="view-button" id="${viewUrl}" itemPrice="${item.priceOfTheOrder}" fn="view" itemDeliverBy ="<fmt:formatDate value="${item.deliverBy}" pattern="dd-MM-yyyy" />" type ="button" style="font-size:10px;width:25px" title="View">V</button>
+				<%--   <button class="view-button" id="${viewUrl}" itemPrice="${item.priceOfTheOrder}" fn="view" itemDeliverBy ="<fmt:formatDate value="${item.deliverBy}" pattern="dd-MM-yyyy" />" type ="button" style="font-size:10px;width:25px" title="View">V</button> --%>
 				  <c:if test="${item.modifiedFlag == 'Y'}">
 				  	<button class="view-button" id="${reviewUrl}" itemPrice="${item.priceOfTheOrder}" fn="review" itemDeliverBy ="<fmt:formatDate value="${item.deliverBy}" pattern="dd-MM-yyyy" />" type ="button" style="font-size:10px;width:25px" title="View">R</button>
 				  </c:if>

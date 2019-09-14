@@ -14,10 +14,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.alphas.common.util.CommonUtil;
 
 import lombok.Data;
 
@@ -48,6 +49,8 @@ public class Invoice implements Serializable{
 	@Column(name="discountPercentage")
 	private BigDecimal discountPercentage;
 	
+	@Transient
+	private String billDateAsString;
 	
 	@OneToMany(mappedBy="invoice",cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
 	private List<InvoiceLineItem> invoiceLineItems;

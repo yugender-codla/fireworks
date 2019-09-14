@@ -413,7 +413,7 @@ height:500px;
 }
 
 .showConfirmOrderCartItemsDiv{
-	font-size: 14px;
+	font-size: 16px;
 }
 
 
@@ -602,8 +602,19 @@ and (max-width: 1366px)
 
 
 
-#preLoaderDiv {
+#loaderDiv {
     position:fixed;
+    top: 50%;
+    left: 50%;
+    width:30em;
+    height:18em;
+    margin-top: -3em; /*set to a negative number 1/2 of your height*/
+    margin-left: -2em; /*set to a negative number 1/2 of your width*/
+    z-index: 10;
+}
+
+#preLoaderDiv{
+	position:fixed;
     top: 50%;
     left: 50%;
     width:30em;

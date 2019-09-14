@@ -208,7 +208,9 @@ public class OrderDaoImpl implements OrderDao{
 	}
 	
 	public List<Stock> getStockListForAnOrder(EntityManager em, Long orderId) {
-		String queryString = "select product_id,quantity, round(t.available,0),t.name  from order_line_item oli left outer join  " + 
+/*		
+ * Before Combo - Perfect
+ * String queryString = "select product_id,quantity, round(t.available,0),t.name  from order_line_item oli left outer join  " + 
 				"(select total.id,total.name, total.totalInvoiceQty, " + 
 				"case when used.usedQty is null then 0 else used.usedQty end usedQty,   " + 
 				"(case when total.totalinvoiceQty is null then 0 else total.totalinvoiceQty end - case when used.usedQty is null then 0 else used.usedQty end) as available " + 
@@ -223,7 +225,61 @@ public class OrderDaoImpl implements OrderDao{
 				"where m.status_code in(105,102) group by oli.product_id  " + 
 				") used on used.product_id = total.id " + 
 				") t on t.id = product_id  " + 
-				"where order_id = :orderid";
+				"where order_id = :orderid";*/
+		
+		String queryString = 
+				
+				"select orderStock.productId,round(orderStock.requiredQty,0), round(totalAvailabeStock.available,0),totalAvailabeStock.name  from ( "+
+						//Qty requried on this order
+						"select t.productId, case when sum(t.qty) is null then 0 else sum(t.qty) end as requiredQty from ( "+
+						"select oli.product_id as productId, sum(oli.quantity) as qty from order_line_item oli "+ 
+						"join order_main om on om.id = oli.order_id where om.status != 'Cancelled' and om.id = :orderid and (oli.category is null OR oli.category != 'Combo') "+ 
+						"group by oli.product_id "+
+						"UNION "+
+						"select ocli.product_combo_line_item_id as productId, sum(ocli.quantity * oli.quantity) as qty from order_combo_line_item ocli "+ 
+						"join order_line_item oli on oli.id = ocli.order_line_item_id  "+
+						"join order_main om on om.id = oli.order_id where om.status != 'Cancelled' and oli.category = 'Combo' "+ 
+						"and om.id = :orderid "+
+						"group by ocli.product_combo_line_item_id "+
+						") t group by t.productId "+
+
+						//Total AvailableQty
+						
+						") as orderStock LEFT OUTER JOIN ( "+
+						"select total.id as productId, "+
+						"(case when total.totalinvoiceQty is null then 0 else total.totalinvoiceQty end - case when used.usedQty is null then 0 else used.usedQty end) as available, "+
+						"total.name "+
+						"from "+ 
+						"(select p.id,p.name,case when sum(ili.quantity) is null then 0 else sum(ili.quantity) end as totalInvoiceQty from product p "+ 
+						"left outer join invoice_line_item ili on p.id = ili.product_id  "+
+						"group by p.id,p.name) total  "+
+						"left outer join  "+
+						"( "+
+						"select t.productId, case when sum(t.qty) is null then 0 else sum(t.qty) end as usedQty from ( "+
+						"select oli.product_id as productId, sum(oli.quantity) as qty from order_line_item oli  "+
+						"join order_main om on om.id = oli.order_id where om.status != 'Cancelled' and om.status_code in(105,102) and (oli.category is null OR oli.category != 'Combo') "+ 
+						"group by oli.product_id "+
+						"UNION "+
+						"select ocli.product_combo_line_item_id as productId, sum(ocli.quantity * oli.quantity) as qty from "+ 
+						"order_combo_line_item ocli join order_line_item oli on oli.id = ocli.order_line_item_id "+
+						"join order_main om on om.id = oli.order_id where om.status != 'Cancelled' and om.status_code in(105,102) and oli.category = 'Combo' "+ 
+						"group by ocli.product_combo_line_item_id) t "+
+						"group by t.productId "+
+						") used on used.productid = total.id "+
+						"left outer join  "+
+						"( "+
+						"select t.productId, case when sum(t.qty) is null then 0 else sum(t.qty) end as requiredQty from ( "+
+						"select oli.product_id as productId, sum(oli.quantity) as qty from order_line_item oli  "+
+						"join order_main om on om.id = oli.order_id where om.status != 'Cancelled' and om.status_code not in(105,102) and (oli.category is null OR oli.category != 'Combo') "+ 
+						"group by oli.product_id "+
+						"UNION "+
+						"select ocli.product_combo_line_item_id as productId, sum(ocli.quantity * oli.quantity) as qty from "+ 
+						"order_combo_line_item ocli join order_line_item oli on oli.id = ocli.order_line_item_id "+
+						"join order_main om on om.id = oli.order_id where om.status != 'Cancelled' and om.status_code not in(105,102) and oli.category = 'Combo' "+ 
+						"group by ocli.product_combo_line_item_id) t "+
+						"group by t.productId "+
+						") orderQty on orderQty.productid = total.id "+
+						") totalAvailabeStock on totalAvailabeStock.productId = orderStock.productId ";
 		
 		Query query = em.createNativeQuery(queryString);
 		query.setParameter("orderid", orderId);

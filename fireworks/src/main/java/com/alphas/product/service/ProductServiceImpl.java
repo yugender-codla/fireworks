@@ -61,7 +61,8 @@ public class ProductServiceImpl implements ProductService{
 		return dao.findAllNoLazy(entityManager);
 	}*/
 	
-	
+
+	@Cacheable("products")
 	@Override
 	public List<Product> retrieveAvailableProducts() throws AException{
 		

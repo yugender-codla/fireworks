@@ -36,7 +36,7 @@
             var quantity = $("#quantity").val();
             var price = $("#price").val();
 			var discountPrice = calculatediscountPriceForItem(price);
-            var markup = "<tr><td><input type='checkbox' name='record'><input type = 'hidden' name='invoiceLineItems["+lineItemsCount+"].productId' value="+productId+" /> <input type = 'hidden' name='invoiceLineItems["+lineItemsCount+"].quantity' value="+quantity+" /><input type = 'hidden' name='invoiceLineItems["+lineItemsCount+"].price' value="+price+" /><input type = 'hidden' name='invoiceLineItems["+lineItemsCount+"].discountPrice' value="+discountPrice+" /></td>"+
+            var markup = "<tr><td><input type='checkbox' name='record'><input type = 'hidden' name='invoiceLineItems["+lineItemsCount+"].productId' value="+productId+" /> <input type = 'hidden' name='invoiceLineItems["+lineItemsCount+"].productName' value='"+productName+"' /> <input type = 'hidden' name='invoiceLineItems["+lineItemsCount+"].quantity' value="+quantity+" /><input type = 'hidden' name='invoiceLineItems["+lineItemsCount+"].price' value="+price+" /><input type = 'hidden' name='invoiceLineItems["+lineItemsCount+"].discountPrice' value="+discountPrice+" /></td>"+
             "<td>" + productName + "</td><td>" + quantity + "</td><td>"+price+"</td><td>"+discountPrice+"</td></tr>";
             
             $("table tbody").append(markup);
@@ -73,6 +73,11 @@
     	return total;
     }
     
+    function clearData(){
+    	$("#quantity").val("");
+    	$("#price").val("");
+    	
+    }
     
     function calculatediscountPriceForItem(price){
     	var discountPercentage = $("#discountPercentage").val();
@@ -87,10 +92,12 @@
 <h1>Add Invoice</h1>
 		<h4>${msg}</h4>
 		<h4>${error}</h4>
-		<spring:url value="/invoice/save" var="saveUrl" />
-		
+		<spring:url value="/firesupport/invoice/save" var="saveUrl" />
+<jsp:useBean id="now" class="java.util.Date"/>
+<fmt:formatDate var="todayDate" value="${now}" pattern="yyyy-MM-dd" />
+
     <form:form method="post" action="${saveUrl}" modelAttribute="invoice">
-    	<label for="bill date">Bill Date : </label><input name = "billDate"  type="date" value="2019-01-01">
+    	<label for="bill date">Bill Date : </label><input name = "billDate"  type="date" value="${todayDate}">
     	<label for="bill date">Bill No : </label> <input type="text" name = "billNo">  
     	<label for="bill date">Discount Percentage : </label> <input type="text" name = "discountPercentage" id="discountPercentage">
     	
@@ -98,7 +105,7 @@
     	
   
   	<label for="Product Name">Product Name : </label>
-		<select id ="productName" >
+		<select id ="productName" onchange="clearData()">
 		<option value = "NONE" label = "Select"/>
 		<c:forEach var="item" items="${productList}">
 			<option value ="${item.id}">${item.name}</option>

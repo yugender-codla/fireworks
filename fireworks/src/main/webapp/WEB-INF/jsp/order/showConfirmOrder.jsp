@@ -71,12 +71,21 @@
 						}
 						
 						  $('#completeOrder').click(function() {
-							    if (confirm('Are you sure that you want to submit the order?')) {
-							    	showSpinButton();
-							    }else{
-							    	return false;
-							    }
-							});
+							  
+							  var paymentType = $("input[name=paymentType]:checked").val();
+							  var confirmText;
+							  if(paymentType=='cash'){
+								  confirmText = ' Payment Type: Cash\nAre you sure that you want to submit the order?';
+							  }else{
+								  confirmText = '\nPayment Type: '+paymentType+'. Please ensure payment is made within 1 hour for hassle-free delivery.\nAre you sure that you want to submit the order?';
+							  }
+							  
+						    if (confirm('Total Amount:'+$("#netPriceCountOuputLbl").text()+confirmText)) {
+						    	showSpinButton();
+						    }else{
+						    	return false;
+						    }
+						});
 						
 						
 						function calculateQty() {
@@ -364,19 +373,19 @@
 				<div class="col-12 col-sm-12 col-md-3 col-lg-3" style="padding-bottom:0px;padding-right:5px;">
 				<div class="row">
 				<div class="col-6 col-sm-6 col-md-12 col-lg-12"  style="padding-bottom:0px">
-					<form:radiobutton path="paymentType" value="payTM" lbl="payTmImg" cssClass="paymentRadioClass"/> <img src="/images/Paytm_logo.png" style="width:50px;height:20px">
+					<form:radiobutton path="paymentType" value="PayTM" lbl="payTmImg" cssClass="paymentRadioClass"/> <img src="/images/Paytm_logo.png" style="width:50px;height:20px">
 				</div>
 				<div class="col-6 col-sm-6 col-md-12 col-lg-12"  style="padding-bottom:0px">
-					<form:radiobutton path="paymentType" value="phonepe" lbl="phonePayImg" cssClass="paymentRadioClass"/> <img src="/images/phonepeicon.jpeg" style="width:80px;height:30px">
+					<form:radiobutton path="paymentType" value="PhonePe" lbl="phonePayImg" cssClass="paymentRadioClass"/> <img src="/images/phonepeicon.jpeg" style="width:80px;height:30px">
 				</div>
 				<div class="col-6 col-sm-6 col-md-12 col-lg-12"  style="padding-bottom:0px">
-					<form:radiobutton path="paymentType" value="tez" lbl="tezImg" cssClass="paymentRadioClass"/> <img src="/images/gpayLogo1.png" style="width:50px;height:20px">
+					<form:radiobutton path="paymentType" value="GPay" lbl="tezImg" cssClass="paymentRadioClass"/> <img src="/images/gpayLogo1.png" style="width:50px;height:20px">
 				</div>
 				<div class="col-6 col-sm-6 col-md-12 col-lg-12"  style="padding-bottom:0px">
 					<form:radiobutton path="paymentType" value="cash" lbl="defaultPayMsg" cssClass="paymentRadioClass"/><label class="" for="byCash"> By Cash</label>
 				</div>
 				<div class="col-6 col-sm-6 col-md-12 col-lg-12"  style="padding-bottom:0px">
-					<form:radiobutton path="paymentType" value="upi" lbl="yourUpiId" cssClass="paymentRadioClass"/><label class="" for="upi"> Your UPI ID</label>
+					<form:radiobutton path="paymentType" value="UPI" lbl="yourUpiId" cssClass="paymentRadioClass"/><label class="" for="upi"> Your UPI ID</label>
 				</div>
 				</div>
 				</div>
@@ -422,7 +431,7 @@
 			
 			 <div class="row row-padding" style="text-align: center;padding-top:0px">
 				<div class="col-12 col-sm-12 col-md-12 col-lg-12">
-				<span style="color:red;font-size:10px"> ${minimumValueOrderMessage}</span>
+				<span style="color:red;font-size:11px"> ${minimumValueOrderMessage}</span>
 				<i class="fa fa-refresh fa-spin" id="spinButtonDown" style="visibility:hidden"></i>
 					<button type="button" value="Back" id="backButton"
 						class="btn btn-secondary backButton">&laquo; Previous</button>

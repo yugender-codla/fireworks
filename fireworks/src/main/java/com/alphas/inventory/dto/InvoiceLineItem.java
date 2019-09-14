@@ -37,6 +37,8 @@ public class InvoiceLineItem implements Serializable{
 	@Column(name="discountPrice")
 	private BigDecimal discountPrice;
 	
+	private String productName;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn
     private Invoice invoice;

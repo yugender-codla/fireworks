@@ -8,14 +8,14 @@ public enum States {
 	START(100, "Start"),
 	SUBMIT_ORDER(101, "Order Submitted"),
 	
-	MODIFY_ORDER(103, "Order Modified"),
-	USER_APPROVE_ORDER(104, "User Approved Order"),
+/*	MODIFY_ORDER(103, "Order Modified"),
+	USER_APPROVE_ORDER(104, "User Approved Order"),*/
 
 	ADMIN_COMPLETE_PACKING(102, "Packing Completed"),
 
 	ORDER_DELIVERED(105, "Delivered"),
 	
-	ORDER_IN_PROGRESS(106, "Order In Progress");
+	ORDER_IN_PROGRESS(106, "Work In Progress");
 	
 	
 	private final int aStateId;

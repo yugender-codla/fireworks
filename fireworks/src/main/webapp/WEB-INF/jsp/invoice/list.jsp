@@ -21,15 +21,14 @@ $(document).ready(function(){
 	            	var lineItemsLength =output.invoiceLineItems.length;
 	            	var row = "";
 	            	for(var i=0;i<lineItemsLength;i++){
-	            		 row = row + "<tr><td>"+output.invoiceLineItems[i].productId+"</td><td>"+output.invoiceLineItems[i].quantity+"</td><td>"+output.invoiceLineItems[i].price+"</td><td>"+output.invoiceLineItems[i].discountPrice+" </td></tr>";
+	            		 row = row + "<tr><td>"+output.invoiceLineItems[i].productName+"</td><td>"+output.invoiceLineItems[i].quantity+"</td><td>"+output.invoiceLineItems[i].price+"</td><td>"+output.invoiceLineItems[i].discountPrice+" </td></tr>";
 	            	}
 	            	
-	            	var dt = new Date(output.billDate);
 	            	infoModal.find("#mdlInvoiceId").text(output.invoiceid);
-	            	infoModal.find("#mdlBillDate").text(( dt.getDate()+ '/' + dt.getMonth() +1) + '/' + dt.getFullYear());
+	            	infoModal.find("#mdlBillDate").text(output.billDateAsString);
 	            	infoModal.find("#mdlBillNo").text(output.billNo);
-	            	infoModal.find("#mdlPrice").text(output.totalPrice);
-	            	infoModal.find("#mdlDiscountPrice").text(output.discountPrice);
+	            	infoModal.find("#mdlPrice").text('Rs.'+output.totalPrice);
+	            	infoModal.find("#mdlDiscountPrice").text('Rs.'+output.discountPrice);
 	            	
 	            	infoModal.find('.modal-body').find(".mdlTbody").html(row);
             		infoModal.modal('show');
@@ -61,10 +60,14 @@ $(document).ready(function(){
 
 		<h1>List Invoices</h1>
 
-<spring:url value="/invoice/search/find" var="searchUrl" />
+<spring:url value="/firesupport/invoice/search/find" var="searchUrl" />
+
+<jsp:useBean id="now" class="java.util.Date"/>
+<fmt:formatDate var="todayDate" value="${now}" pattern="yyyy-MM-dd" />
+
  <form:form method="get" action="${searchUrl}">
-    	<label for="bill date">From Bill Date : </label><input name = "fromDate"  type="date" value="2019-01-01">
-    	<label for="bill date">To Bill Date : </label><input name = "toDate"  type="date" value="2019-01-01">
+    	<label for="bill date">From Bill Date : </label><input name = "fromDate"  type="date" value="2019-09-01" >
+    	<label for="bill date">To Bill Date : </label><input name = "toDate"  type="date" value="${todayDate}">
     	
     	<br>
     	<input type ="submit" value = "Search">
@@ -87,15 +90,15 @@ $(document).ready(function(){
 				<td>
 					${item.invoiceid}
 				</td>
-				<td>${item.billDate}</td>
+				<td><fmt:formatDate pattern="dd-MMM-yyyy" value="${item.billDate}"/></td>
 				<td>${item.billNo} </td>
 				<td>${item.totalPrice} </td>
 				<td>${item.discountPrice} </td>
 				<td>
 				 
 				  
-				<spring:url value="/invoice/${item.invoiceid}/update" var="updateUrl" />
- 				<spring:url value="/invoice/${item.invoiceid}/view" var="viewUrl" />
+				<spring:url value="/firesupport/invoice/${item.invoiceid}/update" var="updateUrl" />
+ 				<spring:url value="/firesupport/invoice/${item.invoiceid}/view" var="viewUrl" />
  				
 				 <!-- <button class="btn btn-info" onclick="location.href='${userUrl}'">Query</button>  -->
 				  <button class="btn btn-primary" onclick="location.href='${updateUrl}'">Edit</button>
@@ -111,14 +114,30 @@ $(document).ready(function(){
 <div class="modal-dialog">
   <div class="modal-content">
     <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-      <h4 class="modal-title">Invoice: <span id="mdlInvoiceId"></span></h4> 
-      
-      
-      <label >Bill No: </label><span id="mdlBillNo"></span>
-      <label >Bill Date: </label><span id="mdlBillDate"></span>
-       <label >Price: </label><span id="mdlPrice"></span>
-       <label >Discount Price: </label><span id="mdlDiscountPrice"></span>
+     <div>
+       <table class="table table-borderless">
+       <tr>
+       <th>Invoice No: </th>
+       <td> <span id="mdlInvoiceId"></span></td> 
+       <th>Bill No:</th>
+       <td><span id="mdlBillNo"></span></td>
+       <th>Bill Date:</th>
+       <td><span id="mdlBillDate"></span></td>
+       </tr>
+       <tr>
+       <th>Price:</th><td colspan="2"><span id="mdlPrice"></span></td>
+       <th>Discount Price:</th><td colspan="2"><span id="mdlDiscountPrice"></span></td>
+       </tr>
+       </table>
+       </div>
+      <div> 
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+      <!-- <h4 class="modal-title">Invoice: <span id="mdlInvoiceId"></span></h4>  -->
+    <!--   <h5 >Bill No: </h5><span id="mdlBillNo"></span> 
+      <h5 >Bill Date: </h5><span id="mdlBillDate"></span>
+      <h5>Price: </h5><span id="mdlPrice"></span>
+      <h5>Discount Price: </h5><span id="mdlDiscountPrice"></span> -->
       
     </div>
     <div class="modal-body">

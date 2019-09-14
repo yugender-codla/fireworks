@@ -79,7 +79,8 @@ public class InvoiceDaoImpl implements InvoiceDao{
 	 */
 	@Override
 	public List<Inventory> retrieveStockAvailability(EntityManager em) throws AException{
-		String queryString = "select * from( " + 
+/*	Without combo - perfect	
+ * String queryString = "select * from( " + 
 				"select total.id,total.name, total.totalInvoiceQty, " + 
 				"case when used.usedQty is null then 0 else used.usedQty end usedQty,   " + 
 				"(case when total.totalinvoiceQty is null then 0 else total.totalinvoiceQty end - case when used.usedQty is null then 0 else used.usedQty end) as available, " + 
@@ -98,7 +99,45 @@ public class InvoiceDaoImpl implements InvoiceDao{
 				"( " + 
 				"select oli.product_id, case when sum(quantity) is null then 0 else sum(quantity) end as requiredQty from order_line_item oli join order_main m on m.id = oli.order_id  " + 
 				"where m.status_code not in(105,102) group by oli.product_id " + 
-				") orderQty on orderQty.product_id = total.id) maintbl order by maintbl.required desc ";
+				") orderQty on orderQty.product_id = total.id) maintbl order by maintbl.required desc ";*/
+		
+		String queryString = 
+				"select total.id,total.name, total.totalInvoiceQty, "+
+	"case when used.usedQty is null then 0 else used.usedQty end usedQty, "+  
+	"(case when total.totalinvoiceQty is null then 0 else total.totalinvoiceQty end - case when used.usedQty is null then 0 else used.usedQty end) as available, "+
+	"case when orderQty.requiredQty is null then 0 else orderQty.requiredQty end as required  "+
+	"from  "+
+	"(select p.id,p.name,case when sum(ili.quantity) is null then 0 else sum(ili.quantity) end as totalInvoiceQty from product p "+ 
+	"left outer join invoice_line_item ili on p.id = ili.product_id  "+
+	"group by p.id,p.name) total  "+
+	"left outer join  "+
+	"( "+
+	"select t.productId, case when sum(t.qty) is null then 0 else sum(t.qty) end as usedQty from ( "+
+	"select oli.product_id as productId, sum(oli.quantity) as qty from order_line_item oli  "+
+	"join order_main om on om.id = oli.order_id where om.status != 'Cancelled' and om.status_code in(105,102) and (oli.category is null OR oli.category != 'Combo') "+ 
+	"group by oli.product_id "+
+	"UNION "+
+	"select ocli.product_combo_line_item_id as productId, sum(ocli.quantity * oli.quantity) as qty from "+ 
+	"order_combo_line_item ocli join order_line_item oli on oli.id = ocli.order_line_item_id "+
+	"join order_main om on om.id = oli.order_id where om.status != 'Cancelled' and om.status_code in(105,102) and oli.category = 'Combo' "+ 
+	"group by ocli.product_combo_line_item_id) t "+
+	"group by t.productId "+
+	") used on used.productid = total.id "+
+	"left outer join  "+
+	"( "+
+	"select t.productId, case when sum(t.qty) is null then 0 else sum(t.qty) end as requiredQty from ( "+
+	"select oli.product_id as productId, sum(oli.quantity) as qty from order_line_item oli  "+
+	"join order_main om on om.id = oli.order_id where om.status != 'Cancelled' and om.status_code not in(105,102) and (oli.category is null OR oli.category != 'Combo') "+ 
+	"group by oli.product_id "+
+	"UNION "+
+	"select ocli.product_combo_line_item_id as productId, sum(ocli.quantity * oli.quantity) as qty from "+ 
+	"order_combo_line_item ocli join order_line_item oli on oli.id = ocli.order_line_item_id "+
+	"join order_main om on om.id = oli.order_id where om.status != 'Cancelled' and om.status_code not in(105,102) and oli.category = 'Combo' "+ 
+	"group by ocli.product_combo_line_item_id) t "+
+	"group by t.productId "+
+	") orderQty on orderQty.productid = total.id";
+				
+		
 		List<Inventory> ooBj = null;
 		try {
 		Query query = em.createNativeQuery(queryString);

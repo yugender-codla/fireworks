@@ -22,11 +22,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alphas.common.exception.AException;
+import com.alphas.common.util.CommonUtil;
 import com.alphas.inventory.dto.Inventory;
 import com.alphas.inventory.dto.Invoice;
 import com.alphas.inventory.dto.InvoiceLineItem;
 import com.alphas.inventory.dto.InvoiceSearchForm;
 import com.alphas.inventory.service.InvoiceService;
+import com.alphas.product.dto.Product;
 import com.alphas.product.service.ProductService;
 
 @Controller
@@ -45,7 +47,8 @@ public class InvoiceController {
 		Invoice invoice = new Invoice();
 		try {
 			model.addAttribute("invoice", invoice);
-			model.addAttribute("productList", productService.retrieveAll());
+			List<Product> products = productService.retrieveAll().stream().filter(f -> !f.getCategory().equals("Combo")).collect(Collectors.toList());
+			model.addAttribute("productList", products);
 			model.addAttribute("pageView","invoice/add");
 		} catch (AException e) {
 			LOGGER.error(e.getMessage(), e);
@@ -108,7 +111,8 @@ public class InvoiceController {
 			final RedirectAttributes redirectAttributes) {
 		try {
 			Invoice invoice = inventoryService.findById(id);
-			model.addAttribute("productList", productService.retrieveAll());
+			List<Product> products = productService.retrieveAll().stream().filter(f -> !f.getCategory().equals("Combo")).collect(Collectors.toList());
+			model.addAttribute("productList", products);
 			model.addAttribute("invoice", invoice);
 			model.addAttribute("pageView","invoice/edit");
 		} catch (AException e) {
@@ -122,8 +126,8 @@ public class InvoiceController {
 	@ResponseBody
 	public Invoice viewInvoice(@PathVariable("id") Long id, Model model,
 			final RedirectAttributes redirectAttributes) {
-		
 			Invoice invoice = inventoryService.findById(id);
+			invoice.setBillDateAsString(new CommonUtil().convertDateToUI(invoice.getBillDate()));
 			invoice.getInvoiceLineItems().forEach(t -> t.setInvoice(null));
 			model.addAttribute("invoice", invoice);
 		return invoice;

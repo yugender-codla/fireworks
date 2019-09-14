@@ -127,18 +127,21 @@ $(document).ready(function(){
 				<thead>
 					<tr>
 						<th>Order Id</th>
+						<th>Name</th>
 						<th>Deliver By</th>
 						<th>Net Amount</th>
 						<th>Status</th>
-						<th>Action</th>
+					<!-- 	<th>Action</th> -->
 					</tr>
 				</thead>
 
 				<c:forEach var="item" items="${orders}" varStatus="loop">
 
 					<tr>
-						<td><a class="trackOrderDetails" href="#">${item.orderNumber}</a>
+						<td><a class="trackOrderDetails" href="#" target="_blank">${item.orderNumber}</a>
 							<div style="display: none">
+							<table class="table table-bordered">
+							<tr><td>
 								<table class="table table-bordered">
 									<thead>
 										<tr>
@@ -168,16 +171,42 @@ $(document).ready(function(){
 												<td>${subItem.quantity * subItem.price}</td>
 											</tr>
 										</c:forEach>
+											<tr>
+											<td>Net Price
+											</td>
+											<td colspan="2">Rs. ${item.netPrice}
+											</td>
+											</tr>
+											
 									</tbody>
 								</table>
+								</td></tr>
+								<tr>
+								<td>
+								<div>
+									<p>
+									Order #: ${item.orderNumber}<br>
+									<b>Delivery Address:</b><br>
+										Mr/Ms. ${item.custName}<br>
+										${item.phoneNumber}<br>
+										${item.address}<br>
+										Payment Type: ${item.paymentType}
+										
+									</p>
+								</div>
+								
+								</td>
+								</tr>
+								</table>
 							</div></td>
+							<td>${item.custName}</td>
 
 						<td>${item.deliverByUI}</td>
 
 						<td>${item.priceOfTheOrder}</td>
 
 						<td>${item.status}</td>
-						
+					<%-- 	
 						<td>
 						<spring:url value="/fireworks/order/${item.id}/review" var="reviewUrl" />
 							<c:if test="${item.statusCode == '103'}">
@@ -186,7 +215,7 @@ $(document).ready(function(){
 						<c:if test="${item.modifiedFlag == 'Y'}">
 				  			<button class="view-button" id="${reviewUrl}" type ="button" style="font-size:10px;width:25px" title="View">R</button>
 				  		</c:if>
-						</td>
+						</td> --%>
 					</tr>
 				</c:forEach>
 			</table>

@@ -239,7 +239,7 @@
 	 
 		
 		function showLoad(){
-		 	document.getElementById("preLoaderDiv").style.visibility = "visible";
+		 	document.getElementById("loaderDiv").style.visibility = "visible";
 		}
 
 </script>
@@ -284,7 +284,7 @@ padding-top:5em;
 	
 <div class="col-xs-3" style="width:20%;">
 	<div id="standardImage">
-	<img src="/images/Standard-01.png" style="width: 100px;">
+	<img src="/images/standard.png" style="width: 100px;">
 	</div>	
 <nav id="scrollspy" class ="navbar" >
 	

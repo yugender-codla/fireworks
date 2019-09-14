@@ -19,7 +19,7 @@ public class Stock implements Serializable{
 	 public Stock(Object...fields) {
 	        super();
 	        this.productId = fields[0] == null ? null : ((java.math.BigInteger) fields[0]).longValue();
-	        this.qty1 =  fields[1] == null ? null : Long.valueOf(fields[1].toString());
+	        this.qty1 =  fields[1] == null ? null : Double.valueOf(fields[1].toString()).longValue();
 	        this.qty2 = fields[2] == null ? null : Double.valueOf(fields[2].toString()).longValue();
 	        this.productName = fields[3] == null ? null : fields[3].toString();
 	    }

@@ -36,7 +36,7 @@ $(document).ready(function(){
         var quantity = $("#quantity").val();
         var price = $("#price").val();
 		var discountPrice = calculatediscountPriceForItem(price);
-        var markup = "<tr><td><input type='checkbox' name='record'><input type = 'hidden' name='invoiceLineItems["+lineItemsCount+"].productId' value="+productId+" /> <input type = 'hidden' name='invoiceLineItems["+lineItemsCount+"].quantity' value="+quantity+" /><input type = 'hidden' name='invoiceLineItems["+lineItemsCount+"].price' value="+price+" /><input type = 'hidden' name='invoiceLineItems["+lineItemsCount+"].discountPrice' value="+discountPrice+" /></td>"+
+        var markup = "<tr><td><input type='checkbox' name='record'><input type = 'hidden' name='invoiceLineItems["+lineItemsCount+"].productId' value="+productId+" /> <input type = 'hidden' name='invoiceLineItems["+lineItemsCount+"].productName' value='"+productName+"' /><input type = 'hidden' name='invoiceLineItems["+lineItemsCount+"].quantity' value="+quantity+" /><input type = 'hidden' name='invoiceLineItems["+lineItemsCount+"].price' value="+price+" /><input type = 'hidden' name='invoiceLineItems["+lineItemsCount+"].discountPrice' value="+discountPrice+" /></td>"+
         "<td>" + productName + "</td><td>" + quantity + "</td><td>"+price+"</td><td>"+discountPrice+"</td></tr>";
         
         $("table tbody").append(markup);
@@ -86,7 +86,7 @@ function calculatediscountPriceForItem(price){
 <h1>Edit Invoice</h1>
 		<h4>${msg}</h4>
 		<h4>${error}</h4>
-		<spring:url value="/invoice/save" var="saveUrl" />
+		<spring:url value="/firesupport/invoice/save" var="saveUrl" />
 		
     <form:form method="post" action="${saveUrl}" modelAttribute="invoice" >
 	    <input name="invoiceid" type="hidden" value = "${invoice.invoiceid}"><label for="Invoice Number">Invoice No : </label> ${invoice.invoiceid} <br>
@@ -130,10 +130,11 @@ function calculatediscountPriceForItem(price){
 				<td>
 				<input type = 'hidden' name="invoiceLineItems[${loop.index}].id" value="${item.id}" />
 				<input type = 'hidden' name="invoiceLineItems[${loop.index}].productId" value="${item.productId}" />
+				<input type = 'hidden' name="invoiceLineItems[${loop.index}].productName" value='${item.productName}' />
 				<input type = 'hidden' name="invoiceLineItems[${loop.index}].quantity" value="${item.quantity}" />
 				<input type = 'hidden' name="invoiceLineItems[${loop.index}].price" value="${item.price}" />
 				<input type = 'hidden' name="invoiceLineItems[${loop.index}].discountPrice" value="${item.discountPrice}" />
-					${item.productId}
+					${item.productName}
 				</td>
 				<td>${item.quantity}</td>
 				<td>${item.price} </td>

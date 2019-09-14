@@ -327,6 +327,13 @@ try {
 			return "common/template";
 	}
 	
+	@GetMapping("/payment")
+	public String goToPayment(
+			Model model, final RedirectAttributes redirectAttributes) {
 	
+			model.addAttribute("pageView", "order/payment");
+			
+			return "common/template";
+	}
 	
 }

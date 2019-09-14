@@ -51,10 +51,10 @@
 						
 				<li class="nav-item"><a class="nav-link js-scroll-trigger"
 						href="/firesupport/order/search" style="color:#ffffff;"><i class="fa fa-star"></i>&nbsp;Orders</a></li>
-					<li class="nav-item"><a class="nav-link js-scroll-trigger"
+				<!-- 	<li class="nav-item"><a class="nav-link js-scroll-trigger"
 						href="/firesupport/product/add" style="color:#ffffff;"><i class="fa fa-home"></i>&nbsp;Add Product</a></li>
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
-						href="/firesupport/product/list" style="color:#ffffff;"><i class="fa fa-first-order"></i>&nbsp;Products</a></li>
+						href="/firesupport/product/list" style="color:#ffffff;"><i class="fa fa-first-order"></i>&nbsp;Products</a></li> -->
 					<li class="nav-item"><a class="nav-link js-scroll-trigger"
 						href="/firesupport/invoice/add" style="color:#ffffff;"><i class="fa fa-wpexplorer"></i>&nbsp;Add Invoice</a></li>
 							
