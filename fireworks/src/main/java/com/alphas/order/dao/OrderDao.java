@@ -12,6 +12,7 @@ import com.alphas.common.dto.Event;
 import com.alphas.common.exception.AException;
 import com.alphas.inventory.dto.Stock;
 import com.alphas.order.dto.Order;
+import com.alphas.order.dto.UserInfo;
 
 @Service
 public interface OrderDao {
@@ -24,4 +25,6 @@ public interface OrderDao {
 	public boolean modifyStatus(String orderId, Event event, EntityManager entityManager) throws AException;
 	public List<Stock> getStockListForAnOrder(EntityManager em, Long orderId) throws AException;
 	public List<Stock> retrieveOldAndCurrentOrder(EntityManager em, Long orderId) throws AException;
+	public void persistFootPrint(List<UserInfo> userInfos) throws AException;
+	public List<UserInfo> showFootPrints() throws AException;
 }

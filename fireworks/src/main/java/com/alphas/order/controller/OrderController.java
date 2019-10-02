@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mobile.device.Device;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
@@ -34,6 +36,8 @@ import com.alphas.common.util.CommonUtil;
 import com.alphas.inventory.dto.Stock;
 import com.alphas.order.dto.Order;
 import com.alphas.order.dto.OrderLineItem;
+import com.alphas.order.dto.UserFootPrint;
+import com.alphas.order.dto.UserInfo;
 import com.alphas.order.service.OrderService;
 import com.alphas.product.dto.Product;
 import com.alphas.product.dto.ProductComboLineItem;
@@ -55,6 +59,10 @@ public class OrderController {
 	
 	@Autowired
 	private CommonUtil commonUtil;
+	
+	@Autowired
+    private UserFootPrint userFootPrint;
+	
 
 /*	@GetMapping("/showProducts")
 	public String ShowProducts(Model model) {
@@ -82,9 +90,15 @@ public class OrderController {
 	}*/
 
 	@GetMapping("")
-	public String ShowProducts(Device device, Model model) {
+	public String ShowProducts(Device device, Model model,  HttpServletRequest request) {
+		UserInfo userInfo = new UserInfo();
 		try {
-
+			Date date = new Date();
+			
+			userInfo.setIpAddress(request.getRemoteAddr());
+			userInfo.setDate(commonUtil.convertDateToTimeStamp(date));
+			userFootPrint.getUserInfoList().add(userInfo);
+			
 			List<Product> products = productService.retrieveAvailableProducts();
 
 			Map<String, List<OrderLineItem>> productsMap = new LinkedHashMap<String, List<OrderLineItem>>();
@@ -334,6 +348,32 @@ try {
 			model.addAttribute("pageView", "order/payment");
 			
 			return "common/template";
+	}
+	
+	
+	
+	@GetMapping("/order/showFootPrints")
+	@ResponseBody
+	public List<UserInfo> showFootPrints() {
+		List<UserInfo> list = null;
+		try {
+			list =  orderService.showFootPrints();
+		} catch (AException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	@Scheduled(cron = "0 0 0/1 * * ?")
+	public void persistFootPrint() {
+		try {
+			orderService.persistFootPrint(userFootPrint.getUserInfoList());
+			userFootPrint.getUserInfoList().clear();
+		} catch (AException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

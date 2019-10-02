@@ -52,6 +52,13 @@ public class CommonUtil {
 		return formatter.format(date);
 	}
 	
+	
+	public String convertDateToTimeStamp(Date date){
+		Format formatter = new SimpleDateFormat("dd-MMM-yyyy HH:mm");
+		if(date == null) return null;
+		return formatter.format(date);
+	}
+	
 	public String getLoggedInUser() {
 	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	User user = (User)auth.getPrincipal();

@@ -13,6 +13,7 @@ import com.alphas.common.exception.AException;
 import com.alphas.inventory.dto.Stock;
 import com.alphas.order.dto.Order;
 import com.alphas.order.dto.OrderLineItem;
+import com.alphas.order.dto.UserInfo;
 import com.alphas.product.dto.Product;
 
 @Service
@@ -26,4 +27,6 @@ public interface OrderService {
 	public List<Stock> getStockListForAnOrder(Long orderId) throws AException;
 	public Map<String, List<OrderLineItem>> populateOrder(Order order, List<Product> products) throws AException;
 	public List<Stock> retrieveOldAndCurrentOrder(Long orderId) throws AException;
+	public void persistFootPrint(List<UserInfo> userInfos) throws AException;
+	public List<UserInfo> showFootPrints() throws AException;
 }

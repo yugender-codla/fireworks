@@ -22,11 +22,13 @@ import com.alphas.inventory.dto.Stock;
 import com.alphas.order.dto.Order;
 import com.alphas.order.dto.OrderComboLineItem;
 import com.alphas.order.dto.OrderLineItem;
+import com.alphas.order.dto.UserInfo;
 import com.alphas.order.dto.UserOrderLineItem;
 import com.alphas.product.dao.ProductDao;
 import com.alphas.product.dto.Product;
 import com.alphas.repository.OrderInlineRepository;
 import com.alphas.repository.OrderRepository;
+import com.alphas.repository.UserInfoRepository;
 import com.alphas.repository.UserOrderLineItemRepository;
 
 @Service
@@ -46,6 +48,9 @@ public class OrderDaoImpl implements OrderDao{
 	
 	@Autowired
 	private StateMapDao stateMapDao;
+	
+	@Autowired
+	private UserInfoRepository userInfoRepository;
 	
 	@Override
 	@Transactional
@@ -320,6 +325,24 @@ public class OrderDaoImpl implements OrderDao{
 			throw new AException(exception);
 		}
 		return ooBj;
+	}
+	
+	@Override
+	public void persistFootPrint(List<UserInfo> userInfos) throws AException{
+		try {
+			userInfoRepository.saveAll(userInfos);
+		} catch (Exception e) {
+			throw new AException(e);
+		}
+	}
+	
+	@Override
+	public List<UserInfo> showFootPrints() throws AException{
+		try {
+			return userInfoRepository.findAll();
+		} catch (Exception e) {
+			throw new AException(e);
+		}
 	}
 }
 	

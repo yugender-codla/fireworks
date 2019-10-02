@@ -26,8 +26,8 @@ import com.alphas.order.dao.OrderDao;
 import com.alphas.order.dto.Order;
 import com.alphas.order.dto.OrderComboLineItem;
 import com.alphas.order.dto.OrderLineItem;
+import com.alphas.order.dto.UserInfo;
 import com.alphas.product.dto.Product;
-import com.alphas.product.dto.ProductComboLineItem;
 
 @Service
 public class OrderServiceImpl implements OrderService{
@@ -48,6 +48,8 @@ public class OrderServiceImpl implements OrderService{
 	
 	@Value("${toMailAddress}")
 	private String toMailAddress;
+	
+
 	
 	@Override
 	public Order addOrder(Order order) throws AException {
@@ -232,5 +234,17 @@ public class OrderServiceImpl implements OrderService{
 		}
 		return stockList;
 	
+	}
+	
+	
+	@Override
+	public void persistFootPrint(List<UserInfo> userInfos) throws AException{
+		dao.persistFootPrint(userInfos);
+	}
+	
+	
+	@Override
+	public List<UserInfo> showFootPrints() throws AException{
+		return dao.showFootPrints();
 	}
 }
