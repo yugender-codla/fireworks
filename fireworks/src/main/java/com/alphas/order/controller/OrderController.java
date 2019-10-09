@@ -37,6 +37,7 @@ import com.alphas.inventory.dto.Stock;
 import com.alphas.order.dto.Order;
 import com.alphas.order.dto.OrderLineItem;
 import com.alphas.order.dto.UserFootPrint;
+import com.alphas.order.dto.UserHit;
 import com.alphas.order.dto.UserInfo;
 import com.alphas.order.service.OrderService;
 import com.alphas.product.dto.Product;
@@ -354,16 +355,19 @@ try {
 	
 	@GetMapping("/order/showFootPrints")
 	@ResponseBody
-	public List<UserInfo> showFootPrints() {
+	public UserHit showFootPrints() {
+		UserHit userHit = new UserHit();
 		List<UserInfo> list = null;
 		try {
 			list =  orderService.showFootPrints();
+			userHit.setList(list);
+			userHit.setHits(list.size());
 		} catch (AException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return list;
+		return userHit;
 	}
 	
 	@Scheduled(cron = "0 0 0/1 * * ?")
