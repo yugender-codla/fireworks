@@ -54,14 +54,14 @@ public class FireSupportController {
 	public String sendMessage(@Valid @ModelAttribute("contactForm") ContactForm contactForm,BindingResult result, Model model,
 			final RedirectAttributes redirectAttributes) {
 		
-		
+		String subject;
 		if(!result.hasErrors()) {
-			enquirySubject = enquirySubject + "-"+ contactForm.getName();
+			subject = enquirySubject + "-"+ contactForm.getName();
 			StringBuffer content = new StringBuffer(); 
 					content.append(contactForm.getName() +"\n");
 					content.append(contactForm.getUserEmail() +"\n");
 					content.append(contactForm.getMessage() +"\n");
-			mailSender.send(toMailAddress, enquirySubject,content.toString());
+			mailSender.send(toMailAddress, subject,content.toString());
 			redirectAttributes.addFlashAttribute("msg","Mail Sent.");
 		}else {
 			model.addAttribute("pageView", "common/contactUs");

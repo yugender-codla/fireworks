@@ -1,0 +1,100 @@
+--To check the total stock, available stock, needed stock.
+select total.id,total.name, total.totalInvoiceQty,
+case when used.usedQty is null then 0 else used.usedQty end usedQty,  
+(case when total.totalinvoiceQty is null then 0 else total.totalinvoiceQty end - case when used.usedQty is null then 0 else used.usedQty end) as available,
+case when orderQty.requiredQty is null then 0 else orderQty.requiredQty end as required 
+from 
+(select p.id,p.name,case when sum(ili.quantity) is null then 0 else sum(ili.quantity) end as totalInvoiceQty from product p 
+left outer join invoice_line_item ili on p.id = ili.product_id 
+group by p.id,p.name) total 
+left outer join 
+(
+select oli.product_id, case when sum(quantity) is null then 0 else sum(quantity) end as usedQty from order_line_item oli 
+join order_main m on m.id = oli.order_id 
+where m.status_code in(105,102) group by oli.product_id 
+) used on used.product_id = total.id
+left outer join 
+(
+select oli.product_id, case when sum(quantity) is null then 0 else sum(quantity) end as requiredQty from order_line_item oli join order_main m on m.id = oli.order_id 
+where m.status_code not in(105,102) group by oli.product_id
+) orderQty on orderQty.product_id = total.id;
+
+
+--To check the availability.
+
+select product_id,quantity, t.available from order_line_item oli left outer join 
+(select total.id,total.name, total.totalInvoiceQty,
+case when used.usedQty is null then 0 else used.usedQty end usedQty,  
+(case when total.totalinvoiceQty is null then 0 else total.totalinvoiceQty end - case when used.usedQty is null then 0 else used.usedQty end) as available
+from 
+(select p.id,p.name,case when sum(ili.quantity) is null then 0 else sum(ili.quantity) end as totalInvoiceQty from product p 
+left outer join invoice_line_item ili on p.id = ili.product_id 
+group by p.id,p.name) total 
+left outer join 
+(
+select oli.product_id, case when sum(quantity) is null then 0 else sum(quantity) end as usedQty from order_line_item oli 
+join order_main m on m.id = oli.order_id 
+where m.status_code in(105,102) group by oli.product_id 
+) used on used.product_id = total.id
+) t on t.id = product_id 
+where order_id = 70;
+
+
+--Review
+select p.name as productName, oli.quantity, (oli.price * oli.quantity) as price,uoli.quantity mQty,(uoli.price * uoli.quantity) mPrice 
+from  order_line_item oli 
+LEFT JOIN user_order_line_item uoli on oli.order_id = uoli.order_id and oli.product_id = uoli.product_id
+join order_main m on m.id = oli.order_id 
+join product p on p.id = oli.product_id
+where m.order_number = 'FKFBEQ35'
+union
+select p.name as productName, oli.quantity, (oli.price * oli.quantity) as price,uoli.quantity mQty,(uoli.price * uoli.quantity) mPrice
+from  order_line_item oli 
+RIGHT JOIN user_order_line_item uoli on oli.order_id = uoli.order_id and oli.product_id = uoli.product_id
+join order_main m on m.id = uoli.order_id 
+join product p on p.id = uoli.product_id
+where m.order_number = 'FKFBEQ35'
+
+
+--Reset the sequence number
+update product_id_seq set next_val = 5000;
+
+Clear all tables:
+=================
+
+delete from product_combo_line_item;
+delete from product;
+delete from user_order_line_item;
+delete from order_combo_line_item;
+delete from order_line_item;
+delete from order_main;
+delete from invoice_line_item;
+delete from invoice;
+
+
+select * from product;
+select * from product_combo_line_item;
+select * from user_order_line_item;
+select * from order_combo_line_item;
+select * from order_line_item;
+select * from order_main;
+select * from invoice_line_item;
+select * from invoice;
+
+
+Total orders:
+================
+
+select t.productId, t.productName, sum(t.qty) from (
+select oli.product_id as productId, p.name as productName, sum(oli.quantity) as qty from product p 
+join order_line_item oli on oli.product_id = p.id
+join order_main om on om.id = oli.order_id where om.status != 'Cancelled' and (oli.category is null OR oli.category != 'Combo') 
+and p.active = 'Y' and p.available='Y' 
+group by oli.product_id,p.name
+UNION
+select ocli.product_combo_line_item_id as productId, p.name as productName, sum(ocli.quantity * oli.quantity) as qty from product p 
+join order_combo_line_item ocli on ocli.product_combo_line_item_id = p.id
+join order_line_item oli on oli.id = ocli.order_line_item_id
+join order_main om on om.id = oli.order_id where om.status != 'Cancelled' and oli.category = 'Combo' and p.active = 'Y' and p.available='Y'
+group by ocli.product_combo_line_item_id,p.name) t
+group by t.productId, t.productName
